@@ -1,5 +1,5 @@
 #include <loguru.hpp>
-
+#include "Window.hpp"
 int main(int argc, char* argv[]) {
 
 	// Optional, but useful to time-stamp the start of the log.
