@@ -1,5 +1,6 @@
 #include <loguru.hpp>
-#include "Window.hpp"
+
+#include "Engine.hpp"
 int main(int argc, char* argv[]) {
 
 	// Optional, but useful to time-stamp the start of the log.
@@ -7,6 +8,11 @@ int main(int argc, char* argv[]) {
 	loguru::init(argc, argv);
 
 	LOG_F(INFO, "Init Vulkan Renderer");
+
+	Engine engine;
+	engine.Init();
+	engine.Loop();
+	engine.Fini();
 
 	return 0;
 }
