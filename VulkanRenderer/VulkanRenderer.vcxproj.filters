@@ -24,6 +24,9 @@
     <ClCompile Include="Engine.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="VulkanDevice.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="defintions.hpp">
@@ -33,6 +36,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Engine.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="VulkanDevice.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
