@@ -4,6 +4,8 @@
 #include <loguru.hpp>
 #include <vulkan/vulkan.h>
 
+#include "Window.hpp"
+
 class VulkanDevice
 {
 private:
@@ -20,7 +22,7 @@ private:
 	bool hasLayerProperty(const char* needle, const std::vector<VkLayerProperties>& haystack);
 public:
 	void createInstance(const std::vector<const char*>& glfwExtensions);
-
+	void createSurface(GLFWwindow* window);
 	void destroyDevice();
 };
 

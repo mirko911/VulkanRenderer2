@@ -135,7 +135,15 @@ void VulkanDevice::createInstance(const std::vector<const char*>& glfwExtensions
 	}
 }
 
+void VulkanDevice::createSurface(GLFWwindow* window)
+{
+	if (glfwCreateWindowSurface(m_instance, window, nullptr, &m_surface) != VK_SUCCESS) {
+		ABORT_F("Failed to create vkSurface");
+	}
+}
+
 void VulkanDevice::destroyDevice()
 {
+	vkDestroySurfaceKHR(m_instance, m_surface, nullptr);
 	vkDestroyInstance(m_instance, nullptr);
 }
