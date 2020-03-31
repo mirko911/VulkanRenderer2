@@ -46,3 +46,17 @@ bool Window::shouldCloseWindow() const
 {
 	return false;
 }
+
+std::vector<const char*> Window::getRequiredGLFWExtensions()
+{
+	uint32_t extensionCount;
+	const char** glfwExtensions = glfwGetRequiredInstanceExtensions(&extensionCount);
+
+	std::vector<const char*> extensions;
+	extensions.reserve(extensionCount);
+	for (uint32_t i = 0; i < extensionCount; i++) {
+		extensions.push_back(glfwExtensions[i]);
+	}
+
+	return extensions;
+}

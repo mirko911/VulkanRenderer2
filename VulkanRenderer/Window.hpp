@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 
 #define GLFW_INCLUDE_VULKAN
 #include "GLFW/glfw3.h"
@@ -35,5 +36,8 @@ public:
 
 	//Was the cross icon clicked?
 	bool shouldCloseWindow() const;
+
+	//Returns a vector of required GLFW extensions
+	std::vector<const char*> getRequiredGLFWExtensions();
 };
 
