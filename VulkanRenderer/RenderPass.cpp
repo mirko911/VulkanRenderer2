@@ -127,3 +127,32 @@ uint32_t RenderPass::getHeight()
 {
 	return 720;
 }
+
+VkRenderPassBeginInfo RenderPass::getBeginInfo(const VkClearColorValue& backgroundColor, const uint32_t index)
+{
+	m_clearValues.resize(m_attachments.size());
+	for (uint32_t i = 0; i < m_attachments.size(); ++i) {
+		if (m_attachments[i].finalLayout == VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL ||
+			m_attachments[i].finalLayout == VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL) {
+			m_clearValues[i].depthStencil = { 1.0f, 0 };
+			//m_clearValues[i].depthStencil.stencil = 0.0f;
+			//m_clearValues[i].depthStencil.depth = 1.0f;
+
+		}
+		else {
+			m_clearValues[i].color = backgroundColor;
+			//m_clearValues[i].depthStencil.stencil = 0.0f;
+		}
+	}
+
+	VkRenderPassBeginInfo renderPassInfo = {};
+	renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+	renderPassInfo.renderPass = m_renderpass;
+	renderPassInfo.framebuffer = m_frameBuffers[index];
+	renderPassInfo.renderArea.offset = { 0, 0 };
+	renderPassInfo.renderArea.extent = { m_imageWidth, m_imageHeight };
+	renderPassInfo.clearValueCount = static_cast<uint32_t>(m_clearValues.size());
+	renderPassInfo.pClearValues = m_clearValues.data();
+
+	return renderPassInfo;
+}

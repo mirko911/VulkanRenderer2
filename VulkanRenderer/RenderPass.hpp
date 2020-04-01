@@ -18,6 +18,7 @@ private:
 	std::vector<VkClearValue> m_clearValues;
 	std::vector<VkFramebuffer> m_frameBuffers;
 
+
 	uint32_t m_imageWidth;
 	uint32_t m_imageHeight;
 public:
@@ -36,6 +37,6 @@ public:
 	VkExtent2D getExtend();
 	uint32_t getWidth();
 	uint32_t getHeight();
-//	VkRenderPassBeginInfo getBeginInfo(const uint32_t index);
+	VkRenderPassBeginInfo getBeginInfo(const VkClearColorValue& backgroundColor, const uint32_t index);
 };
 
