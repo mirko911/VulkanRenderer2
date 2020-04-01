@@ -15,7 +15,9 @@ private:
 	RenderPass m_renderpass;
 	Pipeline m_pipeline;
 	Shader m_shader;
+	VulkanDevice m_vulkanDevice;
 public:
 	void Init(VulkanDevice& device);
+	void Destroy();
 };
 

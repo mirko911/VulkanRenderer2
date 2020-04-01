@@ -2,6 +2,8 @@
 
 void Renderer::Init(VulkanDevice& device)
 {
+	m_vulkanDevice = device;
+
 	//===============================================================================
 	//Init Shader
 	//===============================================================================
@@ -29,8 +31,15 @@ void Renderer::Init(VulkanDevice& device)
 	//===============================================================================
 	//Init Pipeline
 	//===============================================================================
-	m_pipeline.init(device.getDevice(), m_renderpass, m_shader);
+	m_pipeline.Init(device.getDevice(), m_renderpass, m_shader);
 	std::vector<VkDescriptorSetLayout> layoutInfo;
 	m_pipeline.createLayoutInfo(layoutInfo);
 	m_pipeline.createPipeline(0);
+}
+
+void Renderer::Destroy()
+{
+	m_shader.Destroy();
+	m_pipeline.Destroy();
+	m_renderpass.Destroy();
 }

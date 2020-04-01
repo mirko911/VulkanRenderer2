@@ -22,6 +22,7 @@ private:
 	uint32_t m_imageHeight;
 public:
 	void Init(const VkDevice& device);
+	void Destroy();
 
 	void addAttachment(const VkFormat& format, const VkImageLayout imageLayout, bool clearAttachment = true);
 	void addSubpass(const VkAttachmentReference& colorRef, const VkAttachmentReference& depthRef);

@@ -228,13 +228,19 @@ void Pipeline::createPipeline(const uint32_t subpass)
 	}
 }
 
-void Pipeline::init(VkDevice& device, RenderPass& renderpass, Shader& shader)
+void Pipeline::Init(VkDevice& device, RenderPass& renderpass, Shader& shader)
 {
 	m_device = device;
 	m_renderPass = renderpass;
 	m_shader = shader;
 
 	fillPipelineStructs();
+}
+
+void Pipeline::Destroy()
+{
+	vkDestroyPipeline(m_device, m_pipeline, nullptr);
+	vkDestroyPipelineLayout(m_device, m_pipelineLayout, nullptr);
 }
 
 void Pipeline::setDebugName(const std::string& name)

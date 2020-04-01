@@ -60,7 +60,8 @@ public:
 
 	void createLayoutInfo(std::vector<VkDescriptorSetLayout>& descriptorSetLayouts);
 	void createPipeline(const uint32_t subpass);
-	void init(VkDevice& device, RenderPass& renderpass, Shader& shader);
+	void Init(VkDevice& device, RenderPass& renderpass, Shader& shader);
+	void Destroy();
 	void setDebugName(const std::string& name);
 
 

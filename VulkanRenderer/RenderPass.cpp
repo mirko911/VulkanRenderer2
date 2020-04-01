@@ -5,6 +5,11 @@ void RenderPass::Init(const VkDevice& device)
 	m_device = device;
 }
 
+void RenderPass::Destroy()
+{
+	vkDestroyRenderPass(m_device, m_renderpass, nullptr);
+}
+
 void RenderPass::addAttachment(const VkFormat& format, const VkImageLayout imageLayout, bool clearAttachment)
 {
 	VkAttachmentDescription attachDescription = {};
