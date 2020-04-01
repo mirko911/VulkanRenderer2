@@ -104,6 +104,41 @@ void Renderer::Init(VulkanDevice& device)
 	}
 }
 
+void Renderer::Render()
+{
+	vkWaitForFences(m_vulkanDevice.getDevice(), 1, &m_inFlightFences[m_currentFrame], VK_TRUE, UINT64_MAX);
+	m_swapchain.beginFrame(m_imageAvailableSemaphore[m_currentFrame]);
+	if (m_imagesInFlight[m_swapchain.getImageIndex()] != VK_NULL_HANDLE) {
+		vkWaitForFences(m_vulkanDevice.getDevice(), 1, &m_imagesInFlight[m_swapchain.getImageIndex()], VK_TRUE, UINT64_MAX);
+	}
+
+	VkSubmitInfo submitInfo = {};
+	submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+
+	VkSemaphore waitSemaphores[] = { m_imageAvailableSemaphore[m_currentFrame] };
+	VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
+	submitInfo.waitSemaphoreCount = 1;
+	submitInfo.pWaitSemaphores = waitSemaphores;
+	submitInfo.pWaitDstStageMask = waitStages;
+
+	submitInfo.commandBufferCount = 1;
+	submitInfo.pCommandBuffers = &m_commandBuffers[m_swapchain.getImageIndex()].get();
+
+	VkSemaphore signalSemaphores[] = { m_renderFinishedSemaphore[m_currentFrame] };
+	submitInfo.signalSemaphoreCount = 1;
+	submitInfo.pSignalSemaphores = signalSemaphores;
+
+	vkResetFences(m_vulkanDevice.getDevice(), 1, &m_inFlightFences[m_currentFrame]);
+
+	if (vkQueueSubmit(m_vulkanDevice.getGraphicsQueue().getQueue(), 1, &submitInfo, m_inFlightFences[m_currentFrame]) != VK_SUCCESS) {
+		ABORT_F("Failed to submit draw command buffer");
+	}
+
+	m_swapchain.submitFrame(*signalSemaphores);
+	m_currentFrame = (m_currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
+
+}
+
 
 void Renderer::Destroy()
 {

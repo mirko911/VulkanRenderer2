@@ -12,7 +12,7 @@
 #include "CommandBuffer.hpp"
 #include "CommandPool.hpp"
 
-constexpr int MAX_FRAMES_IN_FLIGHT = 2;
+constexpr int MAX_FRAMES_IN_FLIGHT = 3;
 
 class Renderer
 {
@@ -34,6 +34,7 @@ private:
 	size_t m_currentFrame = 0;
 public:
 	void Init(VulkanDevice& device);
+	void Render();
 	void Destroy();
 };
 

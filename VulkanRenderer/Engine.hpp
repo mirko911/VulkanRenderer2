@@ -16,6 +16,7 @@ private:
 	VulkanDevice m_device;
 	Game m_game;
 	GameState m_gameState;
+	Renderer m_renderer;
 public:
 	void Init();
 	void Loop();

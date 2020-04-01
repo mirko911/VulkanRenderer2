@@ -154,6 +154,11 @@ uint32_t Swapchain::getImageCount() const
 	return m_imageCount;
 }
 
+uint32_t Swapchain::getImageIndex() const
+{
+	return m_imageIndex;
+}
+
 std::vector<ImageView>& Swapchain::getImageViews()
 {
 	return m_imageViews;
@@ -162,4 +167,31 @@ std::vector<ImageView>& Swapchain::getImageViews()
 std::vector<VkImage>& Swapchain::getImages()
 {
 	return m_images;
+}
+
+void Swapchain::beginFrame(const VkSemaphore& semaphore)
+{
+	VkResult result = vkAcquireNextImageKHR(m_device, m_swapchain, std::numeric_limits<uint64_t>::max(), semaphore, VK_NULL_HANDLE, &m_imageIndex);
+
+	if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
+		throw std::runtime_error("failed to acquire swap chain image!");
+	}
+}
+
+void Swapchain::submitFrame(const VkSemaphore& signalSemaphore)
+{
+	VkPresentInfoKHR presentInfo = {};
+	presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+
+	presentInfo.waitSemaphoreCount = 1;
+	presentInfo.pWaitSemaphores = &signalSemaphore;
+
+	VkSwapchainKHR swapChains[] = { m_swapchain };
+	presentInfo.swapchainCount = 1;
+	presentInfo.pSwapchains = swapChains;
+
+	presentInfo.pImageIndices = &m_imageIndex;
+
+	vkQueuePresentKHR(m_queuePresent.getQueue(), &presentInfo);
+
 }

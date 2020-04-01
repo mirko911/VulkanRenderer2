@@ -11,8 +11,7 @@ void Engine::Init()
 
 	m_game.Init();
 
-	Renderer renderer;
-	renderer.Init(m_device);
+	m_renderer.Init(m_device);
 	//renderer.Destroy();
 	LOG_F(INFO, "[Engine] successfully initialized");
 	m_gameState.setState(GameState::STATE::Running);
@@ -28,6 +27,7 @@ void Engine::Loop()
 
 		m_game.Tick();
 		m_game.Draw();
+		m_renderer.Render();
 	}
 }
 

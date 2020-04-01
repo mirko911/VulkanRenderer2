@@ -23,6 +23,7 @@ private:
 	uint32_t m_height;
 	uint32_t m_imageCount;
 
+	uint32_t m_imageIndex;
 	std::vector<VkImage> m_images;
 	std::vector<ImageView> m_imageViews;
 
@@ -38,7 +39,10 @@ public:
 	void create();
 	void createImageViews();
 	uint32_t getImageCount() const;
+	uint32_t getImageIndex() const;
 	std::vector<ImageView>& getImageViews();
 	std::vector<VkImage>& getImages();
+	void beginFrame(const VkSemaphore& semaphore);
+	void submitFrame(const VkSemaphore& presentSemaphore);
 };
 
