@@ -332,3 +332,33 @@ void VulkanDevice::destroyDevice()
 	vkDestroySurfaceKHR(m_instance, m_surface, nullptr);
 	vkDestroyInstance(m_instance, nullptr);
 }
+
+VkInstance& VulkanDevice::getInstance()
+{
+	return m_instance;
+}
+
+VkDevice& VulkanDevice::getDevice()
+{
+	return m_device;
+}
+
+VkPhysicalDevice& VulkanDevice::getGPU()
+{
+	return m_gpu;
+}
+
+VkSurfaceKHR& VulkanDevice::getSurface()
+{
+	return m_surface;
+}
+
+Queue& VulkanDevice::getGraphicsQueue()
+{
+	return m_queueGraphics;
+}
+
+Queue& VulkanDevice::getPresentQueue()
+{
+	return m_queuePresent;
+}

@@ -29,5 +29,11 @@ public:
 	void createSurface(GLFWwindow* window);
 	void createDevice();
 	void destroyDevice();
+	VkInstance& getInstance();
+	VkDevice& getDevice();
+	VkPhysicalDevice &getGPU();
+	VkSurfaceKHR& getSurface();
+	Queue& getGraphicsQueue();
+	Queue& getPresentQueue();
 };
 
