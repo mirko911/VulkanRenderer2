@@ -22,5 +22,6 @@ public:
 		const VkImageUsageFlags usage, const uint32_t arrayLayers = 1);
 	VkImage& getImage();
 	VkFormat getFormat() const;
+	uint32_t getMipLevels() const;
 };
 

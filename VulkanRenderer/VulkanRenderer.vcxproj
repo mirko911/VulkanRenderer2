@@ -163,6 +163,7 @@
     <ClCompile Include="RenderPass.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Swapchain.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="VulkanDevice.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
@@ -178,6 +179,7 @@
     <ClInclude Include="RenderPass.hpp" />
     <ClInclude Include="Shader.hpp" />
     <ClInclude Include="Swapchain.hpp" />
+    <ClInclude Include="Texture.hpp" />
     <ClInclude Include="VulkanDevice.hpp" />
     <ClInclude Include="Window.hpp" />
   </ItemGroup>

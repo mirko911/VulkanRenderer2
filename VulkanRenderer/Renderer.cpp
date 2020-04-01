@@ -5,6 +5,14 @@ void Renderer::Init(VulkanDevice& device)
 	m_vulkanDevice = device;
 
 	//===============================================================================
+	//Init Swapchain
+	//===============================================================================
+	m_swapchain.Init(device.getDevice(), device.getGPU(), device.getSurface(), device.getGraphicsQueue(), device.getPresentQueue(), 1280, 720);
+	m_swapchain.create();
+	m_swapchain.createImageViews();
+
+
+	//===============================================================================
 	//Init Shader
 	//===============================================================================
 	m_shader.Init(device.getDevice());
@@ -23,7 +31,7 @@ void Renderer::Init(VulkanDevice& device)
 	depthAttachRef.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
 
 	m_renderpass.Init(device.getDevice());
-	m_renderpass.addAttachment(VK_FORMAT_B8G8R8A8_UNORM, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR, false);
+	m_renderpass.addAttachment(VK_FORMAT_B8G8R8A8_SRGB, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR, false);
 	m_renderpass.addAttachment(VK_FORMAT_D32_SFLOAT_S8_UINT, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, false);
 	m_renderpass.addSubpass(colorAttachRef, depthAttachRef);
 	m_renderpass.createRenderpass();
@@ -37,12 +45,18 @@ void Renderer::Init(VulkanDevice& device)
 	m_pipeline.createPipeline(0);
 
 	//===============================================================================
-	//Init Swapchain
+	//Init FrameBuffers
 	//===============================================================================
-	m_swapchain.Init(device.getDevice(), device.getGPU(), device.getSurface(), device.getGraphicsQueue(), device.getPresentQueue(), 1280, 720);
-	m_swapchain.create();
-	m_swapchain.createImageViews();
+	Texture depthTexture;
+	depthTexture.Init(device.getDevice(), device.getGPU(), device.getGraphicsQueue());
+	depthTexture.createEmptyDepthImage(VK_FORMAT_D32_SFLOAT_S8_UINT, 1280, 720, 1, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, 1);
+
+	for (uint32_t i = 0; i < m_swapchain.getImageCount(); i++) {
+		std::vector<VkImageView> views{ m_swapchain.getImageViews()[i].get(), depthTexture.getImageView().get() };
+		m_renderpass.prepareFrameBuffer(views, 1280, 720, 1);
+	}
 }
+
 
 void Renderer::Destroy()
 {

@@ -8,6 +8,7 @@
 #include "RenderPass.hpp"
 #include "Pipeline.hpp"
 #include "Swapchain.hpp"
+#include "Texture.hpp"
 
 class Renderer
 {

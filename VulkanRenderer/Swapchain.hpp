@@ -37,5 +37,8 @@ public:
 	void Destroy();
 	void create();
 	void createImageViews();
+	uint32_t getImageCount() const;
+	std::vector<ImageView>& getImageViews();
+	std::vector<VkImage>& getImages();
 };
 

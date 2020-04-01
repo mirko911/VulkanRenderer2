@@ -148,3 +148,18 @@ void Swapchain::createImageViews()
 		m_imageViews[i].create(m_device, m_images[i], surfaceFormat.format, VK_IMAGE_ASPECT_COLOR_BIT, VK_IMAGE_VIEW_TYPE_2D);
 	}
 }
+
+uint32_t Swapchain::getImageCount() const
+{
+	return m_imageCount;
+}
+
+std::vector<ImageView>& Swapchain::getImageViews()
+{
+	return m_imageViews;
+}
+
+std::vector<VkImage>& Swapchain::getImages()
+{
+	return m_images;
+}

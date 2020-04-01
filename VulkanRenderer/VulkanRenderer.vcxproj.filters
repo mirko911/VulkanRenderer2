@@ -54,6 +54,9 @@
     <ClCompile Include="Image.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="defintions.hpp">
@@ -93,6 +96,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Image.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

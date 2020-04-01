@@ -57,3 +57,8 @@ VkFormat Image::getFormat() const
 {
 	return m_format;
 }
+
+uint32_t Image::getMipLevels() const
+{
+	return m_miplevels;
+}
