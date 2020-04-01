@@ -5,6 +5,7 @@
 #include <loguru.hpp>
 #include <vulkan/vulkan.hpp>
 
+#include "ImageView.hpp"
 #include "Queue.hpp"
 
 class Swapchain
@@ -23,7 +24,7 @@ private:
 	uint32_t m_imageCount;
 
 	std::vector<VkImage> m_images;
-	std::vector<VkImageView> m_imageViews;
+	std::vector<ImageView> m_imageViews;
 
 	VkSurfaceFormatKHR surfaceFormat;
 	VkExtent2D m_extend;

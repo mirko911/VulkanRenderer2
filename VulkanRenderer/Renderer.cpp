@@ -41,6 +41,7 @@ void Renderer::Init(VulkanDevice& device)
 	//===============================================================================
 	m_swapchain.Init(device.getDevice(), device.getGPU(), device.getSurface(), device.getGraphicsQueue(), device.getPresentQueue(), 1280, 720);
 	m_swapchain.create();
+	m_swapchain.createImageViews();
 }
 
 void Renderer::Destroy()
@@ -48,4 +49,5 @@ void Renderer::Destroy()
 	m_shader.Destroy();
 	m_pipeline.Destroy();
 	m_renderpass.Destroy();
+	m_swapchain.Destroy();
 }

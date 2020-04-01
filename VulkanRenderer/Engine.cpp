@@ -13,7 +13,7 @@ void Engine::Init()
 
 	Renderer renderer;
 	renderer.Init(m_device);
-
+	renderer.Destroy();
 	LOG_F(INFO, "[Engine] successfully initialized");
 	m_gameState.setState(GameState::STATE::Running);
 }

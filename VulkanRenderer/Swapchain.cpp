@@ -57,6 +57,12 @@ void Swapchain::Init(const VkDevice& device, const VkPhysicalDevice& gpu, const 
 
 void Swapchain::Destroy()
 {
+	for (ImageView& imageView : m_imageViews) {
+		vkDestroyImageView(m_device, imageView.get(), nullptr);
+	}
+	for (VkImage& image : m_images) {
+		vkDestroyImage(m_device, image, nullptr);
+	}
 	vkDestroySwapchainKHR(m_device, m_swapchain, nullptr);
 }
 
@@ -139,6 +145,6 @@ void Swapchain::createImageViews()
 	m_imageViews.resize(m_imageCount);
 
 	for (size_t i = 0; i < m_images.size(); i++) {
-		//m_imageViews[i] = createImageViews()
+		m_imageViews[i].create(m_device, m_images[i], surfaceFormat.format, VK_IMAGE_ASPECT_COLOR_BIT, VK_IMAGE_VIEW_TYPE_2D);
 	}
 }
