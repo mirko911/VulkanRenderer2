@@ -2,8 +2,8 @@
 
 void Pipeline::fillPipelineStructs()
 {
-	//bindingDescription = Vertex::getBindingDescription();
-	//attributeDescription = Vertex::getAttributeDescriptions();
+	bindingDescription = Vertex::getBindingDescription();
+	attributeDescription = Vertex::getAttributeDescriptions();
 
 	m_vertexInputInfo = {};
 	m_vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;

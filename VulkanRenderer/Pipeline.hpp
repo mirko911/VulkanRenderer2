@@ -5,6 +5,7 @@
 #include <loguru.hpp>
 #include <vulkan/vulkan.hpp>
 
+#include "defintions.hpp"
 #include "Shader.hpp"
 #include "RenderPass.hpp"
 
