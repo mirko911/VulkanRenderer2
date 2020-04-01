@@ -7,7 +7,7 @@
 #include "Shader.hpp"
 #include "RenderPass.hpp"
 #include "Pipeline.hpp"
-
+#include "Swapchain.hpp"
 
 class Renderer
 {
@@ -16,6 +16,7 @@ private:
 	Pipeline m_pipeline;
 	Shader m_shader;
 	VulkanDevice m_vulkanDevice;
+	Swapchain m_swapchain;
 public:
 	void Init(VulkanDevice& device);
 	void Destroy();

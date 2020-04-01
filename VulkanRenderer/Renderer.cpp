@@ -35,6 +35,12 @@ void Renderer::Init(VulkanDevice& device)
 	std::vector<VkDescriptorSetLayout> layoutInfo;
 	m_pipeline.createLayoutInfo(layoutInfo);
 	m_pipeline.createPipeline(0);
+
+	//===============================================================================
+	//Init Swapchain
+	//===============================================================================
+	m_swapchain.Init(device.getDevice(), device.getGPU(), device.getSurface(), device.getGraphicsQueue(), device.getPresentQueue(), 1280, 720);
+	m_swapchain.create();
 }
 
 void Renderer::Destroy()
