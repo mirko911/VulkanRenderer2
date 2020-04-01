@@ -42,9 +42,9 @@ GLFWmonitor* Window::getGLFWMonitor() const
 	return m_monitorGLFW;
 }
 
-bool Window::shouldCloseWindow() const
+int Window::shouldCloseWindow() const
 {
-	return false;
+	return glfwWindowShouldClose(m_windowGLFW);
 }
 
 std::vector<const char*> Window::getRequiredGLFWExtensions()

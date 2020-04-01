@@ -35,7 +35,7 @@ public:
 	GLFWmonitor* getGLFWMonitor() const;
 
 	//Was the cross icon clicked?
-	bool shouldCloseWindow() const;
+	int shouldCloseWindow() const;
 
 	//Returns a vector of required GLFW extensions
 	std::vector<const char*> getRequiredGLFWExtensions();

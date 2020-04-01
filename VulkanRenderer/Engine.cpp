@@ -18,6 +18,11 @@ void Engine::Init()
 void Engine::Loop()
 {
 	while (m_gameState.isRunning()) {
+		if (m_window.shouldCloseWindow() != 0) {
+			m_gameState.setState(GameState::STATE::Stopped);
+		}
+		glfwPollEvents();
+
 		m_game.Tick();
 		m_game.Draw();
 	}
