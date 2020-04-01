@@ -152,6 +152,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CommandBuffer.cpp" />
+    <ClCompile Include="CommandPool.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="ImageView.cpp" />
@@ -168,6 +170,8 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CommandBuffer.hpp" />
+    <ClInclude Include="CommandPool.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="Image.hpp" />
     <ClInclude Include="ImageView.hpp" />
