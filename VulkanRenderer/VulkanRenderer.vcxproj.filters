@@ -45,6 +45,9 @@
     <ClCompile Include="Renderer.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="Swapchain.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="defintions.hpp">
@@ -75,6 +78,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Renderer.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Swapchain.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
