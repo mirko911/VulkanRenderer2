@@ -35,5 +35,7 @@ public:
 	VkSurfaceKHR& getSurface();
 	Queue& getGraphicsQueue();
 	Queue& getPresentQueue();
+
+	static uint32_t findMemoryType(const VkPhysicalDevice& gpu, const uint32_t typeFilter, const VkMemoryPropertyFlags& properties);
 };
 

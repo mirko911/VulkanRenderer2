@@ -51,6 +51,9 @@
     <ClCompile Include="ImageView.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="defintions.hpp">
@@ -87,6 +90,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="ImageView.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

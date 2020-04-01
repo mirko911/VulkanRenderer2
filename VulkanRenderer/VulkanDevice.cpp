@@ -362,3 +362,18 @@ Queue& VulkanDevice::getPresentQueue()
 {
 	return m_queuePresent;
 }
+
+uint32_t VulkanDevice::findMemoryType(const VkPhysicalDevice& gpu, const uint32_t typeFilter, const VkMemoryPropertyFlags& properties)
+{
+	VkPhysicalDeviceMemoryProperties memProperties;
+	vkGetPhysicalDeviceMemoryProperties(gpu, &memProperties);
+
+	for (uint32_t i = 0; i < memProperties.memoryTypeCount; i++) {
+		if ((typeFilter & (1 << i)) && (memProperties.memoryTypes[i].propertyFlags & properties) == properties) {
+			return i;
+		}
+	}
+
+	ABORT_F("Failed to find suitable memory type");
+}
+

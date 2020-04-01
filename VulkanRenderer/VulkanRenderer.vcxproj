@@ -153,6 +153,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Image.cpp" />
     <ClCompile Include="ImageView.cpp" />
     <ClCompile Include="Pipeline.cpp" />
     <ClCompile Include="Queue.cpp" />
@@ -167,6 +168,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.hpp" />
+    <ClInclude Include="Image.hpp" />
     <ClInclude Include="ImageView.hpp" />
     <ClInclude Include="Pipeline.hpp" />
     <ClInclude Include="Queue.hpp" />
