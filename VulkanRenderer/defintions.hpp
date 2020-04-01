@@ -14,3 +14,16 @@ struct QueueFamilyIndices {
 			presentFamily != VK_QUEUE_FAMILY_IGNORED);
 	}
 };
+
+struct GameState {
+public:
+	enum class STATE : char { Stopped = 0, Running, Paused, SIZE};
+	bool isRunning() const {
+		return m_state > STATE::Stopped;
+	}
+	void setState(const STATE state) {
+		m_state = state;
+	}
+private:
+	STATE m_state = STATE::Stopped;
+};
