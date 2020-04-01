@@ -11,6 +11,9 @@ void Engine::Init()
 
 	m_game.Init();
 
+	Renderer renderer;
+	renderer.Init(m_device);
+
 	LOG_F(INFO, "[Engine] successfully initialized");
 	m_gameState.setState(GameState::STATE::Running);
 }

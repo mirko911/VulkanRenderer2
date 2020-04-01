@@ -157,6 +157,7 @@
     <ClCompile Include="Queue.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RenderPass.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="VulkanDevice.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="Queue.hpp" />
     <ClInclude Include="defintions.hpp" />
     <ClInclude Include="Engine.hpp" />
+    <ClInclude Include="Renderer.hpp" />
     <ClInclude Include="RenderPass.hpp" />
     <ClInclude Include="Shader.hpp" />
     <ClInclude Include="VulkanDevice.hpp" />

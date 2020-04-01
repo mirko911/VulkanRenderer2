@@ -7,6 +7,8 @@
 #include "VulkanDevice.hpp"
 #include "Game.hpp"
 
+#include "Renderer.hpp"
+
 class Engine
 {
 private:
