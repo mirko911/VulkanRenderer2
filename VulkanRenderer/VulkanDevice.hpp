@@ -6,7 +6,7 @@
 
 #include "defintions.hpp"
 #include "Window.hpp"
-
+#include "Queue.hpp"
 class VulkanDevice
 {
 private:
@@ -14,6 +14,8 @@ private:
 	VkPhysicalDevice m_gpu = VK_NULL_HANDLE;
 	VkDevice m_device = VK_NULL_HANDLE;
 	VkSurfaceKHR m_surface = VK_NULL_HANDLE;
+	Queue m_queueGraphics;
+	Queue m_queuePresent;
 
 	std::vector<const char*> m_extensionsEnabled;
 	std::vector<const char*> m_validationLayersEnabled;

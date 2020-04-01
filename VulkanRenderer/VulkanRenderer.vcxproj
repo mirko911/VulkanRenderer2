@@ -152,12 +152,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Queue.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="VulkanDevice.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Queue.hpp" />
     <ClInclude Include="defintions.hpp" />
     <ClInclude Include="Engine.hpp" />
     <ClInclude Include="VulkanDevice.hpp" />

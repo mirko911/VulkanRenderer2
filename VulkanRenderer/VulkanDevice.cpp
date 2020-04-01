@@ -322,7 +322,8 @@ void VulkanDevice::createDevice()
 
 	//Setup Debug Marker here
 
-
+	m_queueGraphics.Init(m_device, familyIndices.graphicsFamily);
+	m_queuePresent.Init(m_device, familyIndices.presentFamily);
 }
 
 void VulkanDevice::destroyDevice()
