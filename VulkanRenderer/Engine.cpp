@@ -6,6 +6,7 @@ void Engine::Init()
 	m_window.Init("Test");
 	m_device.createInstance(m_window.getRequiredGLFWExtensions());
 	m_device.createSurface(m_window.getGLFWWindow());
+	m_device.createDevice();
 
 	LOG_F(INFO, "[Engine] successfully initialized");
 }

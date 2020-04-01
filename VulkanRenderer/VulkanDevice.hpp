@@ -4,6 +4,7 @@
 #include <loguru.hpp>
 #include <vulkan/vulkan.h>
 
+#include "defintions.hpp"
 #include "Window.hpp"
 
 class VulkanDevice
@@ -20,9 +21,11 @@ private:
 	//Check if an extension name (needle) exists in a vector of extensions (haystack)
 	bool hasExtensionProperty(const char* needle, const std::vector<VkExtensionProperties>& haystack);
 	bool hasLayerProperty(const char* needle, const std::vector<VkLayerProperties>& haystack);
+	QueueFamilyIndices getQueueFamilyProperties();
 public:
 	void createInstance(const std::vector<const char*>& glfwExtensions);
 	void createSurface(GLFWwindow* window);
+	void createDevice();
 	void destroyDevice();
 };
 
