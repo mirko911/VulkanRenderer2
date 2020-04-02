@@ -57,6 +57,27 @@ void Renderer::Init(VulkanDevice& device)
 	}
 
 	//===============================================================================
+	//Init Descriptors
+	//===============================================================================
+	Descriptor descriptor;
+	descriptor.Init(device.getDevice());
+	descriptor.addLayoutBinding(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT);
+	descriptor.addLayoutBinding(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT);
+	descriptor.addLayoutBinding(2, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, VK_SHADER_STAGE_VERTEX_BIT);
+	descriptor.createDescriptorSetLayout();
+
+	std::vector<Descriptor> descriptors = { descriptor };
+
+	DescriptorPool descriptorPool;
+	descriptorPool.Init(device.getDevice(), device.getGPU());
+	descriptorPool.create(descriptors);
+
+	for (Descriptor& descriptor : descriptors) {
+	}
+
+	descriptorPool.allocateDescriptorSets(descriptors);
+
+	//===============================================================================
 	//Init Sync Objects
 	//===============================================================================
 	m_imageAvailableSemaphore.resize(MAX_FRAMES_IN_FLIGHT);

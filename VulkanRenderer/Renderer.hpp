@@ -11,6 +11,8 @@
 #include "Texture.hpp"
 #include "CommandBuffer.hpp"
 #include "CommandPool.hpp"
+#include "Descriptor.hpp"
+#include "DescriptorPool.hpp"
 
 constexpr int MAX_FRAMES_IN_FLIGHT = 3;
 
