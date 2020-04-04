@@ -99,6 +99,13 @@ void CommandBuffer::bindDescriptorSets(VkPipelineLayout& pipelineLayout, std::ve
 		, 1, &dynOffset); //Nacher
 }
 
+void CommandBuffer::bindDescriptorSets(const VkPipelineLayout& pipelineLayout, const VkDescriptorSet& descriptorSet) {
+	//vkCmdBindDescriptorSets(m_commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, descriptorSets, 0, nullptr); //Vorher
+	vkCmdBindDescriptorSets(m_commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
+		pipelineLayout, 0, static_cast<uint32_t>(1), &descriptorSet
+		, 0, nullptr); //Nacher
+}
+
 VkCommandBuffer& CommandBuffer::get() {
 	return m_commandBuffer;
 }

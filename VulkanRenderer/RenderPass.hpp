@@ -30,7 +30,7 @@ public:
 	void addSubpassDepth(const VkAttachmentReference& depthRef);
 	void addSubPassDependency(uint32_t src_subpass, uint32_t dstSubpass);
 	void createRenderpass();
-	void prepareFrameBuffer(const std::vector<VkImageView>& imageViews, uint32_t width, uint32_t height, uint32_t layerCount);
+	void createFrameBuffer(const std::vector<VkImageView>& imageViews, uint32_t width, uint32_t height, uint32_t layerCount);
 	//void setClearColor(VkClearColorValue& backgroundColor);
 
 	VkRenderPass& get();

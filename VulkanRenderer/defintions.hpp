@@ -106,3 +106,8 @@ public:
 		return position == other.position && normal == other.normal;
 	}
 };
+
+struct Ubo {
+	Mat4 test;
+	Vec4 test2;
+};

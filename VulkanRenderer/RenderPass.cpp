@@ -85,7 +85,7 @@ void RenderPass::createRenderpass()
 	}
 }
 
-void RenderPass::prepareFrameBuffer(const std::vector<VkImageView>& imageViews, uint32_t width, uint32_t height, uint32_t layerCount)
+void RenderPass::createFrameBuffer(const std::vector<VkImageView>& imageViews, uint32_t width, uint32_t height, uint32_t layerCount)
 {
 	m_imageWidth = width;
 	m_imageHeight = height;

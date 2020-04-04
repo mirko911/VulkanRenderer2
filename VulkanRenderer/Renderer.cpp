@@ -37,10 +37,49 @@ void Renderer::Init(VulkanDevice& device)
 	m_renderpass.createRenderpass();
 
 	//===============================================================================
+	//Init Buffers
+	//===============================================================================
+	Buffer::createBuffer(device.getDevice(), device.getGPU(),
+		VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
+		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+		uboBuffer,
+		sizeof(Ubo)
+	);
+
+	//===============================================================================
+	//Fill UBO-Buffers
+	//===============================================================================
+	Ubo ubo;
+	ubo.test = Mat4(1.0f);
+	ubo.test2 = Vec4(1, 0, 0, 1); //hier wird es rot
+	uboBuffer.map();
+	memcpy(uboBuffer.mapped, &ubo, sizeof(Ubo));
+	uboBuffer.unmap();
+
+	//===============================================================================
+	//Init Descriptors
+	//===============================================================================
+	Descriptor descriptor;
+	descriptor.Init(device.getDevice());
+	//descriptor.addLayoutBinding(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT);
+	descriptor.addLayoutBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT);
+	//descriptor.addLayoutBinding(2, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, VK_SHADER_STAGE_VERTEX_BIT);
+	descriptor.createDescriptorSetLayout();
+
+	std::vector<Descriptor> descriptors = { descriptor };
+
+	DescriptorPool descriptorPool;
+	descriptorPool.Init(device.getDevice(), device.getGPU());
+	descriptorPool.create(descriptors);
+	descriptorPool.allocateDescriptorSets(descriptors);
+
+	descriptors[0].writeSet(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, uboBuffer);
+
+	//===============================================================================
 	//Init Pipeline
 	//===============================================================================
 	m_pipeline.Init(device.getDevice(), m_renderpass, m_shader);
-	std::vector<VkDescriptorSetLayout> layoutInfo;
+	std::vector<VkDescriptorSetLayout> layoutInfo = { descriptors[0].getDescriptorSetLayout() };
 	m_pipeline.createLayoutInfo(layoutInfo);
 	m_pipeline.createPipeline(0);
 
@@ -53,29 +92,10 @@ void Renderer::Init(VulkanDevice& device)
 
 	for (uint32_t i = 0; i < m_swapchain.getImageCount(); i++) {
 		std::vector<VkImageView> views{ m_swapchain.getImageViews()[i].get(), depthTexture.getImageView().get() };
-		m_renderpass.prepareFrameBuffer(views, 1280, 720, 1);
+		m_renderpass.createFrameBuffer(views, 1280, 720, 1);
 	}
 
-	//===============================================================================
-	//Init Descriptors
-	//===============================================================================
-	Descriptor descriptor;
-	descriptor.Init(device.getDevice());
-	descriptor.addLayoutBinding(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT);
-	descriptor.addLayoutBinding(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT);
-	descriptor.addLayoutBinding(2, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, VK_SHADER_STAGE_VERTEX_BIT);
-	descriptor.createDescriptorSetLayout();
 
-	std::vector<Descriptor> descriptors = { descriptor };
-
-	DescriptorPool descriptorPool;
-	descriptorPool.Init(device.getDevice(), device.getGPU());
-	descriptorPool.create(descriptors);
-
-	for (Descriptor& descriptor : descriptors) {
-	}
-
-	descriptorPool.allocateDescriptorSets(descriptors);
 
 	//===============================================================================
 	//Init Sync Objects
@@ -119,6 +139,7 @@ void Renderer::Init(VulkanDevice& device)
 		auto beginInfo = m_renderpass.getBeginInfo(color, i);
 		commandbuffer.beginRenderPass(beginInfo);
 		commandbuffer.bindPipeline(m_pipeline);
+		commandbuffer.bindDescriptorSets(m_pipeline.getPipelineLayout(), descriptors[0].getDescriptorSet());
 		commandbuffer.drawQuad();
 		commandbuffer.endRenderPass();
 		commandbuffer.endCommandBuffer();

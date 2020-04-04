@@ -5,6 +5,7 @@
 #include <loguru.hpp>
 #include <vulkan/vulkan.hpp>
 
+#include "Buffer.hpp"
 class Descriptor
 {
 private:
@@ -20,7 +21,8 @@ public:
 	std::unordered_map<VkDescriptorType, uint32_t>& getTypeCounter();
 	void createDescriptorSetLayout();
 	VkDescriptorSet& getDescriptorSet();
-	void setDescriptorSet(const VkDescriptorSet& descriptorSet);
+	void setDescriptorSet(const VkDescriptorSet descriptorSet);
 	VkDescriptorSetLayout& getDescriptorSetLayout();
+	void writeSet(const uint32_t binding, const VkDescriptorType type, Buffer& buffer);
 };
 

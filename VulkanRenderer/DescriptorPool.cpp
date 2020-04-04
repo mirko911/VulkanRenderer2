@@ -62,7 +62,6 @@ void DescriptorPool::allocateDescriptorSets(std::vector<Descriptor>& descriptors
 	allocInfo.descriptorSetCount = static_cast<uint32_t>(m_layouts.size());
 	allocInfo.pSetLayouts = m_layouts.data();
 
-	VkDescriptorSet set;
 	if (vkAllocateDescriptorSets(m_device, &allocInfo, descriptorSets.data()) != VK_SUCCESS) {
 		ABORT_F("failed to allocate descriptor sets!");
 	}

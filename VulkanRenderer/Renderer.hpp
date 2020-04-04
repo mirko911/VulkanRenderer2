@@ -13,6 +13,7 @@
 #include "CommandPool.hpp"
 #include "Descriptor.hpp"
 #include "DescriptorPool.hpp"
+#include "Buffer.hpp"
 
 constexpr int MAX_FRAMES_IN_FLIGHT = 3;
 
@@ -34,6 +35,8 @@ private:
 	std::vector<VkFence> m_imagesInFlight;
 
 	size_t m_currentFrame = 0;
+
+	Buffer uboBuffer;
 public:
 	void Init(VulkanDevice& device);
 	void Render();

@@ -29,6 +29,7 @@ public:
 	void drawQuad();
 	void nextSubpass();
 	void bindDescriptorSets(VkPipelineLayout& pipelineLayout, std::vector<VkDescriptorSet> descriptorSets, uint32_t dynOffset);
+	void bindDescriptorSets(const VkPipelineLayout& pipelineLayout, const VkDescriptorSet& descriptorSet);
 	VkCommandBuffer& get();
 };
 

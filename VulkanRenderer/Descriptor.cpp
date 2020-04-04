@@ -45,7 +45,7 @@ VkDescriptorSet& Descriptor::getDescriptorSet()
 	return m_descriptorSet;
 }
 
-void Descriptor::setDescriptorSet(const VkDescriptorSet& descriptorSet)
+void Descriptor::setDescriptorSet(const VkDescriptorSet descriptorSet)
 {
 	m_descriptorSet = descriptorSet;
 }
@@ -53,4 +53,18 @@ void Descriptor::setDescriptorSet(const VkDescriptorSet& descriptorSet)
 VkDescriptorSetLayout& Descriptor::getDescriptorSetLayout()
 {
 	return m_descriptorLayout;
+}
+
+void Descriptor::writeSet(const uint32_t binding, const VkDescriptorType type, Buffer& buffer)
+{
+	VkWriteDescriptorSet writeDescriptorSet = {};
+	writeDescriptorSet.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+	writeDescriptorSet.dstSet = m_descriptorSet;
+	writeDescriptorSet.dstBinding = binding;
+	writeDescriptorSet.dstArrayElement = 0;
+	writeDescriptorSet.descriptorType = type;
+	writeDescriptorSet.descriptorCount = 1;
+	writeDescriptorSet.pBufferInfo = &buffer.descriptor;
+
+	vkUpdateDescriptorSets(m_device, static_cast<uint32_t>(1), &writeDescriptorSet, 0, nullptr);
 }
