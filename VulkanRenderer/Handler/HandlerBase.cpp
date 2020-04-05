@@ -21,9 +21,23 @@ void HandlerBase::update(const float fTimeDelta)
 {
 }
 
-void HandlerBase::setAlias(const int32_t ID, const std::string& alias)
+void HandlerBase::addAlias(const int32_t ID, const std::string& alias)
 {
 	m_aliases[alias] = ID;
+}
+
+void HandlerBase::removeAlias(const std::string& alias)
+{
+	m_aliases.erase(alias);
+}
+
+void HandlerBase::removeAliases(const int32_t ID)
+{
+	for (const auto& alias : m_aliases) {
+		if (alias.second == ID) {
+			m_aliases.erase(alias.first);
+		}
+	}
 }
 
 int32_t HandlerBase::getID(const std::string& alias)

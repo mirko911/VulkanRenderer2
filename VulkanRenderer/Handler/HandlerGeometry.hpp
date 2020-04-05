@@ -1,14 +1,19 @@
 #pragma once
 
+#include <utility>
+
 #include "HandlerBase.hpp"
 
 #include "../Modules/ModuleBase.hpp"
+#include "../Modules/ModuleGeometry.hpp"
 
 class HandlerGeometry : public HandlerBase{
 private:
-	std::unordered_map<int32_t, std::unique_ptr<ModuleBase>> m_entities;
+	std::unordered_map<int32_t, std::unique_ptr<ModuleGeometry>> m_entities;
 public:
-	template <typename T, typename ... Args>
+	HandlerGeometry();
+
+	template <typename T, typename... Args>
 	ModuleInfo<T> create(Args&& ... args) {
 		const int32_t ID = getNextModuleID();
 
@@ -20,9 +25,23 @@ public:
 
 	template <typename T>
 	T* get(const int32_t ID ) {
+		if (!has(ID)) {
+			LOG_F(ERROR, "Entity (ID %i) doesn't exist in %s", ID, getDebugName().c_str());
+		}
+
 		return reinterpret_cast<T*>(m_entities[ID].get());
 	}
 
+
+	bool has(const int32_t ID) {
+		return (m_entities.find(ID) != m_entities.end());
+	}
+
+	void remove(const int32_t ID) {
+		m_entities.erase(ID);
+	}
+
+	std::unordered_map<int32_t, std::unique_ptr<ModuleGeometry>>& getAll();
 
 
 	//virtual void init(VulkanDevice& device);
