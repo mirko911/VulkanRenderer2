@@ -111,3 +111,12 @@ struct Ubo {
 	Mat4 test;
 	Vec4 test2;
 };
+
+template <typename T>
+struct ModuleInfo {
+	const int32_t ID;
+	T* instance;
+	T* operator-> () {
+		return instance;
+	}
+};
