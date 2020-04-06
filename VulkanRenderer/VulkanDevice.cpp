@@ -324,6 +324,8 @@ void VulkanDevice::createDevice()
 
 	m_queueGraphics.Init(m_device, familyIndices.graphicsFamily);
 	m_queuePresent.Init(m_device, familyIndices.presentFamily);
+
+	m_commandPool.Init(m_device, m_queueGraphics);
 }
 
 void VulkanDevice::destroyDevice()
@@ -361,6 +363,11 @@ Queue& VulkanDevice::getGraphicsQueue()
 Queue& VulkanDevice::getPresentQueue()
 {
 	return m_queuePresent;
+}
+
+CommandPool& VulkanDevice::getCommandPool()
+{
+	return m_commandPool;
 }
 
 uint32_t VulkanDevice::findMemoryType(const VkPhysicalDevice& gpu, const uint32_t typeFilter, const VkMemoryPropertyFlags& properties)

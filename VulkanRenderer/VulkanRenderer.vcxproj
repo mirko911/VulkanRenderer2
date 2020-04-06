@@ -159,6 +159,7 @@
     <ClCompile Include="DescriptorPool.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameRoot.cpp" />
+    <ClCompile Include="GeoCube.cpp" />
     <ClCompile Include="Handler\HandlerBase.cpp" />
     <ClCompile Include="Handler\HandlerGeometry.cpp" />
     <ClCompile Include="Image.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="DescriptorPool.hpp" />
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GameRoot.hpp" />
+    <ClInclude Include="GeoCube.hpp" />
     <ClInclude Include="Handler\HandlerBase.hpp" />
     <ClInclude Include="Handler\HandlerGeometry.hpp" />
     <ClInclude Include="Image.hpp" />

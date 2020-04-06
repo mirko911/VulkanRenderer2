@@ -3,5 +3,5 @@
 
 class GameRoot {
 public:
-	HandlerGeometry geometryHandler;
+	HandlerGeometry hGeometry;
 };

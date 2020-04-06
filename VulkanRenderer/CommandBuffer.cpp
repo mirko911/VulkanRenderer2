@@ -18,12 +18,15 @@ void CommandBuffer::create(const VkCommandPool& commandPool)
 	};
 }
 
-void CommandBuffer::beginCommandBuffer()
+void CommandBuffer::beginCommandBuffer(const bool oneTime)
 {
 	VkCommandBufferBeginInfo beginInfo = {};
 	beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
 	beginInfo.flags = VK_COMMAND_BUFFER_USAGE_SIMULTANEOUS_USE_BIT;
-	//beginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+
+	if (oneTime) {
+		beginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+	}
 
 	if (vkBeginCommandBuffer(m_commandBuffer, &beginInfo) != VK_SUCCESS) {
 		ABORT_F("Failed to execute beginCommandBuffer");
@@ -104,6 +107,11 @@ void CommandBuffer::bindDescriptorSets(const VkPipelineLayout& pipelineLayout, c
 	vkCmdBindDescriptorSets(m_commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
 		pipelineLayout, 0, static_cast<uint32_t>(1), &descriptorSet
 		, 0, nullptr); //Nacher
+}
+
+void CommandBuffer::copyBuffer(VkBuffer& fromBuffer, VkBuffer& toBuffer, const uint32_t regionCount , const VkBufferCopy* regionp )
+{
+	vkCmdCopyBuffer(m_commandBuffer, fromBuffer, toBuffer, regionCount, regionp);
 }
 
 VkCommandBuffer& CommandBuffer::get() {

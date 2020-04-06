@@ -87,6 +87,9 @@
     <ClCompile Include="Modules\ModuleGeometry.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="GeoCube.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="defintions.hpp">
@@ -159,6 +162,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Handler\HandlerGeometry.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoCube.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

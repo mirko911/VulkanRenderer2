@@ -7,6 +7,7 @@
 #include "defintions.hpp"
 #include "Window.hpp"
 #include "Queue.hpp"
+#include "CommandPool.hpp"
 class VulkanDevice
 {
 private:
@@ -16,7 +17,7 @@ private:
 	VkSurfaceKHR m_surface = VK_NULL_HANDLE;
 	Queue m_queueGraphics;
 	Queue m_queuePresent;
-
+	CommandPool m_commandPool;
 	std::vector<const char*> m_extensionsEnabled;
 	std::vector<const char*> m_validationLayersEnabled;
 
@@ -35,7 +36,7 @@ public:
 	VkSurfaceKHR& getSurface();
 	Queue& getGraphicsQueue();
 	Queue& getPresentQueue();
-
+	CommandPool& getCommandPool();
 	static uint32_t findMemoryType(const VkPhysicalDevice& gpu, const uint32_t typeFilter, const VkMemoryPropertyFlags& properties);
 };
 

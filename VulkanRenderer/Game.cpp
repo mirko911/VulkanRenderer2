@@ -5,9 +5,9 @@ void Game::Init()
 	LOG_F(INFO, "GAME INIT");
 
 	HandlerGeometry geoHandler;
-	ModuleInfo<ModuleGeometry> test = geoHandler.create<ModuleGeometry>();
+	ModuleInfo<ModuleGeometry> test = m_gameRoot.hGeometry.create<ModuleGeometry>();
 
-	ModuleGeometry* test2 = geoHandler.get<ModuleGeometry>(test.ID);
+	ModuleGeometry* test2 = m_gameRoot.hGeometry.get<ModuleGeometry>(test.ID);
 
 
 }

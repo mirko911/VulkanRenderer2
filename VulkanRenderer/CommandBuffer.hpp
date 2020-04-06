@@ -18,7 +18,7 @@ private:
 public:
 	void Init(const VkDevice& device);
 	void create(const VkCommandPool& commandPool);
-	void beginCommandBuffer();
+	void beginCommandBuffer(const bool oneTime = false);
 	void beginRenderPass(VkRenderPassBeginInfo& beginInfo);
 	void endRenderPass();
 	void endCommandBuffer();
@@ -30,6 +30,7 @@ public:
 	void nextSubpass();
 	void bindDescriptorSets(VkPipelineLayout& pipelineLayout, std::vector<VkDescriptorSet> descriptorSets, uint32_t dynOffset);
 	void bindDescriptorSets(const VkPipelineLayout& pipelineLayout, const VkDescriptorSet& descriptorSet);
+	void copyBuffer(VkBuffer& fromBuffer, VkBuffer& toBuffer, const uint32_t regionCount = 0, const VkBufferCopy* regionp = nullptr);
 	VkCommandBuffer& get();
 };
 

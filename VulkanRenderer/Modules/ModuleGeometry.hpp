@@ -1,7 +1,21 @@
 #pragma once
 
-#include "ModuleBase.hpp"
+#include <vector>
 
+#include <vulkan/vulkan.hpp>
+#include <loguru.hpp>
+#include "ModuleBase.hpp"
+#include "../Buffer.hpp"
+#include "../CommandBuffer.hpp"
 class ModuleGeometry : public ModuleBase {
+protected:
+	std::vector<Vertex> m_vertex;
+	std::vector<uint32_t> m_index;
+	Buffer m_bufferVertex;
+	Buffer m_bufferIndex;
+	std::string m_debugName = "Generic Geometry";
+public:
+	void update(const float ftimeDelta);
+	void init(VulkanDevice& device);
 
 };
