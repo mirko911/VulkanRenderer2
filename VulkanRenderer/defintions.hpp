@@ -15,6 +15,7 @@
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtc/quaternion_simd.inl>
+#include <glm/gtx/euler_angles.hpp>
 
 typedef glm::mat4 Mat4;
 typedef glm::mat3 Mat3;
@@ -119,4 +120,10 @@ struct ModuleInfo {
 	T* operator-> () {
 		return instance;
 	}
+};
+
+struct Transformation {
+	Vec3 translation = Vec4(0.0f);
+	Vec3 rotation = Vec4(0.0f);
+	Vec3 scale = Vec4(1.0f);
 };
