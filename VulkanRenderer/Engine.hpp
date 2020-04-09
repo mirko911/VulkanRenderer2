@@ -7,7 +7,6 @@
 #include "VulkanDevice.hpp"
 #include "Game.hpp"
 
-#include "Renderer.hpp"
 
 class Engine
 {
@@ -16,7 +15,6 @@ private:
 	VulkanDevice m_device;
 	Game m_game;
 	GameState m_gameState;
-	Renderer m_renderer;
 public:
 	void Init();
 	void Loop();

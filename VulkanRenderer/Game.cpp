@@ -1,7 +1,10 @@
 #include "Game.hpp"
 
-void Game::Init()
+void Game::Init(VulkanDevice& device, Window& window)
 {
+	m_device = device;
+	m_window = window;
+
 	LOG_F(INFO, "GAME INIT");
 
 	
@@ -17,6 +20,8 @@ void Game::Init()
 		go->addModule<ModuleGeometry>(geoCube.ID);
 		go->addModule<ModuleTransformation>(transform.ID);
 	}
+
+	m_renderer.Init(m_device);
 }
 
 void Game::Tick()
@@ -27,12 +32,14 @@ void Game::Tick()
 
 void Game::Draw()
 {
+	m_renderer.Render();
 //	LOG_F(INFO, "GAME DRAW");
 
 }
 
 void Game::Fini()
 {
+	m_renderer.Destroy();
 	LOG_F(INFO, "GAME FINI");
 
 }
