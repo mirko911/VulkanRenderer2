@@ -108,6 +108,12 @@
     <ClCompile Include="Handler\HandlerCamera.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Handler\HandlerScene.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="defintions.hpp">
@@ -201,6 +207,12 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Handler\HandlerCamera.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Handler\HandlerScene.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
