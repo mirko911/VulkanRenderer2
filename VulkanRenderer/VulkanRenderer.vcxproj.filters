@@ -90,6 +90,12 @@
     <ClCompile Include="GeoCube.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="Handler\HandlerTransformation.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\ModuleTransformation.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="defintions.hpp">
@@ -165,6 +171,12 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="GeoCube.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Handler\HandlerTransformation.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\ModuleTransformation.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

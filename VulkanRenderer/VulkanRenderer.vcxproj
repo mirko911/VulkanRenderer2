@@ -162,10 +162,12 @@
     <ClCompile Include="GeoCube.cpp" />
     <ClCompile Include="Handler\HandlerBase.cpp" />
     <ClCompile Include="Handler\HandlerGeometry.cpp" />
+    <ClCompile Include="Handler\HandlerTransformation.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="ImageView.cpp" />
     <ClCompile Include="Modules\ModuleBase.cpp" />
     <ClCompile Include="Modules\ModuleGeometry.cpp" />
+    <ClCompile Include="Modules\ModuleTransformation.cpp" />
     <ClCompile Include="Pipeline.cpp" />
     <ClCompile Include="Queue.cpp" />
     <ClCompile Include="Engine.cpp" />
@@ -189,10 +191,12 @@
     <ClInclude Include="GeoCube.hpp" />
     <ClInclude Include="Handler\HandlerBase.hpp" />
     <ClInclude Include="Handler\HandlerGeometry.hpp" />
+    <ClInclude Include="Handler\HandlerTransformation.hpp" />
     <ClInclude Include="Image.hpp" />
     <ClInclude Include="ImageView.hpp" />
     <ClInclude Include="Modules\ModuleBase.hpp" />
     <ClInclude Include="Modules\ModuleGeometry.hpp" />
+    <ClInclude Include="Modules\ModuleTransformation.hpp" />
     <ClInclude Include="Pipeline.hpp" />
     <ClInclude Include="Queue.hpp" />
     <ClInclude Include="defintions.hpp" />
