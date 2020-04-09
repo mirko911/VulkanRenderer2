@@ -21,6 +21,11 @@ void Game::Init(VulkanDevice& device, Window& window)
 		go->addModule<ModuleTransformation>(transform.ID);
 	}
 
+	{ //Test Texture
+		ModuleInfo<Texture2D> texturePlanks = m_gameRoot.hTexture.create2D("textures//Planks12_col.jpg");
+		ModuleInfo<Texture2D> texturePlanksNM = m_gameRoot.hTexture.create2D("textures//Planks12_nrm.jpg");
+	}
+
 	m_renderer.Init(m_device, m_gameRoot);
 }
 

@@ -167,6 +167,7 @@
     <ClCompile Include="Handler\HandlerGameobject.cpp" />
     <ClCompile Include="Handler\HandlerGeometry.cpp" />
     <ClCompile Include="Handler\HandlerScene.cpp" />
+    <ClCompile Include="Handler\HandlerTexture.cpp" />
     <ClCompile Include="Handler\HandlerTransformation.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="ImageView.cpp" />
@@ -179,10 +180,13 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RenderPass.cpp" />
+    <ClCompile Include="Sampler.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Swapchain.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Texture2D.cpp" />
+    <ClCompile Include="TextureCubemap.cpp" />
     <ClCompile Include="VulkanDevice.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
@@ -202,6 +206,7 @@
     <ClInclude Include="Handler\HandlerGameobject.hpp" />
     <ClInclude Include="Handler\HandlerGeometry.hpp" />
     <ClInclude Include="Handler\HandlerScene.hpp" />
+    <ClInclude Include="Handler\HandlerTexture.hpp" />
     <ClInclude Include="Handler\HandlerTransformation.hpp" />
     <ClInclude Include="Image.hpp" />
     <ClInclude Include="ImageView.hpp" />
@@ -214,10 +219,13 @@
     <ClInclude Include="Engine.hpp" />
     <ClInclude Include="Renderer.hpp" />
     <ClInclude Include="RenderPass.hpp" />
+    <ClInclude Include="Sampler.hpp" />
     <ClInclude Include="Scene.hpp" />
     <ClInclude Include="Shader.hpp" />
     <ClInclude Include="Swapchain.hpp" />
     <ClInclude Include="Texture.hpp" />
+    <ClInclude Include="Texture2D.hpp" />
+    <ClInclude Include="TextureCubemap.hpp" />
     <ClInclude Include="VulkanDevice.hpp" />
     <ClInclude Include="Window.hpp" />
   </ItemGroup>

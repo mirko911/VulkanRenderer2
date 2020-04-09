@@ -24,5 +24,7 @@ public:
 	void setDescriptorSet(const VkDescriptorSet descriptorSet);
 	VkDescriptorSetLayout& getDescriptorSetLayout();
 	void writeSet(const uint32_t binding, const VkDescriptorType type, Buffer& buffer);
+	void writeSet(const uint32_t binding, const VkDescriptorType type, const std::vector<VkDescriptorImageInfo>& descriptorImageInfo);
+
 };
 

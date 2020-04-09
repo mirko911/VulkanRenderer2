@@ -114,6 +114,18 @@
     <ClCompile Include="Handler\HandlerScene.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="Texture2D.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Handler\HandlerTexture.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureCubemap.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Sampler.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="defintions.hpp">
@@ -213,6 +225,18 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Handler\HandlerScene.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture2D.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Handler\HandlerTexture.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureCubemap.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Sampler.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

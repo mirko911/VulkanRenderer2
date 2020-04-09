@@ -132,6 +132,19 @@ void CommandBuffer::copyBuffer(VkBuffer& fromBuffer, VkBuffer& toBuffer, const u
 	vkCmdCopyBuffer(m_commandBuffer, fromBuffer, toBuffer, regionCount, regionp);
 }
 
+void CommandBuffer::copyBufferToImage(VkBuffer& fromBuffer, VkImage& toImage, const VkImageLayout layout, const uint32_t regionCount, const VkBufferImageCopy* regionp)
+{
+	// Copy the cube map faces from the staging buffer to the optimal tiled image
+	vkCmdCopyBufferToImage(
+		m_commandBuffer,
+		fromBuffer,
+		toImage,
+		layout,
+		regionCount,
+		regionp
+	);
+}
+
 VkCommandBuffer& CommandBuffer::get() {
 	return m_commandBuffer;
 }

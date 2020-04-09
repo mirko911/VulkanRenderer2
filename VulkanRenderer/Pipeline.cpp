@@ -11,11 +11,11 @@ void Pipeline::fillPipelineStructs()
 	m_vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescription.size());
 	m_vertexInputInfo.pVertexBindingDescriptions = bindingDescription.data();
 	m_vertexInputInfo.pVertexAttributeDescriptions = attributeDescription.data();
-	m_vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-	m_vertexInputInfo.vertexBindingDescriptionCount = 0;
-	m_vertexInputInfo.vertexAttributeDescriptionCount = 0;
-	m_vertexInputInfo.pVertexBindingDescriptions = nullptr;
-	m_vertexInputInfo.pVertexAttributeDescriptions = nullptr;
+	//m_vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+	//m_vertexInputInfo.vertexBindingDescriptionCount = 0;
+	//m_vertexInputInfo.vertexAttributeDescriptionCount = 0;
+	//m_vertexInputInfo.pVertexBindingDescriptions = nullptr;
+	//m_vertexInputInfo.pVertexAttributeDescriptions = nullptr;
 
 	m_inputAssembly = {};
 	m_inputAssembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;

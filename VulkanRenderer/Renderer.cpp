@@ -7,7 +7,7 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	//Init Gamelogik
 	//===============================================================================
 	gameRoot.hGeometry.init(device);
-
+	gameRoot.hTexture.init(device);
 	//===============================================================================
 	//Init Swapchain
 	//===============================================================================
@@ -71,9 +71,9 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	//===============================================================================
 	Descriptor descriptor;
 	descriptor.Init(device.getDevice());
-	//descriptor.addLayoutBinding(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT);
-	descriptor.addLayoutBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT);
-	descriptor.addLayoutBinding(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, VK_SHADER_STAGE_VERTEX_BIT);
+	descriptor.addLayoutBinding(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT, static_cast<uint32_t>(gameRoot.hTexture.getAll2D().size()));
+	descriptor.addLayoutBinding(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT);
+	descriptor.addLayoutBinding(2, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, VK_SHADER_STAGE_VERTEX_BIT);
 	descriptor.createDescriptorSetLayout();
 
 	std::vector<Descriptor> descriptors = { descriptor };
@@ -83,8 +83,16 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	descriptorPool.create(descriptors);
 	descriptorPool.allocateDescriptorSets(descriptors);
 
-	descriptors[0].writeSet(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, m_buffers.mainUBO);
-	descriptors[0].writeSet(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, m_buffers.mainUBODyn);
+
+	std::vector<VkDescriptorImageInfo> imageInfos;
+	imageInfos.reserve(gameRoot.hTexture.getAll2D().size());
+	for (auto& texture2D : gameRoot.hTexture.getAll2D()) {
+		imageInfos.emplace_back(std::move(texture2D.second->getDescriptorImageInfo()));
+	}
+
+	descriptors[0].writeSet(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, imageInfos);
+	descriptors[0].writeSet(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, m_buffers.mainUBO);
+	descriptors[0].writeSet(2, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, m_buffers.mainUBODyn);
 
 	//===============================================================================
 	//Init Pipeline

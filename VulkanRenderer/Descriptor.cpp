@@ -68,3 +68,17 @@ void Descriptor::writeSet(const uint32_t binding, const VkDescriptorType type, B
 
 	vkUpdateDescriptorSets(m_device, static_cast<uint32_t>(1), &writeDescriptorSet, 0, nullptr);
 }
+
+void Descriptor::writeSet(const uint32_t binding, const VkDescriptorType type, const std::vector<VkDescriptorImageInfo>& descriptorImageInfo)
+{
+	VkWriteDescriptorSet writeDescriptorSet = {};
+	writeDescriptorSet.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+	writeDescriptorSet.dstSet = m_descriptorSet;
+	writeDescriptorSet.dstBinding = binding;
+	writeDescriptorSet.dstArrayElement = 0;
+	writeDescriptorSet.descriptorType = type;
+	writeDescriptorSet.descriptorCount = static_cast<uint32_t>(descriptorImageInfo.size());
+	writeDescriptorSet.pImageInfo = descriptorImageInfo.data();
+
+	vkUpdateDescriptorSets(m_device, static_cast<uint32_t>(1), &writeDescriptorSet, 0, nullptr);
+}

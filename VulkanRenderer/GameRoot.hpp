@@ -7,6 +7,7 @@
 #include "Handler/HandlerGameobject.hpp"
 #include "Handler/HandlerCamera.hpp"
 #include "Handler/HandlerScene.hpp"
+#include "Handler/HandlerTexture.hpp"
 
 class GameRoot {
 public:
@@ -15,6 +16,7 @@ public:
 	HandlerGameobject hGameObject;
 	HandlerCamera hCamera;
 	HandlerScene hScene;
+	HandlerTexture hTexture;
 
 	int32_t m_mainScene = ENTITY_NOT_FOUND;
 };
