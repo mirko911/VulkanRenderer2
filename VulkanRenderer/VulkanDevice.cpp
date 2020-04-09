@@ -326,6 +326,7 @@ void VulkanDevice::createDevice()
 	m_queuePresent.Init(m_device, familyIndices.presentFamily);
 
 	m_commandPool.Init(m_device, m_queueGraphics);
+	m_commandPool.create();
 }
 
 void VulkanDevice::destroyDevice()
@@ -382,5 +383,14 @@ uint32_t VulkanDevice::findMemoryType(const VkPhysicalDevice& gpu, const uint32_
 	}
 
 	ABORT_F("Failed to find suitable memory type");
+}
+
+VkPhysicalDeviceProperties VulkanDevice::getDeviceProperties()
+{
+	//Todo check if we can move it to initScene
+	VkPhysicalDeviceProperties props;
+	vkGetPhysicalDeviceProperties(m_gpu, &props);
+
+	return props;
 }
 

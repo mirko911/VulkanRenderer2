@@ -38,5 +38,6 @@ public:
 	Queue& getPresentQueue();
 	CommandPool& getCommandPool();
 	static uint32_t findMemoryType(const VkPhysicalDevice& gpu, const uint32_t typeFilter, const VkMemoryPropertyFlags& properties);
+	VkPhysicalDeviceProperties getDeviceProperties();
 };
 
