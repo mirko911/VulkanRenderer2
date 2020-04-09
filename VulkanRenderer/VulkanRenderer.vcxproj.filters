@@ -96,6 +96,12 @@
     <ClCompile Include="Modules\ModuleTransformation.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="GameObjekt.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Handler\HandlerGameobject.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="defintions.hpp">
@@ -177,6 +183,12 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Modules\ModuleTransformation.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjekt.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Handler\HandlerGameobject.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

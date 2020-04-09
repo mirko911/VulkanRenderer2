@@ -1,5 +1,8 @@
 #pragma once
 
+#include <typeindex>
+
+
 #include <loguru.hpp>
 #include <vulkan/vulkan.hpp>
 
@@ -17,12 +20,16 @@
 #include <glm/gtc/quaternion_simd.inl>
 #include <glm/gtx/euler_angles.hpp>
 
+
+
 typedef glm::mat4 Mat4;
 typedef glm::mat3 Mat3;
 
 typedef glm::vec2 Vec2;
 typedef glm::vec3 Vec3;
 typedef glm::vec4 Vec4;
+
+constexpr int32_t ENTITY_NOT_FOUND = -1;
 
 
 struct QueueFamilyIndices {
@@ -127,3 +134,8 @@ struct Transformation {
 	Vec3 rotation = Vec4(0.0f);
 	Vec3 scale = Vec4(1.0f);
 };
+
+template <typename T>
+inline std::type_index getType() {
+	return std::type_index(typeid(T));
+}

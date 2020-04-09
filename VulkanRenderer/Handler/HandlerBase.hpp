@@ -8,8 +8,6 @@
 #include "../defintions.hpp"
 #include "../VulkanDevice.hpp"
 
-constexpr int32_t ENTITY_NOT_FOUND = -1;
-
 class HandlerBase {
 private:
 	//List of aliases
