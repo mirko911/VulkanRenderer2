@@ -4,23 +4,30 @@ void Game::Init()
 {
 	LOG_F(INFO, "GAME INIT");
 
-	HandlerGeometry geoHandler;
-	ModuleInfo<ModuleGeometry> test = m_gameRoot.hGeometry.create<ModuleGeometry>();
+	
+	//ModuleInfo<ModuleGeometry> test = m_gameRoot.hGeometry.create<ModuleGeometry>();
 
-	ModuleGeometry* test2 = m_gameRoot.hGeometry.get<ModuleGeometry>(test.ID);
+	//ModuleGeometry* test2 = m_gameRoot.hGeometry.get<ModuleGeometry>(test.ID);
 
+	{ //Test Gameobject
+		ModuleInfo<GameObjekt> go = m_gameRoot.hGameObject.create();
+		ModuleInfo<GeoCube> geoCube = m_gameRoot.hGeometry.create<GeoCube>();
+		ModuleInfo<ModuleTransformation> transform = m_gameRoot.hTransformation.create();
 
+		go->addModule<ModuleGeometry>(geoCube.ID);
+		go->addModule<ModuleTransformation>(transform.ID);
+	}
 }
 
 void Game::Tick()
 {
-	LOG_F(INFO, "GAME TICK");
+//	LOG_F(INFO, "GAME TICK");
 
 }
 
 void Game::Draw()
 {
-	LOG_F(INFO, "GAME DRAW");
+//	LOG_F(INFO, "GAME DRAW");
 
 }
 

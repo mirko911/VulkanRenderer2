@@ -2,8 +2,7 @@
 #include <loguru.hpp>
 
 #include "GameRoot.hpp"
-#include "Handler/HandlerGeometry.hpp"
-#include "Modules/ModuleGeometry.hpp"
+#include "GeoCube.hpp"
 class Game
 {
 private:

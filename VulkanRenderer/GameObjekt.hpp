@@ -40,7 +40,7 @@ public:
 		const auto typeIndex = getType<T>();
 
 		if (hasModule<T>() && !force) {
-			LOG_F(ERROR, "Module %s already exists in %s", typeIndex.name, getDebugName().c_str());
+			LOG_F(ERROR, "Module %s already exists in %s", typeIndex.name(), getDebugName().c_str());
 		}
 
 		m_modules[typeIndex] = ID;

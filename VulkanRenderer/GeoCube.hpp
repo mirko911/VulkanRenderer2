@@ -1,5 +1,8 @@
 #pragma once
-class GeoCube
+#include "Modules/ModuleGeometry.hpp"
+class GeoCube : public ModuleGeometry
 {
+public:
+	GeoCube();
 };
 
