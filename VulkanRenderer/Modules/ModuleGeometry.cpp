@@ -6,11 +6,15 @@ void ModuleGeometry::update(const float ftimeDelta)
 
 void ModuleGeometry::init(VulkanDevice& device)
 {
-	LOG_F(INFO, "Created geometry %s (V: %i, I: %i)", m_debugName, m_vertex.size(), m_index.size());
+	LOG_F(INFO, "Created geometry %s (V: %i, I: %i)", m_debugName.c_str(), m_vertex.size(), m_index.size());
 
 
 	const VkDeviceSize vertexBufferSize = sizeof(Vertex) * m_vertex.size();
 	const VkDeviceSize indexbufferSize = sizeof(uint32_t) * m_index.size();
+
+	if (vertexBufferSize == 0 || indexbufferSize == 0) {
+		ABORT_F("Vertex and/or indexbuffer size is 0");
+	}
 
 	Buffer vertexStaging, indexStaging;
 
@@ -89,4 +93,14 @@ void ModuleGeometry::init(VulkanDevice& device)
 	vkFreeMemory(device.getDevice(), vertexStaging.memory, nullptr);
 	vkDestroyBuffer(device.getDevice(), indexStaging.buffer, nullptr);
 	vkFreeMemory(device.getDevice(), indexStaging.memory, nullptr);
+}
+
+Buffer& ModuleGeometry::getVertexBuffer()
+{
+	return m_bufferVertex;
+}
+
+Buffer& ModuleGeometry::getIndexBuffer()
+{
+	return m_bufferIndex;
 }

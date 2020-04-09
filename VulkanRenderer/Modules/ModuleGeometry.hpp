@@ -17,5 +17,6 @@ protected:
 public:
 	void update(const float ftimeDelta);
 	void init(VulkanDevice& device);
-
+	Buffer& getVertexBuffer();
+	Buffer & getIndexBuffer();
 };
