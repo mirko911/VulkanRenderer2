@@ -1,8 +1,12 @@
 #include "Renderer.hpp"
 
-void Renderer::Init(VulkanDevice& device)
+void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 {
 	m_vulkanDevice = device;
+	//===============================================================================
+	//Init Gamelogik
+	//===============================================================================
+	gameRoot.hGeometry.init(device);
 
 	//===============================================================================
 	//Init Swapchain
@@ -39,22 +43,28 @@ void Renderer::Init(VulkanDevice& device)
 	//===============================================================================
 	//Init Buffers
 	//===============================================================================
+	const VkPhysicalDeviceProperties deviceProperties = device.getDeviceProperties();
+	const VkDeviceSize uboAlignment = deviceProperties.limits.minUniformBufferOffsetAlignment;
+	m_dynamicAlignment = (sizeof(MainUBODyn)) > uboAlignment ? static_cast<VkDeviceSize>(sizeof(MainUBODyn)) : uboAlignment;
+
 	Buffer::createBuffer(device.getDevice(), device.getGPU(),
 		VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
 		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
-		uboBuffer,
-		sizeof(Ubo)
+		m_buffers.mainUBO,
+		sizeof(MainUBO)
+	);
+
+	Buffer::createBuffer(device.getDevice(), device.getGPU(),
+		VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
+		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+		m_buffers.mainUBODyn,
+		sizeof(MainUBODyn) * MAX_DYNUBO_SIZE
 	);
 
 	//===============================================================================
 	//Fill UBO-Buffers
 	//===============================================================================
-	Ubo ubo;
-	ubo.test = Mat4(1.0f);
-	ubo.test2 = Vec4(1, 0, 0, 1); //hier wird es rot
-	uboBuffer.map();
-	memcpy(uboBuffer.mapped, &ubo, sizeof(Ubo));
-	uboBuffer.unmap();
+	updateUniformBuffer(gameRoot);
 
 	//===============================================================================
 	//Init Descriptors
@@ -63,7 +73,7 @@ void Renderer::Init(VulkanDevice& device)
 	descriptor.Init(device.getDevice());
 	//descriptor.addLayoutBinding(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT);
 	descriptor.addLayoutBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT);
-	//descriptor.addLayoutBinding(2, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, VK_SHADER_STAGE_VERTEX_BIT);
+	descriptor.addLayoutBinding(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, VK_SHADER_STAGE_VERTEX_BIT);
 	descriptor.createDescriptorSetLayout();
 
 	std::vector<Descriptor> descriptors = { descriptor };
@@ -73,7 +83,8 @@ void Renderer::Init(VulkanDevice& device)
 	descriptorPool.create(descriptors);
 	descriptorPool.allocateDescriptorSets(descriptors);
 
-	descriptors[0].writeSet(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, uboBuffer);
+	descriptors[0].writeSet(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, m_buffers.mainUBO);
+	descriptors[0].writeSet(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, m_buffers.mainUBODyn);
 
 	//===============================================================================
 	//Init Pipeline
@@ -128,21 +139,40 @@ void Renderer::Init(VulkanDevice& device)
 
 	const VkClearColorValue color = { 0.f,0.4831f, 0.78125f, 1.0f };
 
-
+	//===============================================================================
+	//Record command buffers (draw calls)
+	//===============================================================================
 	m_commandBuffers.reserve(m_swapchain.getImageCount());
 	for (uint32_t i = 0; i < m_swapchain.getImageCount(); i++) {
 		CommandBuffer commandbuffer = m_commandPool.allocateCommandBuffer();
-		m_commandBuffers.push_back(commandbuffer);
 
 		commandbuffer.beginCommandBuffer();
-
 		auto beginInfo = m_renderpass.getBeginInfo(color, i);
 		commandbuffer.beginRenderPass(beginInfo);
+
 		commandbuffer.bindPipeline(m_pipeline);
-		commandbuffer.bindDescriptorSets(m_pipeline.getPipelineLayout(), descriptors[0].getDescriptorSet());
+
+		for (auto& gameobject : gameRoot.hGameObject.getAll()) {
+			const uint32_t offset = static_cast<uint32_t>(gameobject.first) * static_cast<uint32_t>(m_dynamicAlignment);
+
+			ModuleGeometry* geometry = gameRoot.hGeometry.get<ModuleGeometry>(gameobject.second.get());
+
+			commandbuffer.bindDescriptorSets(m_pipeline.getPipelineLayout(), descriptors[0].getDescriptorSet(), &offset);
+			commandbuffer.bindVertexBuffers(geometry->getVertexBuffer().buffer);
+			commandbuffer.bindIndexBuffers(geometry->getIndexBuffer().buffer);
+		}
+		
+
+
+		
 		commandbuffer.drawQuad();
+
+
 		commandbuffer.endRenderPass();
 		commandbuffer.endCommandBuffer();
+
+		m_commandBuffers.push_back(commandbuffer);
+
 	}
 }
 
@@ -181,9 +211,22 @@ void Renderer::Render()
 
 }
 
+void Renderer::updateUniformBuffer(GameRoot& gameRoot)
+{
+	MainUBO ubo;
+	ubo.proj = Mat4(1.0f);
+	ubo.view = Mat4(1.0f);
+	ubo.viewProj = Mat4(1.0f);
+	ubo.position = Vec4(1.0, 1.0, 0.0, 1.0f);
+	m_buffers.mainUBO.map();
+	memcpy(m_buffers.mainUBO.mapped, &ubo, sizeof(MainUBO));
+	m_buffers.mainUBO.unmap();
+}
+
 
 void Renderer::Destroy()
 {
+	return;
 	m_shader.Destroy();
 	m_pipeline.Destroy();
 	m_renderpass.Destroy();

@@ -57,7 +57,7 @@ public:
 	int32_t getModule() {
 		const auto typeIndex = getType<T>();
 		if (!hasModule<T>()) {
-			LOG_F(WARNING, "Module %s doesn't exists in %s", typeIndex.name, getDebugName().c_str());
+			LOG_F(WARNING, "Module %s doesn't exists in %s", typeIndex.name(), getDebugName().c_str());
 			return ENTITY_NOT_FOUND;
 		}
 

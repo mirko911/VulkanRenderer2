@@ -21,7 +21,7 @@ void Game::Init(VulkanDevice& device, Window& window)
 		go->addModule<ModuleTransformation>(transform.ID);
 	}
 
-	m_renderer.Init(m_device);
+	m_renderer.Init(m_device, m_gameRoot);
 }
 
 void Game::Tick()

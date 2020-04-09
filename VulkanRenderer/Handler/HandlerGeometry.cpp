@@ -9,3 +9,10 @@ std::unordered_map<int32_t, std::unique_ptr<ModuleGeometry>>& HandlerGeometry::g
 {
 	return m_entities;
 }
+
+void HandlerGeometry::init(VulkanDevice& device)
+{
+	for (auto& ent : m_entities) {
+		ent.second->init(device);
+	}
+}

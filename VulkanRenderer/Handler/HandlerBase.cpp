@@ -13,6 +13,7 @@ int32_t HandlerBase::getNextModuleID()
 	return id;
 }
 
+
 void HandlerBase::init(VulkanDevice& device)
 {
 }

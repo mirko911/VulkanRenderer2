@@ -7,6 +7,9 @@
 #include "../Modules/ModuleBase.hpp"
 #include "../Modules/ModuleTransformation.hpp"
 
+#include "../GameObjekt.hpp"
+
+
 class HandlerTransformation : public HandlerBase{
 private:
 	std::unordered_map<int32_t, std::unique_ptr<ModuleTransformation>> m_entities;
@@ -30,6 +33,15 @@ public:
 
 		return m_entities[ID].get();
 	}
+
+	ModuleTransformation* get(GameObjekt* gameobject) {
+		if (!gameobject->hasModule<ModuleTransformation>()) {
+			LOG_F(ERROR, "Entity doesn't have module %s", gameobject->getDebugName().c_str());
+		}
+		const int32_t ID = gameobject->getModule<ModuleTransformation>();
+		return m_entities[ID].get();
+	}
+
 
 
 	bool has(const int32_t ID) {

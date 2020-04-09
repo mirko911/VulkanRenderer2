@@ -79,8 +79,19 @@ void CommandBuffer::bindVertexBuffers(VkBuffer* buffers, VkDeviceSize* offset) {
 	vkCmdBindVertexBuffers(m_commandBuffer, 0, 1, buffers, offset);
 }
 
+void CommandBuffer::bindVertexBuffers(VkBuffer& buffers)
+{
+	const VkDeviceSize null = 0;
+	vkCmdBindVertexBuffers(m_commandBuffer, 0, 1, &buffers, &null);
+}
+
 void CommandBuffer::bindIndexBuffers(VkBuffer buffer, const VkDeviceSize offset) {
 	vkCmdBindIndexBuffer(m_commandBuffer, buffer, offset, VK_INDEX_TYPE_UINT32);
+}
+
+void CommandBuffer::bindIndexBuffers(VkBuffer& buffer)
+{
+	vkCmdBindIndexBuffer(m_commandBuffer, buffer, 0, VK_INDEX_TYPE_UINT32);
 }
 
 void CommandBuffer::drawIndexed(const uint32_t indexCount) {
@@ -107,6 +118,13 @@ void CommandBuffer::bindDescriptorSets(const VkPipelineLayout& pipelineLayout, c
 	vkCmdBindDescriptorSets(m_commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
 		pipelineLayout, 0, static_cast<uint32_t>(1), &descriptorSet
 		, 0, nullptr); //Nacher
+}
+
+void CommandBuffer::bindDescriptorSets(const VkPipelineLayout& pipelineLayout, const VkDescriptorSet& descriptorSet, const uint32_t* dynOffset)
+{
+	//vkCmdBindDescriptorSets(m_commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, descriptorSets, 0, nullptr); //Vorher
+	vkCmdBindDescriptorSets(m_commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
+		pipelineLayout, 0, static_cast<uint32_t>(1), &descriptorSet, 1, dynOffset); //Nacher
 }
 
 void CommandBuffer::copyBuffer(VkBuffer& fromBuffer, VkBuffer& toBuffer, const uint32_t regionCount , const VkBufferCopy* regionp )

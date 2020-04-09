@@ -24,12 +24,16 @@ public:
 	void endCommandBuffer();
 	void bindPipeline(Pipeline& pipeline);
 	void bindVertexBuffers(VkBuffer* buffers, VkDeviceSize* offset);
+	void bindVertexBuffers(VkBuffer& buffers);
 	void bindIndexBuffers(VkBuffer buffer, VkDeviceSize offset);
+	void bindIndexBuffers(VkBuffer& buffer);
 	void drawIndexed(uint32_t indexCount);
 	void drawQuad();
 	void nextSubpass();
 	void bindDescriptorSets(VkPipelineLayout& pipelineLayout, std::vector<VkDescriptorSet> descriptorSets, uint32_t dynOffset);
 	void bindDescriptorSets(const VkPipelineLayout& pipelineLayout, const VkDescriptorSet& descriptorSet);
+	void bindDescriptorSets(const VkPipelineLayout& pipelineLayout, const VkDescriptorSet& descriptorSet, const uint32_t* dynOffset );
+
 	void copyBuffer(VkBuffer& fromBuffer, VkBuffer& toBuffer, const uint32_t regionCount = 0, const VkBufferCopy* regionp = nullptr);
 	VkCommandBuffer& get();
 };

@@ -30,7 +30,7 @@ typedef glm::vec3 Vec3;
 typedef glm::vec4 Vec4;
 
 constexpr int32_t ENTITY_NOT_FOUND = -1;
-
+constexpr uint32_t MAX_DYNUBO_SIZE = 100;
 
 struct QueueFamilyIndices {
 	uint32_t graphicsFamily = VK_QUEUE_FAMILY_IGNORED;
@@ -115,9 +115,15 @@ public:
 	}
 };
 
-struct Ubo {
-	Mat4 test;
-	Vec4 test2;
+struct MainUBO{
+	Mat4 proj;
+	Mat4 view;
+	Mat4 viewProj;
+	Vec4 position;
+};
+
+struct MainUBODyn {
+	Mat4 modelMat;
 };
 
 template <typename T>

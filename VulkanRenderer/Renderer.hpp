@@ -15,6 +15,8 @@
 #include "DescriptorPool.hpp"
 #include "Buffer.hpp"
 
+#include "GameRoot.hpp"
+
 constexpr int MAX_FRAMES_IN_FLIGHT = 3;
 
 class Renderer
@@ -36,10 +38,18 @@ private:
 
 	size_t m_currentFrame = 0;
 
-	Buffer uboBuffer;
+	struct {
+		Buffer mainUBO;
+		Buffer mainUBODyn;
+	} m_buffers;
+
+	//Dynamic Alignment Size for DynUBO
+	VkDeviceSize m_dynamicAlignment;
+
 public:
-	void Init(VulkanDevice& device);
+	void Init(VulkanDevice& device, GameRoot& gameRoot);
 	void Render();
+	void updateUniformBuffer(GameRoot& gameRoot);
 	void Destroy();
 };
 
