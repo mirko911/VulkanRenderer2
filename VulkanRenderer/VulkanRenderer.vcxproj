@@ -153,6 +153,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Buffer.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CommandBuffer.cpp" />
     <ClCompile Include="CommandPool.cpp" />
     <ClCompile Include="Descriptor.cpp" />
@@ -162,6 +163,7 @@
     <ClCompile Include="GameRoot.cpp" />
     <ClCompile Include="GeoCube.cpp" />
     <ClCompile Include="Handler\HandlerBase.cpp" />
+    <ClCompile Include="Handler\HandlerCamera.cpp" />
     <ClCompile Include="Handler\HandlerGameobject.cpp" />
     <ClCompile Include="Handler\HandlerGeometry.cpp" />
     <ClCompile Include="Handler\HandlerTransformation.cpp" />
@@ -184,6 +186,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Buffer.hpp" />
+    <ClInclude Include="Camera.hpp" />
     <ClInclude Include="CommandBuffer.hpp" />
     <ClInclude Include="CommandPool.hpp" />
     <ClInclude Include="Descriptor.hpp" />
@@ -193,6 +196,7 @@
     <ClInclude Include="GameRoot.hpp" />
     <ClInclude Include="GeoCube.hpp" />
     <ClInclude Include="Handler\HandlerBase.hpp" />
+    <ClInclude Include="Handler\HandlerCamera.hpp" />
     <ClInclude Include="Handler\HandlerGameobject.hpp" />
     <ClInclude Include="Handler\HandlerGeometry.hpp" />
     <ClInclude Include="Handler\HandlerTransformation.hpp" />
