@@ -26,6 +26,16 @@ void Game::Init(VulkanDevice& device, Window& window)
 		ModuleInfo<Texture2D> texturePlanksNM = m_gameRoot.hTexture.create2D("textures//Planks12_nrm.jpg");
 	}
 
+	{//Test Event
+		HandlerEvent& eventHandler = HandlerEvent::instance();
+		eventHandler.registerEvent("test", [this](Event& event) {
+			this->Test(reinterpret_cast<EventKeyPress&>(event));
+		});
+
+		EventKeyPress myEvent(0, 0, 0, 0);
+		eventHandler.notify("test", myEvent);
+	}
+
 	m_renderer.Init(m_device, m_gameRoot);
 }
 

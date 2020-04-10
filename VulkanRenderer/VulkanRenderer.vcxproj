@@ -164,6 +164,7 @@
     <ClCompile Include="GeoCube.cpp" />
     <ClCompile Include="Handler\HandlerBase.cpp" />
     <ClCompile Include="Handler\HandlerCamera.cpp" />
+    <ClCompile Include="Handler\HandlerEvent.cpp" />
     <ClCompile Include="Handler\HandlerGameobject.cpp" />
     <ClCompile Include="Handler\HandlerGeometry.cpp" />
     <ClCompile Include="Handler\HandlerScene.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="GeoCube.hpp" />
     <ClInclude Include="Handler\HandlerBase.hpp" />
     <ClInclude Include="Handler\HandlerCamera.hpp" />
+    <ClInclude Include="Handler\HandlerEvent.hpp" />
     <ClInclude Include="Handler\HandlerGameobject.hpp" />
     <ClInclude Include="Handler\HandlerGeometry.hpp" />
     <ClInclude Include="Handler\HandlerScene.hpp" />

@@ -8,6 +8,8 @@
 #include "GameRoot.hpp"
 #include "GeoCube.hpp"
 
+#include "Handler/HandlerEvent.hpp"
+
 class Game
 {
 private:
@@ -20,5 +22,6 @@ public:
 	void Tick();
 	void Draw();
 	void Fini();
+	void Test(EventKeyPress& event) { LOG_F(WARNING, "GAME TEST CALLBACK"); };
 };
 
