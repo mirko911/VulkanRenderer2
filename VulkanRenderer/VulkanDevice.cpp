@@ -371,6 +371,16 @@ CommandPool& VulkanDevice::getCommandPool()
 	return m_commandPool;
 }
 
+Window& VulkanDevice::getWindow()
+{
+	return m_window;
+}
+
+void VulkanDevice::setWindow(const Window& window)
+{
+	m_window = window;
+}
+
 uint32_t VulkanDevice::findMemoryType(const VkPhysicalDevice& gpu, const uint32_t typeFilter, const VkMemoryPropertyFlags& properties)
 {
 	VkPhysicalDeviceMemoryProperties memProperties;

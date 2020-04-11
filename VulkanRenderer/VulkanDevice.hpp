@@ -8,6 +8,7 @@
 #include "Window.hpp"
 #include "Queue.hpp"
 #include "CommandPool.hpp"
+#include "Window.hpp"
 class VulkanDevice
 {
 private:
@@ -18,6 +19,7 @@ private:
 	Queue m_queueGraphics;
 	Queue m_queuePresent;
 	CommandPool m_commandPool;
+	Window m_window;
 	std::vector<const char*> m_extensionsEnabled;
 	std::vector<const char*> m_validationLayersEnabled;
 
@@ -37,6 +39,8 @@ public:
 	Queue& getGraphicsQueue();
 	Queue& getPresentQueue();
 	CommandPool& getCommandPool();
+	Window& getWindow();
+	void setWindow(const Window& window);
 	static uint32_t findMemoryType(const VkPhysicalDevice& gpu, const uint32_t typeFilter, const VkMemoryPropertyFlags& properties);
 	VkPhysicalDeviceProperties getDeviceProperties();
 };

@@ -7,6 +7,8 @@ void Game::Init(VulkanDevice& device, Window& window)
 
 	LOG_F(INFO, "GAME INIT");
 
+	m_gameRoot.hInput.create<InputKeyboard>();
+	m_gameRoot.hInput.create<InputMouse>();
 	
 	//ModuleInfo<ModuleGeometry> test = m_gameRoot.hGeometry.create<ModuleGeometry>();
 

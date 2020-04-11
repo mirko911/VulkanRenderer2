@@ -129,6 +129,18 @@
     <ClCompile Include="Handler\HandlerEvent.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="Handler\HandlerInput.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="input\InputBase.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="input\InputKeyboard.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="input\InputMouse.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="defintions.hpp">
@@ -243,6 +255,18 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Handler\HandlerEvent.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Handler\HandlerInput.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="input\InputBase.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="input\InputKeyboard.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="input\InputMouse.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

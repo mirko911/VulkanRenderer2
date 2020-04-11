@@ -8,6 +8,9 @@
 #include "GameRoot.hpp"
 #include "GeoCube.hpp"
 
+#include "input/InputKeyboard.hpp"
+#include "input/InputMouse.hpp"
+
 #include "Handler/HandlerEvent.hpp"
 
 class Game

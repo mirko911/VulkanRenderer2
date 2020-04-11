@@ -8,6 +8,7 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	//===============================================================================
 	gameRoot.hGeometry.init(device);
 	gameRoot.hTexture.init(device);
+	gameRoot.hInput.init(device);
 	//===============================================================================
 	//Init Swapchain
 	//===============================================================================

@@ -7,7 +7,7 @@ void Engine::Init()
 	m_device.createInstance(m_window.getRequiredGLFWExtensions());
 	m_device.createSurface(m_window.getGLFWWindow());
 	m_device.createDevice();
-
+	m_device.setWindow(m_window);
 
 	m_game.Init(m_device, m_window);
 
