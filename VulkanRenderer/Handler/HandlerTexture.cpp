@@ -22,5 +22,7 @@ void HandlerTexture::init(VulkanDevice& device)
 	}
 	for (auto& texture : m_texturesCubemap) {
 		texture.second->Init(device.getDevice(), device.getGPU(), device.getGraphicsQueue());
+		texture.second->createTexture(copyCMDBuffer);
+		texture.second->createSampler();
 	}
 }

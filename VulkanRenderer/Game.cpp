@@ -62,6 +62,12 @@ void Game::Init(VulkanDevice& device, Window& window)
 		}
 	}
 
+	{//Test Skybox
+		ModuleInfo<TextureCubemap> skyboxTexture = m_gameRoot.hTexture.createCubemap("textures/sky", "jpg");
+		ModuleInfo<GeoCube> geoCube = m_gameRoot.hGeometry.create<GeoCube>();
+		ModuleInfo<Skybox> geoSkybox = m_gameRoot.hSkybox.create(skyboxTexture.ID, geoSkybox.ID);
+	}
+
 	m_renderer.Init(m_device, m_gameRoot);
 }
 
