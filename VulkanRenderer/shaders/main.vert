@@ -29,5 +29,5 @@ void main() {
 	gl_Position = MVP * vec4(inPosition, 1.0f);
 
     fragColor = ubo.position.xyz;
-	outUV = inUV;
+	outUV = inPosition.xy;
 }
