@@ -37,7 +37,7 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	depthAttachRef.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
 
 	m_renderpass.Init(device.getDevice());
-	m_renderpass.addAttachment(VK_FORMAT_B8G8R8A8_SRGB, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR, false);
+	m_renderpass.addAttachment(VK_FORMAT_B8G8R8A8_SRGB, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR, true);
 	m_renderpass.addAttachment(VK_FORMAT_D32_SFLOAT_S8_UINT, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, false);
 	m_renderpass.addSubpass(colorAttachRef, depthAttachRef);
 	m_renderpass.createRenderpass();

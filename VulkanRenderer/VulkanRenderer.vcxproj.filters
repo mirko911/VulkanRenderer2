@@ -141,6 +141,12 @@
     <ClCompile Include="input\InputMouse.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="Handler\HandlerSkybox.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Skybox.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="defintions.hpp">
@@ -267,6 +273,12 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="input\InputMouse.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Handler\HandlerSkybox.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Skybox.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

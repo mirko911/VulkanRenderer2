@@ -169,6 +169,7 @@
     <ClCompile Include="Handler\HandlerGeometry.cpp" />
     <ClCompile Include="Handler\HandlerInput.cpp" />
     <ClCompile Include="Handler\HandlerScene.cpp" />
+    <ClCompile Include="Handler\HandlerSkybox.cpp" />
     <ClCompile Include="Handler\HandlerTexture.cpp" />
     <ClCompile Include="Handler\HandlerTransformation.cpp" />
     <ClCompile Include="Image.cpp" />
@@ -188,6 +189,7 @@
     <ClCompile Include="Sampler.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="Swapchain.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Texture2D.cpp" />
@@ -213,6 +215,7 @@
     <ClInclude Include="Handler\HandlerGeometry.hpp" />
     <ClInclude Include="Handler\HandlerInput.hpp" />
     <ClInclude Include="Handler\HandlerScene.hpp" />
+    <ClInclude Include="Handler\HandlerSkybox.hpp" />
     <ClInclude Include="Handler\HandlerTexture.hpp" />
     <ClInclude Include="Handler\HandlerTransformation.hpp" />
     <ClInclude Include="Image.hpp" />
@@ -232,6 +235,7 @@
     <ClInclude Include="Sampler.hpp" />
     <ClInclude Include="Scene.hpp" />
     <ClInclude Include="Shader.hpp" />
+    <ClInclude Include="Skybox.hpp" />
     <ClInclude Include="Swapchain.hpp" />
     <ClInclude Include="Texture.hpp" />
     <ClInclude Include="Texture2D.hpp" />
