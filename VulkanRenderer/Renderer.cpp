@@ -187,13 +187,15 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	}
 }
 
-void Renderer::Render()
+void Renderer::Render(GameRoot& gameRoot)
 {
 	vkWaitForFences(m_vulkanDevice.getDevice(), 1, &m_inFlightFences[m_currentFrame], VK_TRUE, UINT64_MAX);
 	m_swapchain.beginFrame(m_imageAvailableSemaphore[m_currentFrame]);
 	if (m_imagesInFlight[m_swapchain.getImageIndex()] != VK_NULL_HANDLE) {
 		vkWaitForFences(m_vulkanDevice.getDevice(), 1, &m_imagesInFlight[m_swapchain.getImageIndex()], VK_TRUE, UINT64_MAX);
 	}
+	
+	updateUniformBuffer(gameRoot);
 
 	VkSubmitInfo submitInfo = {};
 	submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;

@@ -25,7 +25,7 @@ void Camera::updateVectors()
 
 Camera::Camera()
 {
-	m_up = glm::vec3(0.0f, -1.0f, 0.0f);
+	m_up = glm::vec3(0.0f, 1.0f, 0.0f);
 	m_front = glm::vec3(0.0f, 0.0f, 1.0f);
 	m_right = glm::vec3(1.0f, 0.0f, 0.0f);
 	m_yaw = 0.0f;
@@ -33,6 +33,14 @@ Camera::Camera()
 	m_worldUP = m_up;
 	m_position = glm::vec3(0.0f);
 	updateVectors();
+
+	HandlerEvent::instance().registerEvent("acttion", [this](Event& event) {
+		this->onActionEvent(reinterpret_cast<EventAction&>(event));
+		});
+
+	HandlerEvent::instance().registerEvent("mouseMove", [this](Event& event) {
+		this->moveByMouse(reinterpret_cast<EventMouseMove&>(event));
+		});
 }
 
 void Camera::setDebugName(const std::string& name)
@@ -151,4 +159,40 @@ Mat4 Camera::getView() const
 Mat4 Camera::getProjection() const
 {
 	return m_projection;
+}
+
+void Camera::moveByMouse(EventMouseMove& event)
+{
+}
+
+void Camera::onActionEvent(EventAction& event)
+{
+	char forward = 0;
+	char right = 0;
+	char up = 0;
+
+	if (event.action & ActionType::FORWARD) {
+		forward += 1;
+	}
+	if (event.action & ActionType::BACKWARD) {
+		forward = -1;
+	}
+	if (event.action & ActionType::LEFT) {
+		right -= 1;
+	}
+	if (event.action & ActionType::RIGHT) {
+		right =+ 1;
+	}
+	if (event.action & ActionType::UP) {
+		up -= 1;
+	}
+	if (event.action & ActionType::DOWN) {
+		up =+ 1;
+	}
+
+	m_position += m_front * static_cast<float>(forward * moveVelocity);
+	m_position += m_right * static_cast<float>(right * moveVelocity);
+	m_position += m_worldUP * static_cast<float>(up * moveVelocity);
+
+	updateVectors();
 }

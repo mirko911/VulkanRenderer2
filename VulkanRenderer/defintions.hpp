@@ -21,6 +21,7 @@
 #include <glm/gtx/euler_angles.hpp>
 
 
+#include <GLFW/glfw3.h>
 
 typedef glm::mat4 Mat4;
 typedef glm::mat3 Mat3;
@@ -291,3 +292,13 @@ namespace Helper {
 		setImageLayout(cmdbuffer, image, oldImageLayout, newImageLayout, subresourceRange, srcStageMask, dstStageMask);
 	}
 }
+
+enum ActionType : uint32_t {
+	FORWARD = 0x01,
+	BACKWARD = 0x02,
+	RIGHT = 0x04,
+	LEFT = 0x08,
+	UP = 0x10,
+	DOWN = 0x20,
+	SPACE = 0x40
+};

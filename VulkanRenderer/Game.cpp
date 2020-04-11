@@ -42,7 +42,7 @@ void Game::Init(VulkanDevice& device, Window& window)
 
 	{//Test Camera
 		ModuleInfo<Camera> camera = m_gameRoot.hCamera.create();
-		camera->setPosition(Vec3(50, 10, 20), 0, 180);
+		camera->setPosition(Vec3(50, 10, 20), 0, 0);
 		camera->setPerspective(45, SCREEN_WIDTH / SCREEN_HEIGHT, 0.01f, 1000.f);
 		scene->m_activeCamera = camera.ID;
 	}
@@ -68,12 +68,12 @@ void Game::Init(VulkanDevice& device, Window& window)
 void Game::Tick()
 {
 //	LOG_F(INFO, "GAME TICK");
-
+	m_gameRoot.hInput.update(0);
 }
 
 void Game::Draw()
 {
-	m_renderer.Render();
+	m_renderer.Render(m_gameRoot);
 //	LOG_F(INFO, "GAME DRAW");
 
 }

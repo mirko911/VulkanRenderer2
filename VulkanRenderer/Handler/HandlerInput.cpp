@@ -12,3 +12,10 @@ void HandlerInput::init(VulkanDevice& device)
 		ent.second->Init(device);
 	}
 }
+
+void HandlerInput::update(const float fTimeDelta)
+{
+	for (auto& ent : m_entities) {
+		ent.second->update(fTimeDelta);
+	}
+}

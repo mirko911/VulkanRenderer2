@@ -28,6 +28,14 @@ struct EventMouseMove : public Event {
 	{};
 };
 
+struct EventAction : public Event {
+	uint32_t action = 0x0;
+	EventAction(const uint32_t _action) :
+		action(_action)
+	{};
+	EventAction() {};
+};
+
 typedef std::function<void(Event&)> callbackFunction;
 
 

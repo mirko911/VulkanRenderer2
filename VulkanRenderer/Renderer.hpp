@@ -48,7 +48,7 @@ private:
 
 public:
 	void Init(VulkanDevice& device, GameRoot& gameRoot);
-	void Render();
+	void Render(GameRoot& gameRoot);
 	void updateUniformBuffer(GameRoot& gameRoot);
 	void Destroy();
 };

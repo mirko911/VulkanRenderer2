@@ -3,6 +3,10 @@
 #include <string>
 #include "defintions.hpp"
 
+#include "Handler/HandlerEvent.hpp"
+
+constexpr double moveVelocity = .04f;
+
 class Camera
 {
 private:
@@ -50,5 +54,8 @@ public:
 	float getFOV() const;
 	Mat4 getView() const;
 	Mat4 getProjection() const;
+
+	void moveByMouse(EventMouseMove& event);
+	void onActionEvent(EventAction& event);
 };
 

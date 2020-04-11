@@ -17,5 +17,5 @@ void InputMouse::Init(VulkanDevice& device)
 
 void InputMouse::onMouseCallback(EventMouseMove& event)
 {
-	LOG_F(INFO, "Mouse Callback: %f %f ", event.x, event.y);
+//	LOG_F(INFO, "Mouse Callback: %f %f ", event.x, event.y);
 }
