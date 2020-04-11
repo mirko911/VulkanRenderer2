@@ -55,6 +55,6 @@ public:
 	std::unordered_map<int32_t, std::unique_ptr<ModuleTransformation>>& getAll();
 
 
-	//virtual void init(VulkanDevice& device);
+	void init(VulkanDevice& device);
 	//virtual void update(const float fTimeDelta);
 };

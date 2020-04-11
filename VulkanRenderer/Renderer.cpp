@@ -9,6 +9,7 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	gameRoot.hGeometry.init(device);
 	gameRoot.hTexture.init(device);
 	gameRoot.hInput.init(device);
+	gameRoot.hTransformation.init(device);
 	//===============================================================================
 	//Init Swapchain
 	//===============================================================================
@@ -75,6 +76,7 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	descriptor.addLayoutBinding(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT, static_cast<uint32_t>(gameRoot.hTexture.getAll2D().size()));
 	descriptor.addLayoutBinding(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT);
 	descriptor.addLayoutBinding(2, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, VK_SHADER_STAGE_VERTEX_BIT);
+
 	descriptor.createDescriptorSetLayout();
 
 	std::vector<Descriptor> descriptors = { descriptor };
@@ -99,7 +101,8 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	//Init Pipeline
 	//===============================================================================
 	m_pipeline.Init(device.getDevice(), m_renderpass, m_shader);
-	std::vector<VkDescriptorSetLayout> layoutInfo = { descriptors[0].getDescriptorSetLayout() };
+	std::vector<VkDescriptorSetLayout> layoutInfo = { descriptors[0].getDescriptorSetLayout()};
+	m_pipeline.getDepthStencil().depthTestEnable = VK_FALSE;
 	m_pipeline.createLayoutInfo(layoutInfo);
 	m_pipeline.createPipeline(0);
 
@@ -169,13 +172,12 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 			commandbuffer.bindDescriptorSets(m_pipeline.getPipelineLayout(), descriptors[0].getDescriptorSet(), &offset);
 			commandbuffer.bindVertexBuffers(geometry->getVertexBuffer().buffer);
 			commandbuffer.bindIndexBuffers(geometry->getIndexBuffer().buffer);
+			commandbuffer.drawIndexed(static_cast<uint32_t>(geometry->getIndexData().size()));
 		}
 		
 
 
 		
-		commandbuffer.drawQuad();
-
 
 		commandbuffer.endRenderPass();
 		commandbuffer.endCommandBuffer();
@@ -222,14 +224,30 @@ void Renderer::Render()
 
 void Renderer::updateUniformBuffer(GameRoot& gameRoot)
 {
+	Scene* scene = gameRoot.hScene.get(0);
+	Camera* camera = gameRoot.hCamera.get(scene->m_activeCamera);
+
 	MainUBO ubo;
-	ubo.proj = Mat4(1.0f);
-	ubo.view = Mat4(1.0f);
-	ubo.viewProj = Mat4(1.0f);
-	ubo.position = Vec4(1.0, 1.0, 0.0, 1.0f);
+	ubo.proj = camera->getProjection();
+	ubo.view = camera->getView();
+	ubo.viewProj = ubo.proj * ubo.view;
+	ubo.position = Vec4(camera->getPosition(), 1.0f);
+
 	m_buffers.mainUBO.map();
 	memcpy(m_buffers.mainUBO.mapped, &ubo, sizeof(MainUBO));
 	m_buffers.mainUBO.unmap();
+
+	MainUBODyn dynUBO;
+	for (auto& gameObjectPair : gameRoot.hGameObject.getAll()) {
+		ModuleTransformation* transform = gameRoot.hTransformation.get(gameObjectPair.second.get());
+
+		dynUBO.modelMat = transform->getLocalMat();
+
+		m_buffers.mainUBODyn.map();
+		void* ptr = static_cast<char*>(m_buffers.mainUBODyn.mapped) + (gameObjectPair.first * m_dynamicAlignment);
+		memcpy(ptr, &dynUBO, sizeof(MainUBODyn));
+		m_buffers.mainUBODyn.unmap();
+	}
 }
 
 

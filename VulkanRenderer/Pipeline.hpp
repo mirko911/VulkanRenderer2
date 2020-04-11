@@ -56,7 +56,7 @@ public:
 	Shader& getShader();
 	RenderPass& getRenderPass();
 	VkPipeline& get();
-	VkPipelineLayout getPipelineLayout();
+	VkPipelineLayout& getPipelineLayout();
 
 	void createLayoutInfo(std::vector<VkDescriptorSetLayout>& descriptorSetLayouts);
 	void createPipeline(const uint32_t subpass);

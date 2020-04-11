@@ -1,5 +1,10 @@
 #include "ModuleTransformation.hpp"
 
+void ModuleTransformation::init(VulkanDevice& device)
+{
+	updateLocalMat();
+}
+
 Mat4 ModuleTransformation::getGlobalMat() const
 {
 	return m_globalMat;

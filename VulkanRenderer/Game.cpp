@@ -38,6 +38,30 @@ void Game::Init(VulkanDevice& device, Window& window)
 		eventHandler.notify("test", myEvent);
 	}
 
+	ModuleInfo<Scene> scene = m_gameRoot.hScene.create();
+
+	{//Test Camera
+		ModuleInfo<Camera> camera = m_gameRoot.hCamera.create();
+		camera->setPosition(Vec3(50, 10, 20), 0, 180);
+		camera->setPerspective(45, SCREEN_WIDTH / SCREEN_HEIGHT, 0.01f, 1000.f);
+		scene->m_activeCamera = camera.ID;
+	}
+
+	{ //Plane
+		ModuleInfo<GameObjekt> go = m_gameRoot.hGameObject.create();
+		ModuleInfo<GeoCube> geoCube = m_gameRoot.hGeometry.create<GeoCube>();
+		ModuleInfo<ModuleTransformation> transform = m_gameRoot.hTransformation.create();
+
+		go->addModule<ModuleGeometry>(geoCube.ID);
+		go->addModule<ModuleTransformation>(transform.ID);
+
+		transform->scaleAbsolute(500, 0.01, 500);
+
+		for (Vertex& vertex : geoCube->getVertexData()) {
+			vertex.color = { 0,0.5,0 };
+		}
+	}
+
 	m_renderer.Init(m_device, m_gameRoot);
 }
 

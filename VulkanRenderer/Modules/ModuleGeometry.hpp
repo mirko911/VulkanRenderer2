@@ -19,4 +19,6 @@ public:
 	void init(VulkanDevice& device);
 	Buffer& getVertexBuffer();
 	Buffer & getIndexBuffer();
+	std::vector<Vertex>& getVertexData();
+	std::vector<uint32_t>& getIndexData();
 };

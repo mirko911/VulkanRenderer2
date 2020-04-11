@@ -4,3 +4,10 @@ std::unordered_map<int32_t, std::unique_ptr<ModuleTransformation>>& HandlerTrans
 {
 	return m_entities;
 }
+
+void HandlerTransformation::init(VulkanDevice& device)
+{
+	for (auto& ent : m_entities) {
+		ent.second->init(device);
+	}
+}

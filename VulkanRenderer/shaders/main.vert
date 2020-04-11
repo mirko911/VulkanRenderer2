@@ -22,21 +22,11 @@ layout(location = 3) in vec3 inBitangent;
 layout(location = 4) in vec2 inUV;
 layout(location = 5) in vec3 inColor;
 
-vec2 positions[3] = vec2[](
-    vec2(0.0, -0.5),
-    vec2(0.5, 0.5),
-    vec2(-0.5, 0.5)
-);
-
-vec3 colors[3] = vec3[](
-    vec3(1.0, 0.0, 0.0),
-    vec3(0.0, 1.0, 0.0),
-    vec3(0.0, 0.0, 1.0)
-);
 
 void main() {
-    //gl_Position = vec4(positions[gl_VertexIndex], 0.0, 1.0);
-	 gl_Position = vec4(inPosition.xy, 0.0, 1.0);
+
+	mat4 MVP = ubo.viewProj * ubodyn.modelMat;
+	gl_Position = MVP * vec4(inPosition, 1.0f);
 
     fragColor = ubo.position.xyz;
 	outUV = inUV;

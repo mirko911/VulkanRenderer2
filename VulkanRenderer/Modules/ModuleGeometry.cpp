@@ -104,3 +104,13 @@ Buffer& ModuleGeometry::getIndexBuffer()
 {
 	return m_bufferIndex;
 }
+
+std::vector<Vertex>& ModuleGeometry::getVertexData()
+{
+	return m_vertex;
+}
+
+std::vector<uint32_t>& ModuleGeometry::getIndexData()
+{
+	return m_index;
+}
