@@ -55,7 +55,7 @@ void Game::Init(VulkanDevice& device, Window& window)
 		go->addModule<ModuleGeometry>(geoCube.ID);
 		go->addModule<ModuleTransformation>(transform.ID);
 
-		transform->scaleAbsolute(500, 0.01, 500);
+		transform->scaleAbsolute(500.f, 0.01f, 500.f);
 
 		for (Vertex& vertex : geoCube->getVertexData()) {
 			vertex.color = { 0,0.5,0 };
