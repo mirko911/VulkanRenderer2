@@ -153,6 +153,15 @@
     <ClCompile Include="GeoWavefront.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="Modules\ModulePortal.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Handler\HandlerPortal.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="GeoPlane.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="defintions.hpp">
@@ -291,6 +300,15 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="GeoWavefront.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\ModulePortal.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Handler\HandlerPortal.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="GeoPlane.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

@@ -10,6 +10,7 @@
 #include "Handler/HandlerTexture.hpp"
 #include "Handler/HandlerInput.hpp"
 #include "Handler/HandlerSkybox.hpp"
+#include "Handler/HandlerPortal.hpp"
 
 class GameRoot {
 public:
@@ -21,6 +22,7 @@ public:
 	HandlerTexture hTexture;
 	HandlerInput hInput;
 	HandlerSkybox hSkybox;
+	HandlerPortal hPortal;
 
 	int32_t m_mainScene = ENTITY_NOT_FOUND;
 

@@ -162,6 +162,7 @@
     <ClCompile Include="GameObjekt.cpp" />
     <ClCompile Include="GameRoot.cpp" />
     <ClCompile Include="GeoCube.cpp" />
+    <ClCompile Include="GeoPlane.cpp" />
     <ClCompile Include="GeoWavefront.cpp" />
     <ClCompile Include="Handler\HandlerBase.cpp" />
     <ClCompile Include="Handler\HandlerCamera.cpp" />
@@ -169,6 +170,7 @@
     <ClCompile Include="Handler\HandlerGameobject.cpp" />
     <ClCompile Include="Handler\HandlerGeometry.cpp" />
     <ClCompile Include="Handler\HandlerInput.cpp" />
+    <ClCompile Include="Handler\HandlerPortal.cpp" />
     <ClCompile Include="Handler\HandlerScene.cpp" />
     <ClCompile Include="Handler\HandlerSkybox.cpp" />
     <ClCompile Include="Handler\HandlerTexture.cpp" />
@@ -180,6 +182,7 @@
     <ClCompile Include="input\InputMouse.cpp" />
     <ClCompile Include="Modules\ModuleBase.cpp" />
     <ClCompile Include="Modules\ModuleGeometry.cpp" />
+    <ClCompile Include="Modules\ModulePortal.cpp" />
     <ClCompile Include="Modules\ModuleTransformation.cpp" />
     <ClCompile Include="Pipeline.cpp" />
     <ClCompile Include="PipelineSkybox.cpp" />
@@ -210,6 +213,7 @@
     <ClInclude Include="GameObjekt.hpp" />
     <ClInclude Include="GameRoot.hpp" />
     <ClInclude Include="GeoCube.hpp" />
+    <ClInclude Include="GeoPlane.hpp" />
     <ClInclude Include="GeoWavefront.hpp" />
     <ClInclude Include="Handler\HandlerBase.hpp" />
     <ClInclude Include="Handler\HandlerCamera.hpp" />
@@ -217,6 +221,7 @@
     <ClInclude Include="Handler\HandlerGameobject.hpp" />
     <ClInclude Include="Handler\HandlerGeometry.hpp" />
     <ClInclude Include="Handler\HandlerInput.hpp" />
+    <ClInclude Include="Handler\HandlerPortal.hpp" />
     <ClInclude Include="Handler\HandlerScene.hpp" />
     <ClInclude Include="Handler\HandlerSkybox.hpp" />
     <ClInclude Include="Handler\HandlerTexture.hpp" />
@@ -228,6 +233,7 @@
     <ClInclude Include="input\InputMouse.hpp" />
     <ClInclude Include="Modules\ModuleBase.hpp" />
     <ClInclude Include="Modules\ModuleGeometry.hpp" />
+    <ClInclude Include="Modules\ModulePortal.hpp" />
     <ClInclude Include="Modules\ModuleTransformation.hpp" />
     <ClInclude Include="Pipeline.hpp" />
     <ClInclude Include="PipelineSkybox.hpp" />
