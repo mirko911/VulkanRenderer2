@@ -9,6 +9,17 @@ void Game::Init(VulkanDevice& device, Window& window)
 
 	m_gameRoot.hInput.create<InputKeyboard>();
 	m_gameRoot.hInput.create<InputMouse>();
+
+	ModuleInfo<ModuleMaterial> defaultMaterial = m_gameRoot.hMaterial.create();
+	defaultMaterial->setAmbientColor(Vec4(1, 1, 1, 1));
+	defaultMaterial->setDiffuseColor(Vec4(0.5f, 0.5, 0.5f, 1));
+	defaultMaterial->setSpecularColor(Vec4(235, 242, 242, 1));
+	defaultMaterial->setAmbientStrength(0.2f);
+	defaultMaterial->setSpecularStrength(0.32f);
+	defaultMaterial->setTextureID(0);
+	defaultMaterial->setNormalMapID(1);
+
+	m_gameRoot.hMaterial.addAlias(defaultMaterial.ID, "default");
 	
 	//ModuleInfo<ModuleGeometry> test = m_gameRoot.hGeometry.create<ModuleGeometry>();
 
@@ -18,6 +29,8 @@ void Game::Init(VulkanDevice& device, Window& window)
 		ModuleInfo<GameObjekt> go = m_gameRoot.hGameObject.create();
 		ModuleInfo<GeoCube> geoCube = m_gameRoot.hGeometry.create<GeoCube>();
 		ModuleInfo<ModuleTransformation> transform = m_gameRoot.hTransformation.create();
+
+		transform->translateAbsolute(50.f, 50.f, 50.f);
 
 		go->addModule<ModuleGeometry>(geoCube.ID);
 		go->addModule<ModuleTransformation>(transform.ID);
@@ -51,15 +64,17 @@ void Game::Init(VulkanDevice& device, Window& window)
 		ModuleInfo<GameObjekt> go = m_gameRoot.hGameObject.create();
 		ModuleInfo<GeoCube> geoCube = m_gameRoot.hGeometry.create<GeoCube>();
 		ModuleInfo<ModuleTransformation> transform = m_gameRoot.hTransformation.create();
+		ModuleInfo<ModuleMaterial> material = m_gameRoot.hMaterial.create();
 
 		go->addModule<ModuleGeometry>(geoCube.ID);
 		go->addModule<ModuleTransformation>(transform.ID);
+		go->addModule<ModuleMaterial>(material.ID);
 
 		transform->scaleAbsolute(500.f, 0.01f, 500.f);
 
-		for (Vertex& vertex : geoCube->getVertexData()) {
-			vertex.color = { 0,0.5,0 };
-		}
+		material->setDiffuseColor(Vec4(67/255.0f, 230/255.0f, 63/255.f, 1));
+		material->setAmbientColor(Vec4(1.f, 1.f, 1.f, 1.f));
+		material->setAmbientStrength(0.2f);
 	}
 
 	{ //Wavefront Test
@@ -68,24 +83,13 @@ void Game::Init(VulkanDevice& device, Window& window)
 		ModuleInfo<ModuleTransformation> transform = m_gameRoot.hTransformation.create();
 		ModuleInfo<ModuleMaterial> material = m_gameRoot.hMaterial.create();
 
+		material->setDiffuseColor(Vec4(1.f, 0, 0, 1));
+
 		go->addModule<ModuleGeometry>(geo.ID);
 		go->addModule<ModuleTransformation>(transform.ID);
-		go->addModule < ModuleMaterial>(material.ID);
+		go->addModule <ModuleMaterial>(material.ID);
 
 		transform->translate(0, 20, 0);
-
-		for (Vertex& vertex : geo->getVertexData()) {
-			vertex.color = { 1,0,0 };
-		}
-
-		material->setAmbientColor(Vec4(1, 0, 0, 1));
-		material->setDiffuseColor(Vec4(0, 1, 0, 1));
-		material->setSpecularColor(Vec4(0, 0, 1, 1));
-		material->setAmbientStrength(1.0f);
-		material->setSpecularStrength(2.0f);
-		material->setTextureID(0);
-		material->setNormalMapID(1);
-
 	}
 
 	{//Test Skybox

@@ -332,6 +332,10 @@ void Renderer::updateUniformBuffer(GameRoot& gameRoot)
 		ModuleTransformation* transform = gameRoot.hTransformation.get(gameObjectPair.second.get());
 
 		dynUBO.modelMat = transform->getLocalMat();
+		
+		if (gameObjectPair.second->hasModule<ModuleMaterial>()) {
+			dynUBO.materialID = gameObjectPair.second->getModule<ModuleMaterial>();
+		}
 
 		m_buffers.mainUBODyn.map();
 		void* ptr = static_cast<char*>(m_buffers.mainUBODyn.mapped) + (gameObjectPair.first * m_dynamicAlignment);

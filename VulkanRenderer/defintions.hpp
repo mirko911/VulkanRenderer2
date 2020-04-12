@@ -122,11 +122,8 @@ struct MaterialBlock {
 	Vec4 diffuseColor = Vec4(0.5);
 	Vec4 specularColor = Vec4(0.0);
 	Vec4 strength = Vec4(0, 0, 0, 0);
-	uint32_t textureID = -1;
-	uint32_t normalMapID = -1;
-	
-	float ambientStrength = 0.0f;
-	float specularStrength = 0.0f;
+	int32_t textureID = -1;
+	int32_t normalMapID = -1;
 };
 
 struct MainUBO{
@@ -138,6 +135,7 @@ struct MainUBO{
 
 struct MainUBODyn {
 	Mat4 modelMat;
+	uint32_t materialID = 0; //0 = default mat
 };
 
 struct SkyboxUBODyn {
