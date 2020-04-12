@@ -23,4 +23,7 @@ public:
 	HandlerSkybox hSkybox;
 
 	int32_t m_mainScene = ENTITY_NOT_FOUND;
+
+	void Init(VulkanDevice& device);
+	void update(const float ftimeDelta);
 };

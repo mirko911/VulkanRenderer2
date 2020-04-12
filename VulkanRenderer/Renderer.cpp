@@ -3,13 +3,7 @@
 void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 {
 	m_vulkanDevice = device;
-	//===============================================================================
-	//Init Gamelogik
-	//===============================================================================
-	gameRoot.hGeometry.init(device);
-	gameRoot.hTexture.init(device);
-	gameRoot.hInput.init(device);
-	gameRoot.hTransformation.init(device);
+
 	//===============================================================================
 	//Init Swapchain
 	//===============================================================================

@@ -68,13 +68,14 @@ void Game::Init(VulkanDevice& device, Window& window)
 		ModuleInfo<Skybox> geoSkybox = m_gameRoot.hSkybox.create(skyboxTexture.ID, geoCube.ID);
 	}
 
+	m_gameRoot.Init(m_device);
 	m_renderer.Init(m_device, m_gameRoot);
 }
 
 void Game::Tick()
 {
 //	LOG_F(INFO, "GAME TICK");
-	m_gameRoot.hInput.update(0);
+	m_gameRoot.update(0);
 }
 
 void Game::Draw()
