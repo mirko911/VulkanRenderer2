@@ -21,9 +21,13 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	//===============================================================================
 	//Init Shader
 	//===============================================================================
-	m_shader.Init(device.getDevice());
-	m_shader.addShaderStage(VK_SHADER_STAGE_VERTEX_BIT, "shaders/main.vert.spv");
-	m_shader.addShaderStage(VK_SHADER_STAGE_FRAGMENT_BIT, "shaders/main.frag.spv");
+	m_shaders.main.Init(device.getDevice());
+	m_shaders.main.addShaderStage(VK_SHADER_STAGE_VERTEX_BIT, "shaders/main.vert.spv");
+	m_shaders.main.addShaderStage(VK_SHADER_STAGE_FRAGMENT_BIT, "shaders/main.frag.spv");
+
+	m_shaders.skybox.Init(device.getDevice());
+	m_shaders.skybox.addShaderStage(VK_SHADER_STAGE_VERTEX_BIT, "shaders/skybox.vert.spv");
+	m_shaders.skybox.addShaderStage(VK_SHADER_STAGE_FRAGMENT_BIT, "shaders/skybox.frag.spv");
 
 	//===============================================================================
 	//Init Renderpass
@@ -63,6 +67,13 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 		sizeof(MainUBODyn) * MAX_DYNUBO_SIZE
 	);
 
+	Buffer::createBuffer(device.getDevice(), device.getGPU(),
+		VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
+		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+		m_buffers.skyboxUBODyn,
+		sizeof(SkyboxUBODyn) * 2
+	);
+
 	//===============================================================================
 	//Fill UBO-Buffers
 	//===============================================================================
@@ -76,10 +87,15 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	descriptor.addLayoutBinding(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT, static_cast<uint32_t>(gameRoot.hTexture.getAll2D().size()));
 	descriptor.addLayoutBinding(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT);
 	descriptor.addLayoutBinding(2, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, VK_SHADER_STAGE_VERTEX_BIT);
-
 	descriptor.createDescriptorSetLayout();
 
-	std::vector<Descriptor> descriptors = { descriptor };
+	Descriptor descriptorSky;
+	descriptorSky.Init(device.getDevice());
+	descriptorSky.addLayoutBinding(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT, static_cast<uint32_t>(gameRoot.hTexture.getAllCubemap().size()));
+	descriptorSky.addLayoutBinding(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, VK_SHADER_STAGE_VERTEX_BIT);
+	descriptorSky.createDescriptorSetLayout();
+
+	std::vector<Descriptor> descriptors = { descriptor, descriptorSky };
 
 	DescriptorPool descriptorPool;
 	descriptorPool.Init(device.getDevice(), device.getGPU());
@@ -87,24 +103,38 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	descriptorPool.allocateDescriptorSets(descriptors);
 
 
-	std::vector<VkDescriptorImageInfo> imageInfos;
-	imageInfos.reserve(gameRoot.hTexture.getAll2D().size());
+	std::vector<VkDescriptorImageInfo> imageInfosMain;
+	imageInfosMain.reserve(gameRoot.hTexture.getAll2D().size());
 	for (auto& texture2D : gameRoot.hTexture.getAll2D()) {
-		imageInfos.emplace_back(std::move(texture2D.second->getDescriptorImageInfo()));
+		imageInfosMain.emplace_back(std::move(texture2D.second->getDescriptorImageInfo()));
 	}
 
-	descriptors[0].writeSet(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, imageInfos);
+	std::vector<VkDescriptorImageInfo> imageInfosSky;
+	imageInfosSky.reserve(gameRoot.hTexture.getAllCubemap().size());
+	for (auto& textureCubemap : gameRoot.hTexture.getAllCubemap()) {
+		imageInfosSky.emplace_back(std::move(textureCubemap.second->getDescriptorImageInfo()));
+	}
+
+	descriptors[0].writeSet(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, imageInfosMain);
 	descriptors[0].writeSet(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, m_buffers.mainUBO);
 	descriptors[0].writeSet(2, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, m_buffers.mainUBODyn);
+
+	descriptors[1].writeSet(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, imageInfosSky);
+	descriptors[1].writeSet(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, m_buffers.skyboxUBODyn);
 
 	//===============================================================================
 	//Init Pipeline
 	//===============================================================================
-	m_pipeline.Init(device.getDevice(), m_renderpass, m_shader);
-	std::vector<VkDescriptorSetLayout> layoutInfo = { descriptors[0].getDescriptorSetLayout()};
-	m_pipeline.getDepthStencil().depthTestEnable = VK_FALSE;
-	m_pipeline.createLayoutInfo(layoutInfo);
-	m_pipeline.createPipeline(0);
+	m_pipelines.skybox.Init(device.getDevice(), m_renderpass, m_shaders.skybox);
+	std::vector<VkDescriptorSetLayout> layoutInfoSky = { descriptors[1].getDescriptorSetLayout() };
+	m_pipelines.skybox.createLayoutInfo(layoutInfoSky);
+	m_pipelines.skybox.createPipeline(0);
+
+	m_pipelines.main.Init(device.getDevice(), m_renderpass, m_shaders.main);
+	std::vector<VkDescriptorSetLayout> layoutInfoMain = { descriptors[0].getDescriptorSetLayout()};
+	m_pipelines.main.getDepthStencil().depthTestEnable = VK_FALSE;
+	m_pipelines.main.createLayoutInfo(layoutInfoMain);
+	m_pipelines.main.createPipeline(0);
 
 	//===============================================================================
 	//Init FrameBuffers
@@ -162,22 +192,43 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 		auto beginInfo = m_renderpass.getBeginInfo(color, i);
 		commandbuffer.beginRenderPass(beginInfo);
 
-		commandbuffer.bindPipeline(m_pipeline);
 
-		for (auto& gameobject : gameRoot.hGameObject.getAll()) {
-			const uint32_t offset = static_cast<uint32_t>(gameobject.first) * static_cast<uint32_t>(m_dynamicAlignment);
+		{
+			//======================
+			// Draw Skybox
+			//======================
+			commandbuffer.bindPipeline(m_pipelines.skybox);
 
-			ModuleGeometry* geometry = gameRoot.hGeometry.get<ModuleGeometry>(gameobject.second.get());
+			Skybox* skybox = gameRoot.hSkybox.get(0);
+			ModuleGeometry* geometry = gameRoot.hGeometry.get<ModuleGeometry>(skybox->getGeoID());
 
-			commandbuffer.bindDescriptorSets(m_pipeline.getPipelineLayout(), descriptors[0].getDescriptorSet(), &offset);
+			const uint32_t offset = (0);
+			const uint32_t dynUboOffset = static_cast<uint32_t>(m_dynamicAlignment * 0);
+
+
+			commandbuffer.bindDescriptorSets(m_pipelines.skybox.getPipelineLayout(), descriptors[1].getDescriptorSet(), &offset);
 			commandbuffer.bindVertexBuffers(geometry->getVertexBuffer().buffer);
 			commandbuffer.bindIndexBuffers(geometry->getIndexBuffer().buffer);
 			commandbuffer.drawIndexed(static_cast<uint32_t>(geometry->getIndexData().size()));
 		}
-		
+		{
+			//======================
+			// Draw Main Scene
+			//======================
+			commandbuffer.bindPipeline(m_pipelines.main);
 
+			for (auto& gameobject : gameRoot.hGameObject.getAll()) {
+				const uint32_t offset = static_cast<uint32_t>(gameobject.first)* static_cast<uint32_t>(m_dynamicAlignment);
 
-		
+				ModuleGeometry* geometry = gameRoot.hGeometry.get<ModuleGeometry>(gameobject.second.get());
+
+				commandbuffer.bindDescriptorSets(m_pipelines.main.getPipelineLayout(), descriptors[0].getDescriptorSet(), &offset);
+				commandbuffer.bindVertexBuffers(geometry->getVertexBuffer().buffer);
+				commandbuffer.bindIndexBuffers(geometry->getIndexBuffer().buffer);
+				commandbuffer.drawIndexed(static_cast<uint32_t>(geometry->getIndexData().size()));
+			}
+		}
+
 
 		commandbuffer.endRenderPass();
 		commandbuffer.endCommandBuffer();
@@ -250,14 +301,22 @@ void Renderer::updateUniformBuffer(GameRoot& gameRoot)
 		memcpy(ptr, &dynUBO, sizeof(MainUBODyn));
 		m_buffers.mainUBODyn.unmap();
 	}
+
+	SkyboxUBODyn skyboxDynUBO;
+	skyboxDynUBO.viewProj = camera->getProjection() * Mat4(1.0f);
+	skyboxDynUBO.skyboxID = 0;
+	m_buffers.skyboxUBODyn.map();
+	void* ptr = static_cast<char*>(m_buffers.skyboxUBODyn.mapped) + (0 * m_dynamicAlignment);
+	memcpy(ptr, &skyboxDynUBO, sizeof(SkyboxUBODyn));
+	m_buffers.skyboxUBODyn.unmap();
 }
 
 
 void Renderer::Destroy()
 {
 	return;
-	m_shader.Destroy();
-	m_pipeline.Destroy();
+	m_shaders.main.Destroy();
+	m_pipelines.main.Destroy();
 	m_renderpass.Destroy();
 	m_swapchain.Destroy();
 }

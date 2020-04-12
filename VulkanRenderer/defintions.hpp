@@ -127,6 +127,11 @@ struct MainUBODyn {
 	Mat4 modelMat;
 };
 
+struct SkyboxUBODyn {
+	Mat4 viewProj;
+	int skyboxID;
+};
+
 template <typename T>
 struct ModuleInfo {
 	const int32_t ID;

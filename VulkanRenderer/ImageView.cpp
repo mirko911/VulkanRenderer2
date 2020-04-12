@@ -18,12 +18,12 @@ void ImageView::create(VkDevice& device, const VkImage& image, const VkFormat fo
 	}
 }
 
-void ImageView::create(VkDevice& device, Image& image, const VkImageAspectFlags aspectFlags)
+void ImageView::create(VkDevice& device, Image& image, const VkImageAspectFlags aspectFlags, const VkImageViewType viewtype )
 {
 	VkImageViewCreateInfo viewInfo = {};
 	viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
 	viewInfo.image = image.getImage();
-	viewInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
+	viewInfo.viewType = viewtype;
 	viewInfo.format = image.getFormat();
 	viewInfo.subresourceRange.aspectMask = aspectFlags;
 	viewInfo.subresourceRange.baseMipLevel = 0;

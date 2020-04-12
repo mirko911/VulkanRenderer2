@@ -11,7 +11,7 @@
 
 class Pipeline
 {
-private:
+protected:
 	VkDevice m_device;
 	VkPipeline m_pipeline;
 	VkPipelineLayout m_pipelineLayout;
@@ -36,7 +36,7 @@ private:
 	VkGraphicsPipelineCreateInfo m_pipelineInfo = {};
 	VkPipelineDynamicStateCreateInfo m_dynamicStateInfo = {};
 
-	void fillPipelineStructs();
+	virtual void fillPipelineStructs();
 public:
 	Pipeline();
 	Pipeline(const Pipeline& pipeline);

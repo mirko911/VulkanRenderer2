@@ -155,7 +155,7 @@ void TextureCubemap::createTexture(CommandBuffer& copyCMDBuffer)
 	vkQueueSubmit(m_queueGraphics.getQueue(), 1, &submitInfo, VK_NULL_HANDLE);
 	vkQueueWaitIdle(m_queueGraphics.getQueue());
 
-	m_imageView.create(m_device, m_image, VK_IMAGE_ASPECT_COLOR_BIT);
+	m_imageView.create(m_device, m_image, VK_IMAGE_ASPECT_COLOR_BIT, VK_IMAGE_VIEW_TYPE_CUBE);
 
 	stagingBuffer.destroy();
 }

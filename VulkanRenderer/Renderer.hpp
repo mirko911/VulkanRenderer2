@@ -7,6 +7,7 @@
 #include "Shader.hpp"
 #include "RenderPass.hpp"
 #include "Pipeline.hpp"
+#include "PipelineSkybox.hpp"
 #include "Swapchain.hpp"
 #include "Texture.hpp"
 #include "CommandBuffer.hpp"
@@ -23,8 +24,15 @@ class Renderer
 {
 private:
 	RenderPass m_renderpass;
-	Pipeline m_pipeline;
-	Shader m_shader;
+
+	struct {
+		Pipeline main;
+		PipelineSkybox skybox;
+	}m_pipelines;
+	struct {
+		Shader main;
+		Shader skybox;
+	} m_shaders;
 	VulkanDevice m_vulkanDevice;
 	Swapchain m_swapchain;
 
@@ -41,6 +49,7 @@ private:
 	struct {
 		Buffer mainUBO;
 		Buffer mainUBODyn;
+		Buffer skyboxUBODyn;
 	} m_buffers;
 
 	//Dynamic Alignment Size for DynUBO

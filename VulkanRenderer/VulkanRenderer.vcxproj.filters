@@ -147,6 +147,9 @@
     <ClCompile Include="Skybox.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="PipelineSkybox.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="defintions.hpp">
@@ -279,6 +282,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Skybox.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="PipelineSkybox.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

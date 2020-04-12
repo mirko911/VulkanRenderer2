@@ -181,6 +181,7 @@
     <ClCompile Include="Modules\ModuleGeometry.cpp" />
     <ClCompile Include="Modules\ModuleTransformation.cpp" />
     <ClCompile Include="Pipeline.cpp" />
+    <ClCompile Include="PipelineSkybox.cpp" />
     <ClCompile Include="Queue.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="main.cpp" />
@@ -227,6 +228,7 @@
     <ClInclude Include="Modules\ModuleGeometry.hpp" />
     <ClInclude Include="Modules\ModuleTransformation.hpp" />
     <ClInclude Include="Pipeline.hpp" />
+    <ClInclude Include="PipelineSkybox.hpp" />
     <ClInclude Include="Queue.hpp" />
     <ClInclude Include="defintions.hpp" />
     <ClInclude Include="Engine.hpp" />
