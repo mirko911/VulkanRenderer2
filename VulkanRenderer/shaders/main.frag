@@ -35,7 +35,8 @@ const vec3 lightPos = vec3(50,50,50);
 
 void main() {
     const Material material = getMaterial(inMaterialID);
-
+    	// Desaturate color
+   // vec3 diffuseColor = vec3(mix(material.diffuseColor.xyz, vec3(dot(vec3(0.2126,0.7152,0.0722), material.diffuseColor.xyz)), 0.65));	
 
     vec3 N = normalize(inNormal);
 //	if(ubodyn.normalMapID >= 0){
@@ -54,13 +55,16 @@ void main() {
 	float spec = pow(max(dot(R, V), 0.0), 32);
 	vec3 specular = material.strength.y *material.specularColor.xyz * spec;
 //
-
+    vec3 result = vec3(0.5f);
     if(material.textureID >= 0){
-    	outColor = texture(texSampler[material.textureID], inUV) * vec4(ambient + specular, 1.0f) ;
+    	result = texture(texSampler[material.textureID], inUV).xyz * vec3(ambient + specular) ;
     }else{
-        outColor =  vec4(ambient + diffuse + specular, 1.0f) ;
+        result =  ambient + diffuse + specular ;
     }
 
+     //float gamma = 2.2;
+    // outColor = vec4(pow(result, vec3(1.0/gamma)), 1.0f);
+        outColor = vec4(result, 1.0f);
    // float specStrenght = materials.material[0].strength.y;
   //  float ambientStrength = materials.material[0].strength.x;
 

@@ -19,7 +19,17 @@ void Game::Init(VulkanDevice& device, Window& window)
 	defaultMaterial->setTextureID(0);
 	defaultMaterial->setNormalMapID(1);
 
-	m_gameRoot.hMaterial.addAlias(defaultMaterial.ID, "default");
+	ModuleInfo<ModuleMaterial> orangeMaterial = m_gameRoot.hMaterial.create();
+	orangeMaterial->setDiffuseColor(Vec4(1.f, 0.501f, 0.313f, 1.f));
+	orangeMaterial->setAmbientColor(Vec4(1.f, 1.f, 1.f, 1.f));
+	orangeMaterial->setAmbientStrength(0.0f);
+	m_gameRoot.hMaterial.addAlias(orangeMaterial.ID, "orange");
+
+	ModuleInfo<ModuleMaterial> blueMaterial = m_gameRoot.hMaterial.create();
+	blueMaterial->setDiffuseColor(Vec4(0.f, 0.f, 1.0, 1.f));
+	blueMaterial->setAmbientColor(Vec4(1.f, 1.f, 1.f, 1.f));
+	blueMaterial->setAmbientStrength(0.1f);
+	m_gameRoot.hMaterial.addAlias(blueMaterial.ID, "blue");
 	
 	//ModuleInfo<ModuleGeometry> test = m_gameRoot.hGeometry.create<ModuleGeometry>();
 
@@ -96,6 +106,36 @@ void Game::Init(VulkanDevice& device, Window& window)
 		ModuleInfo<TextureCubemap> skyboxTexture = m_gameRoot.hTexture.createCubemap("textures/sky", "jpg");
 		ModuleInfo<GeoCube> geoCube = m_gameRoot.hGeometry.create<GeoCube>();
 		ModuleInfo<Skybox> geoSkybox = m_gameRoot.hSkybox.create(skyboxTexture.ID, geoCube.ID);
+	}
+
+
+	{//Portal Wall #1
+		ModuleInfo<GameObjekt> go = m_gameRoot.hGameObject.create();
+		ModuleInfo<GeoCube> geo = m_gameRoot.hGeometry.create<GeoCube>();
+		ModuleInfo<ModuleTransformation> transform = m_gameRoot.hTransformation.create();
+
+
+		go->addModule<ModuleGeometry>(geo.ID);
+		go->addModule<ModuleTransformation>(transform.ID);
+		go->addModule <ModuleMaterial>(m_gameRoot.hMaterial.getID("orange"));
+
+		transform->translate(30, 10, 0);
+		transform->scaleAbsolute(20, 20, 1);
+	}
+
+	{//Portal Wall #2
+		ModuleInfo<GameObjekt> go = m_gameRoot.hGameObject.create();
+		ModuleInfo<GeoCube> geo = m_gameRoot.hGeometry.create<GeoCube>();
+		ModuleInfo<ModuleTransformation> transform = m_gameRoot.hTransformation.create();
+
+
+		go->addModule<ModuleGeometry>(geo.ID);
+		go->addModule<ModuleTransformation>(transform.ID);
+		go->addModule <ModuleMaterial>(m_gameRoot.hMaterial.getID("blue"));
+
+		transform->translate(-30, 10, 0);
+		transform->scaleAbsolute(20, 20, 1);
+
 	}
 
 
