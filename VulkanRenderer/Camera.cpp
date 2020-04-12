@@ -25,7 +25,7 @@ void Camera::updateVectors()
 
 Camera::Camera()
 {
-	m_up = glm::vec3(0.0f, 1.0f, 0.0f);
+	m_up = glm::vec3(0.0f, -1.0f, 0.0f);
 	m_front = glm::vec3(0.0f, 0.0f, 1.0f);
 	m_right = glm::vec3(1.0f, 0.0f, 0.0f);
 	m_yaw = 0.0f;
@@ -163,6 +163,27 @@ Mat4 Camera::getProjection() const
 
 void Camera::moveByMouse(EventMouseMove& event)
 {
+	//y = pitch
+	//x = yaw
+	if (event.speed_x > 0) {
+		m_yaw += (float)yawSpeed;
+	}
+	else if (event.speed_x < 0) {
+		m_yaw -= (float)yawSpeed;
+	}
+
+	if (event.speed_y > 0) {
+		m_pitch -= (float)pitchSpeed;
+	}
+	else if (event.speed_y < 0) {
+		m_pitch += (float)pitchSpeed;
+	}
+
+	std::clamp(m_pitch, -89.0f, 89.0f);
+	//if (m_pitch > 89.0f) m_pitch = 89.0f;
+	//if (m_pitch < -89.0f) m_pitch = -89.0f;
+	updateVectors();
+
 }
 
 void Camera::onActionEvent(EventAction& event)

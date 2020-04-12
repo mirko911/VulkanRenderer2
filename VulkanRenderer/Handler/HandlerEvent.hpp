@@ -21,11 +21,14 @@ struct EventKeyPress : public Event {
 };
 
 struct EventMouseMove : public Event {
-	const double x;
-	const double y;
-	EventMouseMove(const double _x, const double _y) :
-		x(_x), y(_y)
+	double x;
+	double y;
+	double speed_x;
+	double speed_y;
+	EventMouseMove(const double _x, const double _y, const double _speed_x, const double _speed_y) :
+		x(_x), y(_y), speed_x(_speed_x), speed_y(_speed_y)
 	{};
+	EventMouseMove() {};
 };
 
 struct EventAction : public Event {

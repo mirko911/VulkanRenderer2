@@ -1,11 +1,14 @@
 #pragma once
 
+#include <algorithm>
 #include <string>
 #include "defintions.hpp"
 
 #include "Handler/HandlerEvent.hpp"
 
 constexpr double moveVelocity = .04f;
+constexpr double yawSpeed = 0.5;
+constexpr double pitchSpeed = 0.5;
 
 class Camera
 {
