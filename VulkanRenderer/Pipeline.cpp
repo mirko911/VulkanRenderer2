@@ -32,7 +32,7 @@ void Pipeline::fillPipelineStructs()
 
 	m_scissor = {};
 	m_scissor.offset = { 0, 0 };
-	m_scissor.extent = { m_renderPass.getWidth(), m_renderPass.getHeight() };
+	m_scissor.extent = m_renderPass.getExtend();
 
 	m_viewportState = {};
 	m_viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;

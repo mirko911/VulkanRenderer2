@@ -60,3 +60,11 @@ std::vector<const char*> Window::getRequiredGLFWExtensions()
 
 	return extensions;
 }
+
+void Window::getFrameBufferSize(uint32_t& width, uint32_t& height)
+{
+	glfwGetFramebufferSize(m_windowGLFW,
+		reinterpret_cast<int*>(&width),
+		reinterpret_cast<int*>(&height)
+	);
+}

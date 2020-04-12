@@ -7,8 +7,8 @@
 
 #include "loguru.hpp"
 
-constexpr int SCREEN_WIDTH = 1280;
-constexpr int SCREEN_HEIGHT = 720;
+constexpr int SCREEN_WIDTH = 2560;
+constexpr int SCREEN_HEIGHT = 1440;
 
 class Window
 {
@@ -39,5 +39,7 @@ public:
 
 	//Returns a vector of required GLFW extensions
 	std::vector<const char*> getRequiredGLFWExtensions();
+
+	void getFrameBufferSize(uint32_t& width, uint32_t& height);
 };
 

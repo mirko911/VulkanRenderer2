@@ -7,7 +7,10 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	//===============================================================================
 	//Init Swapchain
 	//===============================================================================
-	m_swapchain.Init(device.getDevice(), device.getGPU(), device.getSurface(), device.getGraphicsQueue(), device.getPresentQueue(), 1280, 720);
+	uint32_t frameBufferWidth = 0;
+	uint32_t frameBufferHeight = 0;
+	device.getWindow().getFrameBufferSize(frameBufferWidth, frameBufferHeight);
+	m_swapchain.Init(device.getDevice(), device.getGPU(), device.getSurface(), device.getGraphicsQueue(), device.getPresentQueue(), frameBufferWidth, frameBufferHeight);
 	m_swapchain.create();
 	m_swapchain.createImageViews();
 
@@ -134,6 +137,18 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	descriptors[1].writeSet(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, m_buffers.skyboxUBODyn);
 
 	//===============================================================================
+	//Init FrameBuffers
+	//===============================================================================
+	Texture depthTexture;
+	depthTexture.Init(device.getDevice(), device.getGPU(), device.getGraphicsQueue());
+	depthTexture.createEmptyDepthImage(optimalDepthFormat, frameBufferWidth, frameBufferHeight, 1, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, 1);
+
+	for (uint32_t i = 0; i < m_swapchain.getImageCount(); i++) {
+		std::vector<VkImageView> views{ m_swapchain.getImageViews()[i].get(), depthTexture.getImageView().get() };
+		m_renderpass.createFrameBuffer(views, frameBufferWidth, frameBufferHeight, 1);
+	}
+
+	//===============================================================================
 	//Init Pipeline
 	//===============================================================================
 	m_pipelines.mainDepth.Init(device.getDevice(), m_renderpass, m_shaders.depth);
@@ -153,20 +168,6 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	//m_pipelines.main.getDepthStencil().depthTestEnable = VK_FALSE;
 	m_pipelines.main.createLayoutInfo(layoutInfoMain);
 	m_pipelines.main.createPipeline(1);
-
-	//===============================================================================
-	//Init FrameBuffers
-	//===============================================================================
-	Texture depthTexture;
-	depthTexture.Init(device.getDevice(), device.getGPU(), device.getGraphicsQueue());
-	depthTexture.createEmptyDepthImage(optimalDepthFormat, 1280, 720, 1, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, 1);
-
-	for (uint32_t i = 0; i < m_swapchain.getImageCount(); i++) {
-		std::vector<VkImageView> views{ m_swapchain.getImageViews()[i].get(), depthTexture.getImageView().get() };
-		m_renderpass.createFrameBuffer(views, 1280, 720, 1);
-	}
-
-
 
 	//===============================================================================
 	//Init Sync Objects

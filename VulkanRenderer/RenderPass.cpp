@@ -115,17 +115,17 @@ VkRenderPass& RenderPass::get()
 
 VkExtent2D RenderPass::getExtend()
 {
-	return { 1280, 720 };
+	return { m_imageWidth, m_imageHeight };
 }
 
 uint32_t RenderPass::getWidth()
 {
-	return 1280;
+	return m_imageWidth;
 }
 
 uint32_t RenderPass::getHeight()
 {
-	return 720;
+	return m_imageHeight;
 }
 
 VkRenderPassBeginInfo RenderPass::getBeginInfo(const VkClearColorValue& backgroundColor, const uint32_t index)
