@@ -6,9 +6,9 @@
 
 #include "Handler/HandlerEvent.hpp"
 
-constexpr double moveVelocity = .04f;
-constexpr double yawSpeed = 0.5;
-constexpr double pitchSpeed = 0.5;
+constexpr double moveVelocity = .002f;
+constexpr double yawSpeed = 0.3;
+constexpr double pitchSpeed = 0.4;
 
 class Camera
 {
