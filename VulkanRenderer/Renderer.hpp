@@ -50,6 +50,7 @@ private:
 	size_t m_currentFrame = 0;
 
 	struct {
+		Buffer materialUBO;
 		Buffer mainUBO;
 		Buffer mainUBODyn;
 		Buffer skyboxUBODyn;

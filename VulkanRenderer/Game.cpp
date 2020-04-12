@@ -62,19 +62,30 @@ void Game::Init(VulkanDevice& device, Window& window)
 		}
 	}
 
-	{ //Plane
+	{ //Wavefront Test
 		ModuleInfo<GameObjekt> go = m_gameRoot.hGameObject.create();
 		ModuleInfo<GeoWavefront> geo = m_gameRoot.hGeometry.create<GeoWavefront>("assets/suzanne.obj");
 		ModuleInfo<ModuleTransformation> transform = m_gameRoot.hTransformation.create();
+		ModuleInfo<ModuleMaterial> material = m_gameRoot.hMaterial.create();
 
 		go->addModule<ModuleGeometry>(geo.ID);
 		go->addModule<ModuleTransformation>(transform.ID);
+		go->addModule < ModuleMaterial>(material.ID);
 
 		transform->translate(0, 20, 0);
 
 		for (Vertex& vertex : geo->getVertexData()) {
-		//	vertex.color = { ,0,0,0 };
+			vertex.color = { 1,0,0 };
 		}
+
+		material->setAmbientColor(Vec4(1, 0, 0, 1));
+		material->setDiffuseColor(Vec4(0, 1, 0, 1));
+		material->setSpecularColor(Vec4(0, 0, 1, 1));
+		material->setAmbientStrength(1.0f);
+		material->setSpecularStrength(2.0f);
+		material->setTextureID(0);
+		material->setNormalMapID(1);
+
 	}
 
 	{//Test Skybox
@@ -82,6 +93,7 @@ void Game::Init(VulkanDevice& device, Window& window)
 		ModuleInfo<GeoCube> geoCube = m_gameRoot.hGeometry.create<GeoCube>();
 		ModuleInfo<Skybox> geoSkybox = m_gameRoot.hSkybox.create(skyboxTexture.ID, geoCube.ID);
 	}
+
 
 	m_gameRoot.Init(m_device);
 	m_renderer.Init(m_device, m_gameRoot);

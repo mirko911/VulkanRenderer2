@@ -4,14 +4,14 @@
 layout(location = 0) out vec3 fragColor;
 layout(location = 1) out vec2 outUV;
 
-layout(set = 0, binding = 1) uniform UBO{
+layout(set = 0, binding = 2) uniform UBO{
 	mat4 projection;
 	mat4 view;
     mat4 viewProj;
     vec4 position;
 } ubo;
 
-layout(set = 0, binding = 2) uniform UBODyn{
+layout(set = 0, binding = 3) uniform UBODyn{
 	mat4 modelMat;
 } ubodyn;
 

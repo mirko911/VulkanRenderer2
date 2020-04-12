@@ -76,6 +76,13 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 		sizeof(SkyboxUBODyn) * 2
 	);
 
+	Buffer::createBuffer(device.getDevice(), device.getGPU(),
+		VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
+		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+		m_buffers.materialUBO,
+		sizeof(MaterialUBO)
+	);
+
 	//===============================================================================
 	//Fill UBO-Buffers
 	//===============================================================================
@@ -87,8 +94,9 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	Descriptor descriptor;
 	descriptor.Init(device.getDevice());
 	descriptor.addLayoutBinding(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, VK_SHADER_STAGE_FRAGMENT_BIT, static_cast<uint32_t>(gameRoot.hTexture.getAll2D().size()));
-	descriptor.addLayoutBinding(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT);
-	descriptor.addLayoutBinding(2, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, VK_SHADER_STAGE_VERTEX_BIT);
+	descriptor.addLayoutBinding(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_FRAGMENT_BIT);
+	descriptor.addLayoutBinding(2, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT);
+	descriptor.addLayoutBinding(3, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, VK_SHADER_STAGE_VERTEX_BIT);
 	descriptor.createDescriptorSetLayout();
 
 	Descriptor descriptorSky;
@@ -118,8 +126,9 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	}
 
 	descriptors[0].writeSet(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, imageInfosMain);
-	descriptors[0].writeSet(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, m_buffers.mainUBO);
-	descriptors[0].writeSet(2, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, m_buffers.mainUBODyn);
+	descriptors[0].writeSet(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, m_buffers.materialUBO);
+	descriptors[0].writeSet(2, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, m_buffers.mainUBO);
+	descriptors[0].writeSet(3, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, m_buffers.mainUBODyn);
 
 	descriptors[1].writeSet(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, imageInfosSky);
 	descriptors[1].writeSet(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, m_buffers.skyboxUBODyn);
@@ -329,6 +338,16 @@ void Renderer::updateUniformBuffer(GameRoot& gameRoot)
 		memcpy(ptr, &dynUBO, sizeof(MainUBODyn));
 		m_buffers.mainUBODyn.unmap();
 	}
+
+
+	MaterialUBO materialUBO;
+	int i = 0;
+	for (auto& materialPair : gameRoot.hMaterial.getAll()) {
+		materialUBO.materials[i++] = materialPair.second->getMaterialBlock();
+	}
+	m_buffers.materialUBO.map();
+	memcpy(m_buffers.materialUBO.mapped, &materialUBO, sizeof(MaterialUBO));
+	m_buffers.materialUBO.unmap();
 
 	SkyboxUBODyn skyboxDynUBO;
 	skyboxDynUBO.viewProj = camera->getProjection() * Mat4(1.0f);

@@ -162,6 +162,12 @@
     <ClCompile Include="GeoPlane.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="Handler\HandlerMaterial.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\ModuleMaterial.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="defintions.hpp">
@@ -309,6 +315,12 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="GeoPlane.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Handler\HandlerMaterial.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\ModuleMaterial.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

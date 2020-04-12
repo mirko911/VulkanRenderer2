@@ -117,6 +117,18 @@ public:
 	}
 };
 
+struct MaterialBlock {
+	Vec4 ambientColor = Vec4(0.0);
+	Vec4 diffuseColor = Vec4(0.5);
+	Vec4 specularColor = Vec4(0.0);
+	Vec4 strength = Vec4(0, 0, 0, 0);
+	uint32_t textureID = -1;
+	uint32_t normalMapID = -1;
+	
+	float ambientStrength = 0.0f;
+	float specularStrength = 0.0f;
+};
+
 struct MainUBO{
 	Mat4 proj;
 	Mat4 view;
@@ -131,6 +143,10 @@ struct MainUBODyn {
 struct SkyboxUBODyn {
 	Mat4 viewProj;
 	int skyboxID;
+};
+
+struct MaterialUBO {
+	MaterialBlock materials[10];
 };
 
 template <typename T>
@@ -308,3 +324,4 @@ enum ActionType : uint32_t {
 	DOWN = 0x20,
 	SPACE = 0x40
 };
+
