@@ -19,6 +19,7 @@
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtc/quaternion_simd.inl>
 #include <glm/gtx/euler_angles.hpp>
+#include <glm/gtx/hash.hpp>
 
 
 #include <GLFW/glfw3.h>

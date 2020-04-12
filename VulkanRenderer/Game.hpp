@@ -7,6 +7,7 @@
 #include "Renderer.hpp"
 #include "GameRoot.hpp"
 #include "GeoCube.hpp"
+#include "GeoWavefront.hpp"
 
 #include "input/InputKeyboard.hpp"
 #include "input/InputMouse.hpp"

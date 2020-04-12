@@ -162,6 +162,7 @@
     <ClCompile Include="GameObjekt.cpp" />
     <ClCompile Include="GameRoot.cpp" />
     <ClCompile Include="GeoCube.cpp" />
+    <ClCompile Include="GeoWavefront.cpp" />
     <ClCompile Include="Handler\HandlerBase.cpp" />
     <ClCompile Include="Handler\HandlerCamera.cpp" />
     <ClCompile Include="Handler\HandlerEvent.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="GameObjekt.hpp" />
     <ClInclude Include="GameRoot.hpp" />
     <ClInclude Include="GeoCube.hpp" />
+    <ClInclude Include="GeoWavefront.hpp" />
     <ClInclude Include="Handler\HandlerBase.hpp" />
     <ClInclude Include="Handler\HandlerCamera.hpp" />
     <ClInclude Include="Handler\HandlerEvent.hpp" />
