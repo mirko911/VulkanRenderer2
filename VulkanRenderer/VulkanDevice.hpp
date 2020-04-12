@@ -42,6 +42,8 @@ public:
 	Window& getWindow();
 	void setWindow(const Window& window);
 	static uint32_t findMemoryType(const VkPhysicalDevice& gpu, const uint32_t typeFilter, const VkMemoryPropertyFlags& properties);
+	VkFormat findSupportedFormat(const std::vector<VkFormat>& candidates, const VkImageTiling tiling, const VkFormatFeatureFlags features);
+	VkFormat findDepthFormat();
 	VkPhysicalDeviceProperties getDeviceProperties();
 };
 

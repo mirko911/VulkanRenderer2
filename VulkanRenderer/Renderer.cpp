@@ -23,6 +23,10 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	m_shaders.skybox.addShaderStage(VK_SHADER_STAGE_VERTEX_BIT, "shaders/skybox.vert.spv");
 	m_shaders.skybox.addShaderStage(VK_SHADER_STAGE_FRAGMENT_BIT, "shaders/skybox.frag.spv");
 
+	m_shaders.depth.Init(device.getDevice());
+	m_shaders.depth.addShaderStage(VK_SHADER_STAGE_VERTEX_BIT, "shaders/depth.vert.spv");
+	m_shaders.depth.addShaderStage(VK_SHADER_STAGE_FRAGMENT_BIT, "shaders/depth.frag.spv");
+
 	//===============================================================================
 	//Init Renderpass
 	//===============================================================================
@@ -34,10 +38,14 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	depthAttachRef.attachment = 1;
 	depthAttachRef.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
 
+	VkFormat optimalDepthFormat = device.findDepthFormat();
+
 	m_renderpass.Init(device.getDevice());
 	m_renderpass.addAttachment(VK_FORMAT_B8G8R8A8_SRGB, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR, true);
-	m_renderpass.addAttachment(VK_FORMAT_D32_SFLOAT_S8_UINT, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, false);
+	m_renderpass.addAttachment(optimalDepthFormat, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, true);
+	m_renderpass.addSubpassDepth(depthAttachRef);
 	m_renderpass.addSubpass(colorAttachRef, depthAttachRef);
+	m_renderpass.addSubPassDependency(0, 1);
 	m_renderpass.createRenderpass();
 
 	//===============================================================================
@@ -119,23 +127,30 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	//===============================================================================
 	//Init Pipeline
 	//===============================================================================
+	m_pipelines.mainDepth.Init(device.getDevice(), m_renderpass, m_shaders.depth);
+	std::vector<VkDescriptorSetLayout> layoutInfoMain = { descriptors[0].getDescriptorSetLayout() };
+	m_pipelines.mainDepth.getDepthStencil().depthTestEnable = VK_TRUE;
+	m_pipelines.mainDepth.getDepthStencil().depthWriteEnable = VK_TRUE;
+	m_pipelines.mainDepth.getDepthStencil().depthCompareOp = VK_COMPARE_OP_LESS_OR_EQUAL;
+	m_pipelines.mainDepth.createLayoutInfo(layoutInfoMain);
+	m_pipelines.mainDepth.createPipeline(0);
+
 	m_pipelines.skybox.Init(device.getDevice(), m_renderpass, m_shaders.skybox);
 	std::vector<VkDescriptorSetLayout> layoutInfoSky = { descriptors[1].getDescriptorSetLayout() };
 	m_pipelines.skybox.createLayoutInfo(layoutInfoSky);
-	m_pipelines.skybox.createPipeline(0);
+	m_pipelines.skybox.createPipeline(1);
 
 	m_pipelines.main.Init(device.getDevice(), m_renderpass, m_shaders.main);
-	std::vector<VkDescriptorSetLayout> layoutInfoMain = { descriptors[0].getDescriptorSetLayout()};
-	m_pipelines.main.getDepthStencil().depthTestEnable = VK_FALSE;
+	//m_pipelines.main.getDepthStencil().depthTestEnable = VK_FALSE;
 	m_pipelines.main.createLayoutInfo(layoutInfoMain);
-	m_pipelines.main.createPipeline(0);
+	m_pipelines.main.createPipeline(1);
 
 	//===============================================================================
 	//Init FrameBuffers
 	//===============================================================================
 	Texture depthTexture;
 	depthTexture.Init(device.getDevice(), device.getGPU(), device.getGraphicsQueue());
-	depthTexture.createEmptyDepthImage(VK_FORMAT_D32_SFLOAT_S8_UINT, 1280, 720, 1, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, 1);
+	depthTexture.createEmptyDepthImage(optimalDepthFormat, 1280, 720, 1, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, 1);
 
 	for (uint32_t i = 0; i < m_swapchain.getImageCount(); i++) {
 		std::vector<VkImageView> views{ m_swapchain.getImageViews()[i].get(), depthTexture.getImageView().get() };
@@ -186,6 +201,25 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 		auto beginInfo = m_renderpass.getBeginInfo(color, i);
 		commandbuffer.beginRenderPass(beginInfo);
 
+		{
+			//======================
+			// Draw Main Scene Depth
+			//======================
+			commandbuffer.bindPipeline(m_pipelines.mainDepth);
+
+			for (auto& gameobject : gameRoot.hGameObject.getAll()) {
+				const uint32_t offset = static_cast<uint32_t>(gameobject.first)* static_cast<uint32_t>(m_dynamicAlignment);
+
+				ModuleGeometry* geometry = gameRoot.hGeometry.get<ModuleGeometry>(gameobject.second.get());
+
+				commandbuffer.bindDescriptorSets(m_pipelines.mainDepth.getPipelineLayout(), descriptors[0].getDescriptorSet(), &offset);
+				commandbuffer.bindVertexBuffers(geometry->getVertexBuffer().buffer);
+				commandbuffer.bindIndexBuffers(geometry->getIndexBuffer().buffer);
+				commandbuffer.drawIndexed(static_cast<uint32_t>(geometry->getIndexData().size()));
+			}
+		}
+
+		commandbuffer.nextSubpass();
 
 		{
 			//======================

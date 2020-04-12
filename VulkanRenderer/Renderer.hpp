@@ -27,11 +27,14 @@ private:
 
 	struct {
 		Pipeline main;
+		Pipeline mainDepth;
 		PipelineSkybox skybox;
 	}m_pipelines;
+
 	struct {
 		Shader main;
 		Shader skybox;
+		Shader depth;
 	} m_shaders;
 	VulkanDevice m_vulkanDevice;
 	Swapchain m_swapchain;
