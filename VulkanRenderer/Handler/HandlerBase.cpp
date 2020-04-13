@@ -18,7 +18,7 @@ void HandlerBase::init(VulkanDevice& device)
 {
 }
 
-void HandlerBase::update(const float fTimeDelta)
+void HandlerBase::update(const float fTimeDelta, GameRoot& gameRoot)
 {
 }
 

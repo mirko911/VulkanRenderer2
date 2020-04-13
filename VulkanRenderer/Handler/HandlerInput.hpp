@@ -45,5 +45,5 @@ public:
 
 
 	void init(VulkanDevice& device);
-	void update(const float fTimeDelta);
+	void update(const float fTimeDelta, GameRoot& gameRoot);
 };

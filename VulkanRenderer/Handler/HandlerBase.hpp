@@ -8,6 +8,8 @@
 #include "../defintions.hpp"
 #include "../VulkanDevice.hpp"
 
+class GameRoot;
+
 class HandlerBase {
 private:
 	//List of aliases
@@ -29,7 +31,7 @@ public:
 	virtual void init(VulkanDevice& device);
 
 	//Empty Update-Method
-	virtual void update(const float fTimeDelta);
+	virtual void update(const float fTimeDelta, GameRoot& gameRoot);
 
 	//Adds alias for a given ID
 	void addAlias(const int32_t ID, const std::string& alias);

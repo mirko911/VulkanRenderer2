@@ -11,3 +11,7 @@ void HandlerTransformation::init(VulkanDevice& device)
 		ent.second->init(device);
 	}
 }
+
+void HandlerTransformation::update(const float fTimeDelta, GameRoot& gameRoot)
+{
+}

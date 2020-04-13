@@ -4,3 +4,7 @@ std::unordered_map<int32_t, std::unique_ptr<SceneNode>>& HandlerSceneNode::getAl
 {
 	return m_entities;
 }
+
+void HandlerSceneNode::update(const float fTimeDelta, GameRoot& gameRoot)
+{
+}

@@ -14,12 +14,12 @@ void GameRoot::Init(VulkanDevice& device)
 
 void GameRoot::update(const float ftimeDelta)
 {
-	hGeometry.update(ftimeDelta);
-	hTransformation.update(ftimeDelta);
-	hGameObject.update(ftimeDelta);
-	hCamera.update(ftimeDelta);
-	hScene.update(ftimeDelta);
-	hTexture.update(ftimeDelta);
-	hInput.update(ftimeDelta);
-	hSkybox.update(ftimeDelta);
+	hGeometry.update(ftimeDelta, *this);
+	hTransformation.update(ftimeDelta, *this);
+	hGameObject.update(ftimeDelta, *this);
+	hCamera.update(ftimeDelta, *this);
+	hScene.update(ftimeDelta, *this);
+	hTexture.update(ftimeDelta, *this);
+	hInput.update(ftimeDelta, *this);
+	hSkybox.update(ftimeDelta, *this);
 }
