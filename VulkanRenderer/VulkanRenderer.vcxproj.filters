@@ -168,6 +168,12 @@
     <ClCompile Include="Modules\ModuleMaterial.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="Handler\HandlerSceneNode.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneNode.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="defintions.hpp">
@@ -321,6 +327,12 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Modules\ModuleMaterial.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Handler\HandlerSceneNode.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneNode.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

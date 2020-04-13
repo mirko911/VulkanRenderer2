@@ -93,6 +93,68 @@ void Game::Init(VulkanDevice& device, Window& window)
 		ModuleInfo<ModuleTransformation> transform = m_gameRoot.hTransformation.create();
 		ModuleInfo<ModuleMaterial> material = m_gameRoot.hMaterial.create();
 
+		m_gameRoot.hGameObject.addAlias(go.ID, "sun");
+
+		material->setDiffuseColor(Vec4(1.f, 0, 0, 1));
+
+		go->addModule<ModuleGeometry>(geo.ID);
+		go->addModule<ModuleTransformation>(transform.ID);
+		go->addModule <ModuleMaterial>(material.ID);
+
+		//transform->translate(0, 20, 0);
+	}
+
+	{ //Wavefront Test
+		ModuleInfo<GameObjekt> go = m_gameRoot.hGameObject.create();
+		ModuleInfo<GeoWavefront> geo = m_gameRoot.hGeometry.create<GeoWavefront>("assets/suzanne.obj");
+		ModuleInfo<ModuleTransformation> transform = m_gameRoot.hTransformation.create();
+		ModuleInfo<ModuleMaterial> material = m_gameRoot.hMaterial.create();
+
+		m_gameRoot.hGameObject.addAlias(go.ID, "earth");
+
+		material->setDiffuseColor(Vec4(1.f, 0, 0, 1));
+
+		go->addModule<ModuleGeometry>(geo.ID);
+		go->addModule<ModuleTransformation>(transform.ID);
+		go->addModule <ModuleMaterial>(material.ID);
+
+		//transform->translate(0, 20, 0);
+	}
+
+	{
+		ModuleInfo<SceneNode> sun = m_gameRoot.hSceneNode.create();
+		ModuleInfo<SceneNode> earth = m_gameRoot.hSceneNode.create();
+		ModuleInfo<SceneNode> earth2 = m_gameRoot.hSceneNode.create();
+		ModuleInfo<SceneNode> moon = m_gameRoot.hSceneNode.create();
+
+		ModuleInfo<ModuleTransformation> sunTrans = m_gameRoot.hTransformation.create();
+		ModuleInfo<ModuleTransformation> earthTrans = m_gameRoot.hTransformation.create();
+		ModuleInfo<ModuleTransformation> earthRot = m_gameRoot.hTransformation.create();
+		ModuleInfo<ModuleTransformation> moonTrans = m_gameRoot.hTransformation.create();
+
+		earthTrans->translateX(20);
+		earthRot->rotateX(0.001f);
+
+		sun->setTransformationID(sunTrans.ID);
+		sun->addChild(earth.ID);
+		sun->setGameobjectID(m_gameRoot.hGameObject.getID("sun"));
+
+		earth->setTransformationID(earthTrans.ID);
+		earth->addChild(earth2.ID);
+
+		earth2->setTransformationID(earthRot.ID);
+		earth2->setGameobjectID(m_gameRoot.hGameObject.getID("earth"));
+	}
+
+
+
+
+	{ //Wavefront Test
+		ModuleInfo<GameObjekt> go = m_gameRoot.hGameObject.create();
+		ModuleInfo<GeoWavefront> geo = m_gameRoot.hGeometry.create<GeoWavefront>("assets/suzanne.obj");
+		ModuleInfo<ModuleTransformation> transform = m_gameRoot.hTransformation.create();
+		ModuleInfo<ModuleMaterial> material = m_gameRoot.hMaterial.create();
+
 		material->setDiffuseColor(Vec4(1.f, 0, 0, 1));
 
 		go->addModule<ModuleGeometry>(geo.ID);

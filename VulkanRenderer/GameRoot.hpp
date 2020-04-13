@@ -12,6 +12,7 @@
 #include "Handler/HandlerSkybox.hpp"
 #include "Handler/HandlerPortal.hpp"
 #include "Handler/HandlerMaterial.hpp"
+#include "Handler/HandlerSceneNode.hpp"
 
 class GameRoot {
 public:
@@ -25,7 +26,7 @@ public:
 	HandlerSkybox hSkybox;
 	HandlerPortal hPortal;
 	HandlerMaterial hMaterial;
-
+	HandlerSceneNode hSceneNode;
 	int32_t m_mainScene = ENTITY_NOT_FOUND;
 
 	void Init(VulkanDevice& device);
