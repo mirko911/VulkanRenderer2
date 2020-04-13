@@ -18,7 +18,7 @@ private:
 	bool m_isDirty = true;
 	bool m_recalculateGlobalMat = true;
 public:
-	void update(const float ftimeDelta);
+	void update(const float ftimeDelta, GameRoot& gameRoot);
 	void init(VulkanDevice& device);
 
 	Mat4 getGlobalMat() const;

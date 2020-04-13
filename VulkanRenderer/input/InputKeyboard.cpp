@@ -21,7 +21,7 @@ void InputKeyboard::onKeyCallback(EventKeyPress& event)
 	//LOG_F(INFO, "Keyboard Callback: %s ", key);
 }
 
-void InputKeyboard::update(const float fTimeDelta)
+void InputKeyboard::update(const float fTimeDelta, GameRoot& gameRoot)
 {
 	uint32_t action = 0x0;
 

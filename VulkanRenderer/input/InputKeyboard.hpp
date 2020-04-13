@@ -9,5 +9,5 @@ private:
 public:
 	void Init(VulkanDevice& device) override;
 	void onKeyCallback(EventKeyPress& event);
-	void update(const float fTimeDelta) override;
+	void update(const float fTimeDelta, GameRoot& gameRoot) override;
 };

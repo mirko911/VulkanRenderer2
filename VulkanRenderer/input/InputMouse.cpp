@@ -19,7 +19,7 @@ void InputMouse::onMouseCallback(EventMouseMove& event)
 //	LOG_F(INFO, "Mouse Callback: %f %f ", event.x, event.y);
 }
 
-void InputMouse::update(const float ftimeDelta)
+void InputMouse::update(const float ftimeDelta, GameRoot& gameRoot)
 {
 	double x; double y;
 	glfwGetCursorPos(m_window.getGLFWWindow(), &x, &y);

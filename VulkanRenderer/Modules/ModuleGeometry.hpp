@@ -15,7 +15,7 @@ protected:
 	Buffer m_bufferIndex;
 	std::string m_debugName = "Generic Geometry";
 public:
-	void update(const float ftimeDelta);
+	//void update(const float ftimeDelta, GameRoot& gameRoot);
 	void init(VulkanDevice& device);
 	Buffer& getVertexBuffer();
 	Buffer & getIndexBuffer();

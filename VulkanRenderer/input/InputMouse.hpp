@@ -11,6 +11,6 @@ private:
 public:
 	void Init(VulkanDevice& device) override;
 	void onMouseCallback(EventMouseMove& event);
-	void update(const float ftimeDelta) override;
+	void update(const float ftimeDelta, GameRoot& gameRoot) override;
 	void setCursorCenter();
 };

@@ -4,7 +4,7 @@ void ModuleBase::init(VulkanDevice& device)
 {
 }
 
-void ModuleBase::update(const float ftimeDelta)
+void ModuleBase::update(const float ftimeDelta, GameRoot& gameRoot)
 {
 }
 

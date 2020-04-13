@@ -1,8 +1,8 @@
 #include "ModuleGeometry.hpp"
 
-void ModuleGeometry::update(const float ftimeDelta)
-{
-}
+//void ModuleGeometry::update(const float ftimeDelta, GameRoot& gameRoot)
+//{
+//}
 
 void ModuleGeometry::init(VulkanDevice& device)
 {

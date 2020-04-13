@@ -7,6 +7,8 @@
 
 #include "../Handler/HandlerEvent.hpp"
 
+class GameRoot;
+
 class InputBase {
 private:
 	int32_t m_moduleID = ENTITY_NOT_FOUND;
@@ -19,5 +21,5 @@ public:
 	std::string getDebugName() const;
 public:
 	virtual void Init(VulkanDevice& device) {};
-	virtual void update(const float fTimeDelta) {};
+	virtual void update(const float fTimeDelta, GameRoot& gameRoot) {};
 };

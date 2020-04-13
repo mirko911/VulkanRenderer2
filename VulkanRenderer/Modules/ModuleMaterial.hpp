@@ -14,7 +14,7 @@ class ModuleMaterial : public ModuleBase {
 	MaterialBlock m_material;
 private:
 public:
-	void update(const float ftimeDelta);
+	//void update(const float ftimeDelta, GameRoot& gameRoot);
 	void init(VulkanDevice& device);
 
 	void setAmbientColor(const Vec4 color);

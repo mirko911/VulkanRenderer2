@@ -51,6 +51,6 @@ int32_t SceneNode::getGameObjectID()
 	return m_gameObjectID;
 }
 
-void SceneNode::update(const float fTimeDelta)
+void SceneNode::update(const float fTimeDelta, GameRoot& gameRoot)
 {
 }

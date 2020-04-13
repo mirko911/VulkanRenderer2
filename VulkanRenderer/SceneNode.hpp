@@ -23,5 +23,5 @@ public:
 	int32_t getTransformationID();
 	int32_t getGameObjectID();
 
-	void update(const float fTimeDelta);
+	void update(const float fTimeDelta, GameRoot& gameRoot);
 };

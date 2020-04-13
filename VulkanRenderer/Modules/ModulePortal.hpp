@@ -13,6 +13,6 @@ class ModulePortal : public ModuleBase {
 	std::string m_debugName = "Generic Portal";
 private:
 public:
-	void update(const float ftimeDelta);
+	//void update(const float ftimeDelta, GameRoot& gameRoot);
 	void init(VulkanDevice& device);
 };

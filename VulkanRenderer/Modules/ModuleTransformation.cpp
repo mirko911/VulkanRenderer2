@@ -1,5 +1,10 @@
 #include "ModuleTransformation.hpp"
 
+void ModuleTransformation::update(const float ftimeDelta, GameRoot& gameRoot)
+{
+
+}
+
 void ModuleTransformation::init(VulkanDevice& device)
 {
 	updateLocalMat();

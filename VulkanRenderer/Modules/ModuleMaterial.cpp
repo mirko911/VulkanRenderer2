@@ -1,8 +1,8 @@
 #include "ModuleMaterial.hpp"
 
-void ModuleMaterial::update(const float ftimeDelta)
-{
-}
+//void ModuleMaterial::update(const float ftimeDelta, GameRoot& gameRoot)
+//{
+//}
 
 void ModuleMaterial::init(VulkanDevice& device)
 {
