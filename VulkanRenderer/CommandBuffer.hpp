@@ -34,6 +34,9 @@ public:
 	void bindDescriptorSets(const VkPipelineLayout& pipelineLayout, const VkDescriptorSet& descriptorSet);
 	void bindDescriptorSets(const VkPipelineLayout& pipelineLayout, const VkDescriptorSet& descriptorSet, const uint32_t* dynOffset );
 
+	void setStencilWriteMask(const uint32_t writeMask, const VkStencilFaceFlags flags = VK_STENCIL_FACE_FRONT_AND_BACK);
+	void setStencilCompareMask(const uint32_t compareMask, const VkStencilFaceFlags flags = VK_STENCIL_FACE_FRONT_AND_BACK);
+
 	void copyBuffer(VkBuffer& fromBuffer, VkBuffer& toBuffer, const uint32_t regionCount = 0, const VkBufferCopy* regionp = nullptr);
 	void copyBufferToImage(VkBuffer& fromBuffer, VkImage& toImage, const VkImageLayout layout, const uint32_t regionCount = 0, const VkBufferImageCopy* regionp = nullptr);
 	VkCommandBuffer& get();

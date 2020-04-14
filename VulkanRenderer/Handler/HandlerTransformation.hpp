@@ -29,6 +29,7 @@ public:
 	ModuleTransformation* get(const int32_t ID ) {
 		if (!has(ID)) {
 			LOG_F(ERROR, "Entity (ID %i) doesn't exist in %s", ID, getDebugName().c_str());
+			return nullptr;
 		}
 
 		return m_entities[ID].get();

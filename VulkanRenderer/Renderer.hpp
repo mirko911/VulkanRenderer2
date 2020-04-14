@@ -8,6 +8,7 @@
 #include "RenderPass.hpp"
 #include "Pipeline.hpp"
 #include "PipelineSkybox.hpp"
+#include "PipelineDepth.hpp"
 #include "Swapchain.hpp"
 #include "Texture.hpp"
 #include "CommandBuffer.hpp"
@@ -27,7 +28,8 @@ private:
 
 	struct {
 		Pipeline main;
-		Pipeline mainDepth;
+		PipelineDepth mainDepth;
+		PipelineDepth portalDepth;
 		PipelineSkybox skybox;
 	}m_pipelines;
 

@@ -74,7 +74,7 @@ void Pipeline::fillPipelineStructs()
 	m_depthStencil.back.compareOp = VK_COMPARE_OP_ALWAYS;
 	m_depthStencil.back.compareMask = 0xff;
 	m_depthStencil.back.writeMask = 0xff;
-	m_depthStencil.back.reference = 0x44;
+	m_depthStencil.back.reference = 0xff;
 	m_depthStencil.front = m_depthStencil.back;
 
 	m_colorBlendAttachment = {};
@@ -168,6 +168,16 @@ VkGraphicsPipelineCreateInfo& Pipeline::getPipelineInfo()
 	return m_pipelineInfo;
 }
 
+void Pipeline::addDynamicState(const VkDynamicState dynamic_state)
+{
+	m_dynamicState.push_back(dynamic_state);
+}
+
+std::vector<VkDynamicState>& Pipeline::getDynamicState()
+{
+	return m_dynamicState;
+}
+
 Shader& Pipeline::getShader()
 {
 	return m_shader;
@@ -218,15 +228,13 @@ void Pipeline::createPipeline(const uint32_t subpass)
 	pipelineInfo.pRasterizationState = &m_rasterizer;
 	pipelineInfo.pMultisampleState = &m_multisampling;
 	pipelineInfo.pDepthStencilState = &m_depthStencil;
-	//pipelineInfo.pColorBlendState = (!depthOnly) ? &m_colorBlending : nullptr;
 	pipelineInfo.pColorBlendState =  &m_colorBlending;
 	pipelineInfo.layout = m_pipelineLayout;
 	pipelineInfo.renderPass = m_renderPass.get();
 	pipelineInfo.subpass = subpass;
 	pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
 	pipelineInfo.basePipelineIndex = 0;
-	//pipelineInfo.pDynamicState = (depthOnly || m_dynamic) ? &m_dynamicStateInfo : nullptr;
-	pipelineInfo.pDynamicState =  nullptr;
+	pipelineInfo.pDynamicState = (!m_dynamicState.empty()) ? &m_dynamicStateInfo : nullptr;
 
 	if (vkCreateGraphicsPipelines(m_device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &m_pipeline) != VK_SUCCESS) {
 		ABORT_F("Failed to create graphics pipeline");

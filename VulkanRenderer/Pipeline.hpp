@@ -52,14 +52,17 @@ public:
 	virtual VkPipelineColorBlendStateCreateInfo& getColorBlendState();
 	virtual VkPipelineLayoutCreateInfo& getPipelineLayoutInfo();
 	virtual VkGraphicsPipelineCreateInfo& getPipelineInfo();
+	
+	void addDynamicState(const VkDynamicState dynamic_state);
+	std::vector<VkDynamicState>& getDynamicState();
 
 	Shader& getShader();
 	RenderPass& getRenderPass();
 	VkPipeline& get();
 	VkPipelineLayout& getPipelineLayout();
 
-	void createLayoutInfo(std::vector<VkDescriptorSetLayout>& descriptorSetLayouts);
-	void createPipeline(const uint32_t subpass);
+	virtual void createLayoutInfo(std::vector<VkDescriptorSetLayout>& descriptorSetLayouts);
+	virtual void createPipeline(const uint32_t subpass);
 	void Init(VkDevice& device, RenderPass& renderpass, Shader& shader);
 	void Destroy();
 	void setDebugName(const std::string& name);

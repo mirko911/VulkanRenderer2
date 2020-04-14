@@ -211,6 +211,22 @@ void Game::Init(VulkanDevice& device, Window& window)
 		rootNode->addGameObject(go.ID);
 	}
 
+	{//Occlusion Wall #1
+		ModuleInfo<GameObjekt> go = m_gameRoot.hGameObject.create();
+		ModuleInfo<GeoCube> geo = m_gameRoot.hGeometry.create<GeoCube>();
+		ModuleInfo<ModuleTransformation> transform = m_gameRoot.hTransformation.create();
+
+
+		go->addModule<ModuleGeometry>(geo.ID);
+		go->addModule<ModuleTransformation>(transform.ID);
+		go->addModule <ModuleMaterial>(m_gameRoot.hMaterial.getID("default"));
+
+		transform->translate(-20, 10, 10);
+		transform->scaleAbsolute(20, 20, 1);
+
+		rootNode->addGameObject(go.ID);
+	}
+
 	{
 		//Portal #1
 		ModuleInfo<GameObjekt> go = m_gameRoot.hGameObject.create();

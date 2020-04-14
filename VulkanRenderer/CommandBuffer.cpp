@@ -127,6 +127,16 @@ void CommandBuffer::bindDescriptorSets(const VkPipelineLayout& pipelineLayout, c
 		pipelineLayout, 0, static_cast<uint32_t>(1), &descriptorSet, 1, dynOffset); //Nacher
 }
 
+void CommandBuffer::setStencilWriteMask(const uint32_t writeMask, const VkStencilFaceFlags flags)
+{
+	vkCmdSetStencilWriteMask(m_commandBuffer, flags, writeMask);
+}
+
+void CommandBuffer::setStencilCompareMask(const uint32_t compareMask, const VkStencilFaceFlags flags)
+{
+	vkCmdSetStencilCompareMask(m_commandBuffer, flags, compareMask);
+}
+
 void CommandBuffer::copyBuffer(VkBuffer& fromBuffer, VkBuffer& toBuffer, const uint32_t regionCount , const VkBufferCopy* regionp )
 {
 	vkCmdCopyBuffer(m_commandBuffer, fromBuffer, toBuffer, regionCount, regionp);
