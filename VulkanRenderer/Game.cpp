@@ -188,7 +188,7 @@ void Game::Init(VulkanDevice& device, Window& window)
 		go->addModule<ModuleTransformation>(transform.ID);
 		go->addModule <ModuleMaterial>(m_gameRoot.hMaterial.getID("orange"));
 
-		transform->translate(30, 10, 0);
+		transform->translate(20, 10, 0);
 		transform->scaleAbsolute(20, 20, 1);
 
 		rootNode->addGameObject(go.ID);
@@ -205,7 +205,7 @@ void Game::Init(VulkanDevice& device, Window& window)
 		go->addModule<ModuleTransformation>(transform.ID);
 		go->addModule <ModuleMaterial>(m_gameRoot.hMaterial.getID("blue"));
 
-		transform->translate(-30, 10, 0);
+		transform->translate(-20, 10, 0);
 		transform->scaleAbsolute(20, 20, 1);
 
 		rootNode->addGameObject(go.ID);
@@ -223,7 +223,7 @@ void Game::Init(VulkanDevice& device, Window& window)
 		go->addModule <ModuleMaterial>(m_gameRoot.hMaterial.getID("default"));
 		go->addModule<ModulePortal>(portal.ID);
 
-		transform->translate(30, 5, 0.1f);
+		transform->translate(20, 5, 0.1f);
 		transform->scaleAbsolute(10, 10, 1);
 
 		rootNode->addGameObject(go.ID);
@@ -241,7 +241,7 @@ void Game::Init(VulkanDevice& device, Window& window)
 		go->addModule<ModuleTransformation>(transform.ID);
 		go->addModule <ModuleMaterial>(m_gameRoot.hMaterial.getID("default"));
 		go->addModule<ModulePortal>(portal.ID);
-		transform->translate(-30, 5, 0.1f);
+		transform->translate(-20, 5, 0.1f);
 		transform->scaleAbsolute(10, 10, 1);
 
 		rootNode->addGameObject(go.ID);
