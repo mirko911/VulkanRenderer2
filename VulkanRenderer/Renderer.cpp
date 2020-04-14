@@ -89,7 +89,7 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	//===============================================================================
 	//Fill UBO-Buffers
 	//===============================================================================
-	updateUniformBuffer(gameRoot);
+	updateUniformBuffer(gameRoot, true);
 
 	//===============================================================================
 	//Init Descriptors
@@ -313,10 +313,25 @@ void Renderer::Render(GameRoot& gameRoot)
 
 }
 
-void Renderer::updateUniformBuffer(GameRoot& gameRoot)
+void Renderer::updateUniformBuffer(GameRoot& gameRoot, const bool initial)
 {
 	Scene* scene = gameRoot.hScene.get(0);
 	Camera* camera = gameRoot.hCamera.get(scene->m_activeCamera);
+
+	if (initial) {
+		MaterialUBO materialUBO;
+		int i = 0;
+		for (auto& materialPair : gameRoot.hMaterial.getAll()) {
+			materialUBO.materials[i++] = materialPair.second->getMaterialBlock();
+		}
+		m_buffers.materialUBO.map();
+		memcpy(m_buffers.materialUBO.mapped, &materialUBO, sizeof(MaterialUBO));
+		m_buffers.materialUBO.unmap();
+
+		m_buffers.mainUBO.map();
+		m_buffers.mainUBODyn.map();
+		m_buffers.skyboxUBODyn.map();
+	}
 
 	MainUBO ubo;
 	ubo.proj = camera->getProjection();
@@ -324,9 +339,9 @@ void Renderer::updateUniformBuffer(GameRoot& gameRoot)
 	ubo.viewProj = ubo.proj * ubo.view;
 	ubo.position = Vec4(camera->getPosition(), 1.0f);
 
-	m_buffers.mainUBO.map();
+	//m_buffers.mainUBO.map();
 	memcpy(m_buffers.mainUBO.mapped, &ubo, sizeof(MainUBO));
-	m_buffers.mainUBO.unmap();
+	//m_buffers.mainUBO.unmap();
 
 	MainUBODyn dynUBO;
 	for (auto& gameObjectPair : gameRoot.hGameObject.getAll()) {
@@ -338,29 +353,20 @@ void Renderer::updateUniformBuffer(GameRoot& gameRoot)
 			dynUBO.materialID = gameObjectPair.second->getModule<ModuleMaterial>();
 		}
 
-		m_buffers.mainUBODyn.map();
 		void* ptr = static_cast<char*>(m_buffers.mainUBODyn.mapped) + (gameObjectPair.first * m_dynamicAlignment);
 		memcpy(ptr, &dynUBO, sizeof(MainUBODyn));
-		m_buffers.mainUBODyn.unmap();
+		//m_buffers.mainUBODyn.unmap();
 	}
 
 
-	MaterialUBO materialUBO;
-	int i = 0;
-	for (auto& materialPair : gameRoot.hMaterial.getAll()) {
-		materialUBO.materials[i++] = materialPair.second->getMaterialBlock();
-	}
-	m_buffers.materialUBO.map();
-	memcpy(m_buffers.materialUBO.mapped, &materialUBO, sizeof(MaterialUBO));
-	m_buffers.materialUBO.unmap();
+	
 
 	SkyboxUBODyn skyboxDynUBO;
 	skyboxDynUBO.viewProj = camera->getProjection() * Mat4(1.0f);
 	skyboxDynUBO.skyboxID = 0;
-	m_buffers.skyboxUBODyn.map();
 	void* ptr = static_cast<char*>(m_buffers.skyboxUBODyn.mapped) + (0 * m_dynamicAlignment);
 	memcpy(ptr, &skyboxDynUBO, sizeof(SkyboxUBODyn));
-	m_buffers.skyboxUBODyn.unmap();
+	//m_buffers.skyboxUBODyn.unmap();
 }
 
 

@@ -62,7 +62,7 @@ private:
 public:
 	void Init(VulkanDevice& device, GameRoot& gameRoot);
 	void Render(GameRoot& gameRoot);
-	void updateUniformBuffer(GameRoot& gameRoot);
+	void updateUniformBuffer(GameRoot& gameRoot, const bool initial = false);
 	void Destroy();
 };
 
