@@ -58,7 +58,7 @@ void Game::Init(VulkanDevice& device, Window& window)
 	{//Test Camera
 		ModuleInfo<Camera> camera = m_gameRoot.hCamera.create();
 		camera->setPosition(Vec3(50, 10, 20), 0, 0);
-		camera->setPerspective(45, SCREEN_WIDTH / SCREEN_HEIGHT, 0.01f, 1000.f);
+		camera->setPerspective(45, SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.01f, 1000.f);
 		scene->m_activeCamera = camera.ID;
 	}
 
