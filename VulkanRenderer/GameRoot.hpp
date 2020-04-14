@@ -27,7 +27,9 @@ public:
 	HandlerPortal hPortal;
 	HandlerMaterial hMaterial;
 	HandlerSceneNode hSceneNode;
+
 	int32_t m_mainScene = ENTITY_NOT_FOUND;
+	std::vector<int32_t> m_activeScenes;
 
 	void Init(VulkanDevice& device);
 	void update(const float ftimeDelta);

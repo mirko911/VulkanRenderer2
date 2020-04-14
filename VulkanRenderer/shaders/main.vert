@@ -38,7 +38,7 @@ void main() {
 
 	outLightVec = lPos - pos.xyz;
 	outViewVec = -pos.xyz;
-	outUV = inPosition.xy;
+	outUV = inUV;
 	outNormal = mat3(ubo.view) * mat3(transpose(inverse(ubodyn.modelMat))) * inNormal;
 	outMaterialID = ubodyn.materialID;
 }

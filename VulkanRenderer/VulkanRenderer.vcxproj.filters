@@ -177,6 +177,9 @@
     <ClCompile Include="PipelineDepth.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="demos\DemoBlueUniverse.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="defintions.hpp">
@@ -339,6 +342,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="PipelineDepth.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="demos\DemoBlueUniverse.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

@@ -39,10 +39,10 @@ void main() {
    // vec3 diffuseColor = vec3(mix(material.diffuseColor.xyz, vec3(dot(vec3(0.2126,0.7152,0.0722), material.diffuseColor.xyz)), 0.65));	
 
     vec3 N = normalize(inNormal);
-//	if(ubodyn.normalMapID >= 0){
-//		vec3 normalMapPart = texture(texSampler[int(ubodyn.normalMapID)], inUV).xyz;
-//		N = normalize(N + (normalMapPart * 2.0 - 1.0));
-//	}
+	if(material.normalMapID >= 0){
+		vec3 normalMapPart = texture(texSampler[material.normalMapID], inUV).xyz;
+		N = normalize(normalMapPart * 2.0 - 1.0);
+	}
 
 	vec3 ambient = material.strength.x * material.abientColor.xyz;
 	vec3 L = normalize(inLightVec);
@@ -57,7 +57,7 @@ void main() {
 //
     vec3 result = vec3(0.5f);
     if(material.textureID >= 0){
-    	result = texture(texSampler[material.textureID], inUV).xyz * vec3(ambient + specular) ;
+    	result = texture(texSampler[material.textureID], inUV).xyz * (ambient + diffuse + specular) ;
     }else{
         result =  ambient + diffuse + specular ;
     }
