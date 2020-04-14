@@ -35,17 +35,6 @@ void Game::Init(VulkanDevice& device, Window& window)
 
 	//ModuleGeometry* test2 = m_gameRoot.hGeometry.get<ModuleGeometry>(test.ID);
 
-	{ //Test Gameobject
-		ModuleInfo<GameObjekt> go = m_gameRoot.hGameObject.create();
-		ModuleInfo<GeoCube> geoCube = m_gameRoot.hGeometry.create<GeoCube>();
-		ModuleInfo<ModuleTransformation> transform = m_gameRoot.hTransformation.create();
-
-		transform->translateAbsolute(50.f, 50.f, 50.f);
-
-		go->addModule<ModuleGeometry>(geoCube.ID);
-		go->addModule<ModuleTransformation>(transform.ID);
-	}
-
 	{ //Test Texture
 		ModuleInfo<Texture2D> texturePlanks = m_gameRoot.hTexture.create2D("textures//Planks12_col.jpg");
 		ModuleInfo<Texture2D> texturePlanksNM = m_gameRoot.hTexture.create2D("textures//Planks12_nrm.jpg");
@@ -63,6 +52,8 @@ void Game::Init(VulkanDevice& device, Window& window)
 
 	ModuleInfo<Scene> scene = m_gameRoot.hScene.create();
 	m_gameRoot.m_mainScene = scene.ID;
+	ModuleInfo<SceneNode> rootNode = m_gameRoot.hSceneNode.create();
+	scene->addRootNode(rootNode.ID);
 
 	{//Test Camera
 		ModuleInfo<Camera> camera = m_gameRoot.hCamera.create();
@@ -77,9 +68,12 @@ void Game::Init(VulkanDevice& device, Window& window)
 		ModuleInfo<ModuleTransformation> transform = m_gameRoot.hTransformation.create();
 		ModuleInfo<ModuleMaterial> material = m_gameRoot.hMaterial.create();
 
+
 		go->addModule<ModuleGeometry>(geoCube.ID);
 		go->addModule<ModuleTransformation>(transform.ID);
 		go->addModule<ModuleMaterial>(material.ID);
+
+		rootNode->addGameObject(go.ID);
 
 		transform->scaleAbsolute(500.f, 0.01f, 500.f);
 
@@ -102,6 +96,8 @@ void Game::Init(VulkanDevice& device, Window& window)
 		go->addModule<ModuleTransformation>(transform.ID);
 		go->addModule <ModuleMaterial>(material.ID);
 
+		rootNode->addGameObject(go.ID);
+
 		//transform->translate(0, 20, 0);
 	}
 
@@ -118,6 +114,8 @@ void Game::Init(VulkanDevice& device, Window& window)
 		go->addModule<ModuleGeometry>(geo.ID);
 		go->addModule<ModuleTransformation>(transform.ID);
 		go->addModule <ModuleMaterial>(material.ID);
+
+		rootNode->addGameObject(go.ID);
 
 		//transform->translate(0, 20, 0);
 	}
@@ -140,13 +138,13 @@ void Game::Init(VulkanDevice& device, Window& window)
 
 		sun->setTransformationID(sunTrans.ID);
 		sun->addChild(earth.ID);
-		sun->setGameobjectID(m_gameRoot.hGameObject.getID("sun"));
+		sun->addGameObject(m_gameRoot.hGameObject.getID("sun"));
 
 		earth->setTransformationID(earthRot.ID);
 		earth->addChild(earth2.ID);
 		
 		earth2->setTransformationID(earthTrans.ID);
-		earth2->setGameobjectID(m_gameRoot.hGameObject.getID("earth"));
+		earth2->addGameObject(m_gameRoot.hGameObject.getID("earth"));
 
 		Scene* scene = m_gameRoot.hScene.get(m_gameRoot.m_mainScene);
 		scene->addRootNode(sun.ID);
@@ -168,6 +166,9 @@ void Game::Init(VulkanDevice& device, Window& window)
 		go->addModule <ModuleMaterial>(material.ID);
 
 		transform->translate(0, 20, 0);
+
+		rootNode->addGameObject(go.ID);
+
 	}
 
 	{//Test Skybox
@@ -189,6 +190,9 @@ void Game::Init(VulkanDevice& device, Window& window)
 
 		transform->translate(30, 10, 0);
 		transform->scaleAbsolute(20, 20, 1);
+
+		rootNode->addGameObject(go.ID);
+
 	}
 
 	{//Portal Wall #2
@@ -203,6 +207,9 @@ void Game::Init(VulkanDevice& device, Window& window)
 
 		transform->translate(-30, 10, 0);
 		transform->scaleAbsolute(20, 20, 1);
+
+		rootNode->addGameObject(go.ID);
+
 
 	}
 
