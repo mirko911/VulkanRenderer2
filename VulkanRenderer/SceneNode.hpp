@@ -1,6 +1,8 @@
 #pragma once
 
+
 #include "Modules/ModuleTransformation.hpp"
+
 
 class SceneNode {
 private:
@@ -24,4 +26,6 @@ public:
 	int32_t getGameObjectID();
 
 	void update(const float fTimeDelta, GameRoot& gameRoot);
+	void traverse(GameRoot& gameRoot, const int32_t ID, Mat4& globalMat);
+	void traverse2(GameRoot& gameRoot, SceneNode* parentNode, Mat4& globalMat);
 };

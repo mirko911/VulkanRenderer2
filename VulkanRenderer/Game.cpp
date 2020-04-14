@@ -62,6 +62,7 @@ void Game::Init(VulkanDevice& device, Window& window)
 	}
 
 	ModuleInfo<Scene> scene = m_gameRoot.hScene.create();
+	m_gameRoot.m_mainScene = scene.ID;
 
 	{//Test Camera
 		ModuleInfo<Camera> camera = m_gameRoot.hCamera.create();
@@ -132,6 +133,8 @@ void Game::Init(VulkanDevice& device, Window& window)
 		ModuleInfo<ModuleTransformation> earthRot = m_gameRoot.hTransformation.create();
 		ModuleInfo<ModuleTransformation> moonTrans = m_gameRoot.hTransformation.create();
 
+		m_gameRoot.hTransformation.addAlias(earthRot.ID, "earthRot");
+
 		earthTrans->translateX(20);
 		earthRot->rotateX(0.001f);
 
@@ -139,11 +142,14 @@ void Game::Init(VulkanDevice& device, Window& window)
 		sun->addChild(earth.ID);
 		sun->setGameobjectID(m_gameRoot.hGameObject.getID("sun"));
 
-		earth->setTransformationID(earthTrans.ID);
+		earth->setTransformationID(earthRot.ID);
 		earth->addChild(earth2.ID);
-
-		earth2->setTransformationID(earthRot.ID);
+		
+		earth2->setTransformationID(earthTrans.ID);
 		earth2->setGameobjectID(m_gameRoot.hGameObject.getID("earth"));
+
+		Scene* scene = m_gameRoot.hScene.get(m_gameRoot.m_mainScene);
+		scene->addRootNode(sun.ID);
 	}
 
 
@@ -207,7 +213,26 @@ void Game::Init(VulkanDevice& device, Window& window)
 
 void Game::Tick()
 {
+
+	ModuleTransformation* earthRot = m_gameRoot.hTransformation.get(
+		m_gameRoot.hTransformation.getID("earthRot")
+	);
+
+	earthRot->rotateY(0.003f);
+
+
+
+	//Traverse SceneGraph and update local/global matrix
+	Scene* scene = m_gameRoot.hScene.get(m_gameRoot.m_mainScene);
+	for (const int32_t rootNodeID : scene->getRootNodes()) {
+		SceneNode* rootNode = m_gameRoot.hSceneNode.get(rootNodeID);
+		Mat4 globalMat(1.0f);
+		rootNode->traverse2(m_gameRoot, rootNode, globalMat);
+	}
+
 //	LOG_F(INFO, "GAME TICK");
+
+
 	m_gameRoot.update(0);
 }
 

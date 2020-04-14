@@ -332,7 +332,7 @@ void Renderer::updateUniformBuffer(GameRoot& gameRoot)
 	for (auto& gameObjectPair : gameRoot.hGameObject.getAll()) {
 		ModuleTransformation* transform = gameRoot.hTransformation.get(gameObjectPair.second.get());
 
-		dynUBO.modelMat = transform->getLocalMat();
+		dynUBO.modelMat = transform->getGlobalMat();
 		
 		if (gameObjectPair.second->hasModule<ModuleMaterial>()) {
 			dynUBO.materialID = gameObjectPair.second->getModule<ModuleMaterial>();

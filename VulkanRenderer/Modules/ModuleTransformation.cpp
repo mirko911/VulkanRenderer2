@@ -2,7 +2,7 @@
 
 void ModuleTransformation::update(const float ftimeDelta, GameRoot& gameRoot)
 {
-
+	updateLocalMat();
 }
 
 void ModuleTransformation::init(VulkanDevice& device)
@@ -42,12 +42,13 @@ Transformation& ModuleTransformation::getTransformation()
 
 Mat4 ModuleTransformation::updateGlobalMat(const Mat4& mat)
 {
-	if (!m_recalculateGlobalMat) {
+	if (!m_recalculateGlobalMat && mat == m_parentMat) {
 		return m_globalMat;
 	}
 
 	m_recalculateGlobalMat = false;
 	m_globalMat = mat * m_localMat;
+	m_parentMat = mat;
 	return m_globalMat;
 }
 

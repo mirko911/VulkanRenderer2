@@ -15,6 +15,7 @@ private:
 	Transformation m_transformation;
 	Mat4 m_localMat = Mat4(1.0f);
 	Mat4 m_globalMat = Mat4(1.0f);
+	Mat4 m_parentMat = Mat4(1.0f);
 	bool m_isDirty = true;
 	bool m_recalculateGlobalMat = true;
 public:

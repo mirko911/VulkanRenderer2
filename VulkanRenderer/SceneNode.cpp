@@ -1,4 +1,5 @@
 #include "SceneNode.hpp"
+#include "GameRoot.hpp"
 
 void SceneNode::setModuleID(const int32_t ID)
 {
@@ -53,4 +54,47 @@ int32_t SceneNode::getGameObjectID()
 
 void SceneNode::update(const float fTimeDelta, GameRoot& gameRoot)
 {
+	//ModuleTransformation* transformationParent = gameRoot.hTransformation.get(m_transformationID);
+	
+}
+
+void SceneNode::traverse(GameRoot& gameRoot, const int32_t ID, Mat4& globalMat)
+{
+	SceneNode* parentNode = gameRoot.hSceneNode.get(ID);
+	ModuleTransformation* parentTransform = gameRoot.hTransformation.get(parentNode->getTransformationID());
+
+	if (parentNode->getGameObjectID() != ENTITY_NOT_FOUND) {
+		GameObjekt* gameobject = gameRoot.hGameObject.get(parentNode->getGameObjectID());
+		ModuleTransformation* transform = gameRoot.hTransformation.get(gameobject);
+		transform->updateGlobalMat(globalMat);
+	}
+
+	for (const int32_t childID : parentNode->getChilds()) {
+		SceneNode* childNode = gameRoot.hSceneNode.get(childID);
+		ModuleTransformation* childTransform = gameRoot.hTransformation.get(childNode->getTransformationID());
+
+		Mat4 newMat = childTransform->updateGlobalMat(globalMat);
+		traverse(gameRoot, childID, newMat);
+	}
+
+}
+
+void SceneNode::traverse2(GameRoot& gameRoot, SceneNode* parentNode, Mat4& globalMat)
+{
+
+	ModuleTransformation* parentTransform = gameRoot.hTransformation.get(parentNode->getTransformationID());
+
+	if (parentNode->getGameObjectID() != ENTITY_NOT_FOUND) {
+		GameObjekt* gameobject = gameRoot.hGameObject.get(parentNode->getGameObjectID());
+		ModuleTransformation* transform = gameRoot.hTransformation.get(gameobject);
+		transform->updateGlobalMat(globalMat);
+	}
+
+	for (const int32_t childID : parentNode->getChilds()) {
+		SceneNode* childNode = gameRoot.hSceneNode.get(childID);
+		ModuleTransformation* childTransform = gameRoot.hTransformation.get(childNode->getTransformationID());
+
+		Mat4 newMat = childTransform->updateGlobalMat(globalMat);
+		traverse2(gameRoot, childNode, newMat);
+	}
 }

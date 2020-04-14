@@ -14,4 +14,7 @@ void HandlerTransformation::init(VulkanDevice& device)
 
 void HandlerTransformation::update(const float fTimeDelta, GameRoot& gameRoot)
 {
+	for (auto& ent : m_entities) {
+		ent.second->update(fTimeDelta, gameRoot);
+	}
 }
