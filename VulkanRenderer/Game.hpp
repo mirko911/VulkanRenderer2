@@ -8,6 +8,7 @@
 #include "GameRoot.hpp"
 #include "GeoCube.hpp"
 #include "GeoWavefront.hpp"
+#include "GeoPlane.hpp"
 
 #include "input/InputKeyboard.hpp"
 #include "input/InputMouse.hpp"

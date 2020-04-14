@@ -209,8 +209,42 @@ void Game::Init(VulkanDevice& device, Window& window)
 		transform->scaleAbsolute(20, 20, 1);
 
 		rootNode->addGameObject(go.ID);
+	}
+
+	{
+		//Portal #1
+		ModuleInfo<GameObjekt> go = m_gameRoot.hGameObject.create();
+		ModuleInfo<GeoPlane> geo = m_gameRoot.hGeometry.create<GeoPlane>();
+		ModuleInfo<ModuleTransformation> transform = m_gameRoot.hTransformation.create();
+		ModuleInfo<ModulePortal> portal = m_gameRoot.hPortal.create();
+
+		go->addModule<ModuleGeometry>(geo.ID);
+		go->addModule<ModuleTransformation>(transform.ID);
+		go->addModule <ModuleMaterial>(m_gameRoot.hMaterial.getID("default"));
+		go->addModule<ModulePortal>(portal.ID);
+
+		transform->translate(30, 5, 0.1f);
+		transform->scaleAbsolute(10, 10, 1);
+
+		rootNode->addGameObject(go.ID);
+	}
+
+	{
+		//Portal #2
+		ModuleInfo<GameObjekt> go = m_gameRoot.hGameObject.create();
+		ModuleInfo<GeoPlane> geo = m_gameRoot.hGeometry.create<GeoPlane>();
+		ModuleInfo<ModuleTransformation> transform = m_gameRoot.hTransformation.create();
+		ModuleInfo<ModulePortal> portal = m_gameRoot.hPortal.create();
 
 
+		go->addModule<ModuleGeometry>(geo.ID);
+		go->addModule<ModuleTransformation>(transform.ID);
+		go->addModule <ModuleMaterial>(m_gameRoot.hMaterial.getID("default"));
+		go->addModule<ModulePortal>(portal.ID);
+		transform->translate(-30, 5, 0.1f);
+		transform->scaleAbsolute(10, 10, 1);
+
+		rootNode->addGameObject(go.ID);
 	}
 
 
