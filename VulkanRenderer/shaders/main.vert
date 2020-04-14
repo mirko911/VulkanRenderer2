@@ -7,16 +7,21 @@ layout(location = 2) out vec3 outLightVec;
 layout(location = 3) out vec3 outViewVec;
 layout(location = 4) out int outMaterialID;
 
-layout(set = 0, binding = 2) uniform UBO{
+struct Camera {
 	mat4 projection;
 	mat4 view;
     mat4 viewProj;
     vec4 position;
+};
+
+layout(set = 0, binding = 2) uniform UBO{
+	Camera cameras[16];
 } ubo;
 
 layout(set = 0, binding = 3) uniform UBODyn{
 	mat4 modelMat;
 	int materialID;
+	int cameraID;
 } ubodyn;
 
 layout(location = 0) in vec3 inPosition;
@@ -28,17 +33,18 @@ layout(location = 5) in vec3 inColor;
 
 
 void main() {
+	Camera camera = ubo.cameras[ubodyn.cameraID];
 
-	mat4 MVP = ubo.viewProj * ubodyn.modelMat;
+	mat4 MVP = camera.viewProj * ubodyn.modelMat;
 	gl_Position = MVP * vec4(inPosition, 1.0f);
 
-	vec4 pos = (ubo.view * ubodyn.modelMat * vec4(inPosition,1.0f));
+	vec4 pos = (camera.view * ubodyn.modelMat * vec4(inPosition,1.0f));
 
-	vec3 lPos =  mat3(ubo.view) * vec3(50,50,50);
+	vec3 lPos =  mat3(camera.view) * vec3(50,50,50);
 
 	outLightVec = lPos - pos.xyz;
 	outViewVec = -pos.xyz;
 	outUV = inUV;
-	outNormal = mat3(ubo.view) * mat3(transpose(inverse(ubodyn.modelMat))) * inNormal;
+	outNormal = mat3(camera.view) * mat3(transpose(inverse(ubodyn.modelMat))) * inNormal;
 	outMaterialID = ubodyn.materialID;
 }

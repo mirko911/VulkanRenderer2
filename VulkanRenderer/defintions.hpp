@@ -126,21 +126,26 @@ struct MaterialBlock {
 	int32_t normalMapID = -1;
 };
 
-struct MainUBO{
+struct CameraBlock {
 	Mat4 proj;
 	Mat4 view;
 	Mat4 viewProj;
 	Vec4 position;
 };
 
+struct MainUBO{
+	CameraBlock cameras[16];
+};
+
 struct MainUBODyn {
 	Mat4 modelMat;
 	uint32_t materialID = 0; //0 = default mat
+	uint32_t cameraID;
 };
 
 struct SkyboxUBODyn {
 	Mat4 viewProj;
-	int skyboxID;
+	uint32_t skyboxID;
 };
 
 struct MaterialUBO {

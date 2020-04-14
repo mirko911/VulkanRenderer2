@@ -28,7 +28,7 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 
 	m_shaders.depth.Init(device.getDevice());
 	m_shaders.depth.addShaderStage(VK_SHADER_STAGE_VERTEX_BIT, "shaders/depth.vert.spv");
-	m_shaders.depth.addShaderStage(VK_SHADER_STAGE_FRAGMENT_BIT, "shaders/depth.frag.spv");
+	//m_shaders.depth.addShaderStage(VK_SHADER_STAGE_FRAGMENT_BIT, "shaders/depth.frag.spv");
 
 	//===============================================================================
 	//Init Renderpass
@@ -393,10 +393,13 @@ void Renderer::updateUniformBuffer(GameRoot& gameRoot, const bool initial)
 	}
 
 	MainUBO ubo;
-	ubo.proj = camera->getProjection();
-	ubo.view = camera->getView();
-	ubo.viewProj = ubo.proj * ubo.view;
-	ubo.position = Vec4(camera->getPosition(), 1.0f);
+	for (auto& camera : gameRoot.hCamera.getAll()) {
+		ubo.cameras[camera.first] = {
+			camera.second->getProjection(),
+			camera.second->getView(),
+			camera.second->getProjection() * camera.second->getView()
+		};
+	}
 
 	//m_buffers.mainUBO.map();
 	memcpy(m_buffers.mainUBO.mapped, &ubo, sizeof(MainUBO));
@@ -410,6 +413,7 @@ void Renderer::updateUniformBuffer(GameRoot& gameRoot, const bool initial)
 		
 		if (gameObjectPair.second->hasModule<ModuleMaterial>()) {
 			dynUBO.materialID = gameObjectPair.second->getModule<ModuleMaterial>();
+			dynUBO.cameraID = 0;
 		}
 
 		void* ptr = static_cast<char*>(m_buffers.mainUBODyn.mapped) + (gameObjectPair.first * m_dynamicAlignment);

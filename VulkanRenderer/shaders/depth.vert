@@ -1,18 +1,21 @@
 #version 460
 #extension GL_ARB_separate_shader_objects : enable
 
-layout(location = 0) out vec3 fragColor;
-layout(location = 1) out vec2 outUV;
-
-layout(set = 0, binding = 2) uniform UBO{
+struct Camera {
 	mat4 projection;
 	mat4 view;
     mat4 viewProj;
     vec4 position;
+};
+
+layout(set = 0, binding = 2) uniform UBO{
+	Camera cameras[16];
 } ubo;
 
 layout(set = 0, binding = 3) uniform UBODyn{
 	mat4 modelMat;
+	int materialID;
+	int cameraID;
 } ubodyn;
 
 layout(location = 0) in vec3 inPosition;
@@ -24,10 +27,8 @@ layout(location = 5) in vec3 inColor;
 
 
 void main() {
+	Camera camera = ubo.cameras[ubodyn.cameraID];
 
-	mat4 MVP = ubo.viewProj * ubodyn.modelMat;
+	mat4 MVP = camera.viewProj * ubodyn.modelMat;
 	gl_Position = MVP * vec4(inPosition, 1.0f);
-
-    fragColor = ubo.position.xyz;
-	outUV = inPosition.xy;
 }
