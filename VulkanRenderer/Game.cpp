@@ -64,6 +64,7 @@ void Game::Init(VulkanDevice& device, Window& window)
 	ModuleInfo<Skybox> geoSkybox = m_gameRoot.hSkybox.create(skyboxTexture.ID, geoCube.ID);
 
 	m_activeDemo.init(m_gameRoot);
+	m_activeDemo.run(m_gameRoot);
 
 	////ModuleInfo<ModuleGeometry> test = m_gameRoot.hGeometry.create<ModuleGeometry>();
 
@@ -300,7 +301,6 @@ void Game::Init(VulkanDevice& device, Window& window)
 	m_gameRoot.Init(m_device);
 	m_renderer.Init(m_device, m_gameRoot);
 
-	m_activeDemo.run(m_gameRoot);
 }
 
 void Game::Tick()
@@ -315,12 +315,15 @@ void Game::Tick()
 
 
 	//Traverse SceneGraph and update local/global matrix
-	Scene* scene = m_gameRoot.hScene.get(m_gameRoot.m_mainScene);
-	for (const int32_t rootNodeID : scene->getRootNodes()) {
-		SceneNode* rootNode = m_gameRoot.hSceneNode.get(rootNodeID);
-		Mat4 globalMat(1.0f);
-		rootNode->traverse2(m_gameRoot, rootNode, globalMat);
+	for (const int32_t sceneID : m_gameRoot.m_activeScenes) {
+		Scene* scene = m_gameRoot.hScene.get(sceneID);
+		for (const int32_t rootNodeID : scene->getRootNodes()) {
+			SceneNode* rootNode = m_gameRoot.hSceneNode.get(rootNodeID);
+			Mat4 globalMat(1.0f);
+			rootNode->traverse2(m_gameRoot, rootNode, globalMat);
+		}
 	}
+	
 
 //	LOG_F(INFO, "GAME TICK");
 

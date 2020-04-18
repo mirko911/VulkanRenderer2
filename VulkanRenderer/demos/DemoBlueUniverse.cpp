@@ -26,6 +26,7 @@ void DemoBlueUniverse::initBlueWorld(GameRoot& gameRoot)
 		go->addModule<ModuleGeometry>(gameRoot.hGeometry.getID("cube"));
 		go->addModule<ModuleTransformation>(transformation.ID);
 		go->addModule<ModuleMaterial>(gameRoot.hMaterial.getID("green"));
+		go->setSceneID(scene.ID);
 
 		rootNode->addGameObject(go.ID);
 	}
@@ -40,6 +41,7 @@ void DemoBlueUniverse::initBlueWorld(GameRoot& gameRoot)
 		go->addModule<ModuleGeometry>(gameRoot.hGeometry.getID("cube"));
 		go->addModule<ModuleTransformation>(transformation.ID);
 		go->addModule<ModuleMaterial>(gameRoot.hMaterial.getID("orange"));
+		go->setSceneID(scene.ID);
 
 		rootNode->addGameObject(go.ID);
 	}
@@ -54,6 +56,7 @@ void DemoBlueUniverse::initBlueWorld(GameRoot& gameRoot)
 		go->addModule<ModuleGeometry>(gameRoot.hGeometry.getID("cube"));
 		go->addModule<ModuleTransformation>(transformation.ID);
 		go->addModule<ModuleMaterial>(gameRoot.hMaterial.getID("blue"));
+		go->setSceneID(scene.ID);
 
 		rootNode->addGameObject(go.ID);
 	}
@@ -68,6 +71,23 @@ void DemoBlueUniverse::initBlueWorld(GameRoot& gameRoot)
 		go->addModule<ModuleGeometry>(gameRoot.hGeometry.getID("ape"));
 		go->addModule<ModuleTransformation>(transformation.ID);
 		go->addModule<ModuleMaterial>(gameRoot.hMaterial.getID("red"));
+		go->setSceneID(scene.ID);
+
+		rootNode->addGameObject(go.ID);
+	}
+
+	{//Occlusion Wall #1
+		ModuleInfo<GameObjekt> go = gameRoot.hGameObject.create();
+		ModuleInfo<ModuleTransformation> transform = gameRoot.hTransformation.create();
+
+
+		go->addModule<ModuleGeometry>(gameRoot.hGeometry.getID("cube"));
+		go->addModule<ModuleTransformation>(transform.ID);
+		go->addModule <ModuleMaterial>(gameRoot.hMaterial.getID("default"));
+		go->setSceneID(scene.ID);
+
+		transform->translate(10, 10, 10);
+		transform->scaleAbsolute(20, 20, 1);
 
 		rootNode->addGameObject(go.ID);
 	}
@@ -81,6 +101,7 @@ void DemoBlueUniverse::initBlueWorld(GameRoot& gameRoot)
 		go->addModule<ModuleTransformation>(transformation.ID);
 		go->addModule<ModulePortal>(portal.ID);
 		go->addModule<ModuleGeometry>(gameRoot.hGeometry.getID("plane"));
+		go->setSceneID(scene.ID);
 
 		portal->setStartGameObject(go.ID);
 
@@ -120,7 +141,7 @@ void DemoBlueUniverse::initUniverse(GameRoot& gameRoot)
 
 	//Setup camera
 	ModuleInfo<Camera> camera = gameRoot.hCamera.create();
-	camera->setPosition(Vec3(50, 10, 20), 0, 180);
+	camera->setPosition(Vec3(0, 10, 20), 180, 0);
 	camera->setPerspective(45, SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.01f, 10000.0f);
 
 	//Setup scene and root node
@@ -131,7 +152,7 @@ void DemoBlueUniverse::initUniverse(GameRoot& gameRoot)
 	scene->addRootNode(rootNode.ID);
 	scene->m_activeCamera = camera.ID;
 	sceneUniverse = scene.ID;
-
+	//mainScene = scene.ID;
 
 	{ 
 		ModuleInfo<GameObjekt> go = gameRoot.hGameObject.create();
@@ -140,6 +161,7 @@ void DemoBlueUniverse::initUniverse(GameRoot& gameRoot)
 		go->addModule<ModuleGeometry>(gameRoot.hGeometry.getID("sphere"));
 		go->addModule<ModuleTransformation>(transformation.ID);
 		go->addModule<ModuleMaterial>(sunMaterial.ID);
+		go->setSceneID(scene.ID);
 
 		transformation->scale(Vec3(10, 10, 10));
 		sunRotation = transformation.ID;
@@ -157,6 +179,7 @@ void DemoBlueUniverse::initUniverse(GameRoot& gameRoot)
 		go->addModule<ModuleGeometry>(gameRoot.hGeometry.getID("sphere"));
 		go->addModule<ModuleTransformation>(transformation.ID);
 		go->addModule<ModuleMaterial>(earthMaterial.ID);
+		go->setSceneID(scene.ID);
 
 		earthRotation = sceneNodeTransform.ID;
 
@@ -178,6 +201,7 @@ void DemoBlueUniverse::initUniverse(GameRoot& gameRoot)
 		go->addModule<ModuleGeometry>(gameRoot.hGeometry.getID("sphere"));
 		go->addModule<ModuleTransformation>(transformation.ID);
 		go->addModule<ModuleMaterial>(moonMaterial.ID);
+		go->setSceneID(scene.ID);
 
 		sunRotation = transformation.ID;
 
@@ -193,13 +217,76 @@ void DemoBlueUniverse::initUniverse(GameRoot& gameRoot)
 		go->addModule<ModuleTransformation>(transformation.ID);
 		go->addModule<ModulePortal>(portal.ID);
 		go->addModule<ModuleGeometry>(gameRoot.hGeometry.getID("plane"));
+		go->setSceneID(scene.ID);
 
 		rootNode->addGameObject(go.ID);
 
 		portal->setStartGameObject(go.ID);
 
+		transformation->scaleAbsolute(10, 10, 1);
+		transformation->translateAbsolute(10, 10, 20);
+		transformation->rotateAbsoluteY(180);
 		portalEnd = portal.ID;
 	}
+
+	//{  //Green Plane
+	//	ModuleInfo<GameObjekt> go = gameRoot.hGameObject.create();
+	//	ModuleInfo<ModuleTransformation> transformation = gameRoot.hTransformation.create();
+
+	//	transformation->scaleAbsolute(500.0f, 0.01f, 500.0f);
+
+	//	go->addModule<ModuleGeometry>(gameRoot.hGeometry.getID("cube"));
+	//	go->addModule<ModuleTransformation>(transformation.ID);
+	//	go->addModule<ModuleMaterial>(gameRoot.hMaterial.getID("green"));
+	//	go->setSceneID(scene.ID);
+
+	//	rootNode->addGameObject(go.ID);
+	//}
+
+	//{ //Orange Portal Wall
+	//	ModuleInfo<GameObjekt> go = gameRoot.hGameObject.create();
+	//	ModuleInfo<ModuleTransformation> transformation = gameRoot.hTransformation.create();
+
+	//	transformation->scaleAbsolute(20, 20, 1.0f);
+	//	transformation->translateAbsolute(10, 10, 0);
+
+	//	go->addModule<ModuleGeometry>(gameRoot.hGeometry.getID("cube"));
+	//	go->addModule<ModuleTransformation>(transformation.ID);
+	//	go->addModule<ModuleMaterial>(gameRoot.hMaterial.getID("orange"));
+	//	go->setSceneID(scene.ID);
+
+	//	rootNode->addGameObject(go.ID);
+	//}
+
+	//{ //Blue Portal Wall
+	//	ModuleInfo<GameObjekt> go = gameRoot.hGameObject.create();
+	//	ModuleInfo<ModuleTransformation> transformation = gameRoot.hTransformation.create();
+
+	//	transformation->scaleAbsolute(20, 20, 1.0f);
+	//	transformation->translateAbsolute(50, 10, 0);
+
+	//	go->addModule<ModuleGeometry>(gameRoot.hGeometry.getID("cube"));
+	//	go->addModule<ModuleTransformation>(transformation.ID);
+	//	go->addModule<ModuleMaterial>(gameRoot.hMaterial.getID("blue"));
+	//	go->setSceneID(scene.ID);
+
+	//	rootNode->addGameObject(go.ID);
+	//}
+
+	//{ //Red Ape
+	//	ModuleInfo<GameObjekt> go = gameRoot.hGameObject.create();
+	//	ModuleInfo<ModuleTransformation> transformation = gameRoot.hTransformation.create();
+
+	//	transformation->scaleAbsolute(5, 5, 5);
+	//	transformation->translateAbsolute(10, 10, 30);
+
+	//	go->addModule<ModuleGeometry>(gameRoot.hGeometry.getID("ape"));
+	//	go->addModule<ModuleTransformation>(transformation.ID);
+	//	go->addModule<ModuleMaterial>(gameRoot.hMaterial.getID("red"));
+	//	go->setSceneID(scene.ID);
+
+	//	rootNode->addGameObject(go.ID);
+	//}
 }
 
 void DemoBlueUniverse::init(GameRoot& gameRoot)

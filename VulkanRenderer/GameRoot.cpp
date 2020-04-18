@@ -22,4 +22,5 @@ void GameRoot::update(const float ftimeDelta)
 	hTexture.update(ftimeDelta, *this);
 	hInput.update(ftimeDelta, *this);
 	hSkybox.update(ftimeDelta, *this);
+	hPortal.update(ftimeDelta, *this);
 }

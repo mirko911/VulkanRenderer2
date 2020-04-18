@@ -11,3 +11,10 @@ void HandlerPortal::init(VulkanDevice& device)
 		ent.second->init(device);
 	}
 }
+
+void HandlerPortal::update(const float fTimeDelta, GameRoot& gameRoot)
+{
+	for (auto& ent : m_entities) {
+		ent.second->update(fTimeDelta, gameRoot);
+	}
+}

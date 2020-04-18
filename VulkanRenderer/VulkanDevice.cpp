@@ -163,9 +163,9 @@ void VulkanDevice::createInstance(const std::vector<const char*>& glfwExtensions
 	}
 
 	
-	if (hasLayerProperty("VK_LAYER_VALVE_steam_overlay", instanceLayerProperties)) {
-		m_validationLayersEnabled.push_back("VK_LAYER_VALVE_steam_overlay");
-	}
+	//if (hasLayerProperty("VK_LAYER_VALVE_steam_overlay", instanceLayerProperties)) {
+	//	m_validationLayersEnabled.push_back("VK_LAYER_VALVE_steam_overlay");
+	//}
 #ifdef _DEBUG
 	if (hasLayerProperty("VK_LAYER_LUNARG_standard_validation", instanceLayerProperties)) {
 		m_validationLayersEnabled.push_back("VK_LAYER_LUNARG_standard_validation");
