@@ -4,10 +4,11 @@
 #include <functional>
 #include <vector>
 #include <string>
-
 #include <loguru.hpp>
 
 struct Event {};
+
+class GameRoot;
 
 struct EventKeyPress : public Event {
 	const int key;
@@ -37,6 +38,11 @@ struct EventAction : public Event {
 		action(_action)
 	{};
 	EventAction() {};
+};
+
+struct EventDrawCall : public Event {
+	GameRoot& gameRoot;
+	EventDrawCall(GameRoot& _gameRoot);
 };
 
 typedef std::function<void(Event&)> callbackFunction;

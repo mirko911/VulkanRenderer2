@@ -20,5 +20,7 @@ public:
 	std::vector<int32_t> getRootNodes();
 
 	int32_t m_activeCamera = ENTITY_NOT_FOUND;
+	int32_t m_skyboxID = ENTITY_NOT_FOUND;
+	uint32_t stencilColor = 0x0;
 };
 

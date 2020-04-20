@@ -25,7 +25,7 @@ class Renderer
 {
 private:
 	RenderPass m_renderpass;
-
+	VulkanDevice m_device;
 	struct {
 		Pipeline main;
 		PipelineDepth mainDepth;
@@ -58,11 +58,14 @@ private:
 		Buffer skyboxUBODyn;
 	} m_buffers;
 
+	std::vector<Descriptor> m_descriptors;
+
 	//Dynamic Alignment Size for DynUBO
 	VkDeviceSize m_dynamicAlignment;
 
 public:
 	void Init(VulkanDevice& device, GameRoot& gameRoot);
+	void Draw(GameRoot& gameRoot);
 	void Render(GameRoot& gameRoot);
 	void updateUniformBuffer(GameRoot& gameRoot, const bool initial = false);
 	void Destroy();

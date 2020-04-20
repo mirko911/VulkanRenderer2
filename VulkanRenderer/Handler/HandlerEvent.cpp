@@ -1,4 +1,5 @@
 #include "HandlerEvent.hpp"
+#include "../GameRoot.hpp"
 
 HandlerEvent& HandlerEvent::instance()
 {
@@ -44,3 +45,7 @@ void HandlerEvent::notify(const std::string& eventName, Event& event)
 //		eventCallback(event);
 //	}
 //}
+
+EventDrawCall::EventDrawCall(GameRoot& _gameRoot) : gameRoot(_gameRoot)
+{
+}

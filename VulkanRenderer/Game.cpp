@@ -61,7 +61,8 @@ void Game::Init(VulkanDevice& device, Window& window)
 	m_gameRoot.hGeometry.addAlias(geoSphere.ID, "sphere");
 
 	ModuleInfo<TextureCubemap> skyboxTexture = m_gameRoot.hTexture.createCubemap("textures/sky", "jpg");
-	ModuleInfo<Skybox> geoSkybox = m_gameRoot.hSkybox.create(skyboxTexture.ID, geoCube.ID);
+	ModuleInfo<Skybox> skybox = m_gameRoot.hSkybox.create(skyboxTexture.ID, geoCube.ID);
+	m_gameRoot.hSkybox.addAlias(skybox.ID, "bluesky");
 
 	m_activeDemo.init(m_gameRoot);
 	m_activeDemo.run(m_gameRoot);
@@ -312,7 +313,7 @@ void Game::Tick()
 
 	earthRot->rotateY(0.003f);*/
 
-
+	m_activeDemo.update(0, m_gameRoot);
 
 	//Traverse SceneGraph and update local/global matrix
 	for (const int32_t sceneID : m_gameRoot.m_activeScenes) {

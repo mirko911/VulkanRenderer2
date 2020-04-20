@@ -6,7 +6,7 @@
 
 #include "Handler/HandlerEvent.hpp"
 
-constexpr double moveVelocity = .002f;
+constexpr double moveVelocity = .008f;
 constexpr double yawSpeed = 0.3;
 constexpr double pitchSpeed = 0.4;
 
@@ -29,6 +29,7 @@ private:
 	float m_FoV;
 	float m_zNear;
 	float m_zFar;
+	bool m_static = true;
 	void updateVectors();
 public:
 	Camera();
@@ -60,5 +61,6 @@ public:
 
 	void moveByMouse(EventMouseMove& event);
 	void onActionEvent(EventAction& event);
+	void setStatic(const bool staticVal);
 };
 

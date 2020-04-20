@@ -71,14 +71,14 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 		VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
 		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
 		m_buffers.mainUBODyn,
-		sizeof(MainUBODyn) * MAX_DYNUBO_SIZE
+		m_dynamicAlignment * MAX_DYNUBO_SIZE
 	);
 
 	Buffer::createBuffer(device.getDevice(), device.getGPU(),
 		VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
 		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
 		m_buffers.skyboxUBODyn,
-		sizeof(SkyboxUBODyn) * 2
+		m_dynamicAlignment * 3U
 	);
 
 	Buffer::createBuffer(device.getDevice(), device.getGPU(),
@@ -110,12 +110,12 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	descriptorSky.addLayoutBinding(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, VK_SHADER_STAGE_VERTEX_BIT);
 	descriptorSky.createDescriptorSetLayout();
 
-	std::vector<Descriptor> descriptors = { descriptor, descriptorSky };
+	m_descriptors = { descriptor, descriptorSky };
 
 	DescriptorPool descriptorPool;
 	descriptorPool.Init(device.getDevice(), device.getGPU());
-	descriptorPool.create(descriptors);
-	descriptorPool.allocateDescriptorSets(descriptors);
+	descriptorPool.create(m_descriptors);
+	descriptorPool.allocateDescriptorSets(m_descriptors);
 
 
 	std::vector<VkDescriptorImageInfo> imageInfosMain;
@@ -130,13 +130,13 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 		imageInfosSky.emplace_back(std::move(textureCubemap.second->getDescriptorImageInfo()));
 	}
 
-	descriptors[0].writeSet(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, imageInfosMain);
-	descriptors[0].writeSet(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, m_buffers.materialUBO);
-	descriptors[0].writeSet(2, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, m_buffers.mainUBO);
-	descriptors[0].writeSet(3, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, m_buffers.mainUBODyn);
+	m_descriptors[0].writeSet(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, imageInfosMain);
+	m_descriptors[0].writeSet(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, m_buffers.materialUBO);
+	m_descriptors[0].writeSet(2, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, m_buffers.mainUBO);
+	m_descriptors[0].writeSet(3, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, m_buffers.mainUBODyn);
 
-	descriptors[1].writeSet(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, imageInfosSky);
-	descriptors[1].writeSet(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, m_buffers.skyboxUBODyn);
+	m_descriptors[1].writeSet(0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, imageInfosSky);
+	m_descriptors[1].writeSet(1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, m_buffers.skyboxUBODyn);
 
 	//===============================================================================
 	//Init FrameBuffers
@@ -153,7 +153,7 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	//===============================================================================
 	//Init Pipeline
 	//===============================================================================
-	std::vector<VkDescriptorSetLayout> layoutInfoMain = { descriptors[0].getDescriptorSetLayout() };
+	std::vector<VkDescriptorSetLayout> layoutInfoMain = { m_descriptors[0].getDescriptorSetLayout() };
 
 	m_pipelines.mainDepth.Init(device.getDevice(), m_renderpass, m_shaders.depth);
 	m_pipelines.mainDepth.addDynamicState(VK_DYNAMIC_STATE_STENCIL_WRITE_MASK);
@@ -185,7 +185,8 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 
 
 	m_pipelines.skybox.Init(device.getDevice(), m_renderpass, m_shaders.skybox);
-	std::vector<VkDescriptorSetLayout> layoutInfoSky = { descriptors[1].getDescriptorSetLayout() };
+	m_pipelines.skybox.addDynamicState(VK_DYNAMIC_STATE_STENCIL_COMPARE_MASK);
+	std::vector<VkDescriptorSetLayout> layoutInfoSky = { m_descriptors[1].getDescriptorSetLayout() };
 	m_pipelines.skybox.createLayoutInfo(layoutInfoSky);
 	m_pipelines.skybox.createPipeline(2);
 
@@ -229,20 +230,29 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 		}
 	}
 
-	//===============================================================================
-	//Init CommandBuffers
-	//===============================================================================
-	m_commandPool.Init(device.getDevice(), device.getGraphicsQueue());
-	m_commandPool.create();
+	m_device = device;
 
+	HandlerEvent::instance().registerEvent("redraw", [this](Event& event) {
+		this->Draw((reinterpret_cast<EventDrawCall&>(event)).gameRoot); 
+	});
+
+	m_commandBuffers.reserve(m_swapchain.getImageCount());
+
+
+	Draw(gameRoot);
+
+}
+
+void Renderer::Draw(GameRoot& gameRoot)
+{
+	m_commandBuffers.clear();
 	const VkClearColorValue color = { 0.f,0.4831f, 0.78125f, 1.0f };
 
 	//===============================================================================
 	//Record command buffers (draw calls)
 	//===============================================================================
-	m_commandBuffers.reserve(m_swapchain.getImageCount());
 	for (uint32_t i = 0; i < m_swapchain.getImageCount(); i++) {
-		CommandBuffer commandbuffer = m_commandPool.allocateCommandBuffer();
+		CommandBuffer commandbuffer = m_device.getCommandPool().allocateCommandBuffer();
 
 		commandbuffer.beginCommandBuffer();
 		auto beginInfo = m_renderpass.getBeginInfo(color, i);
@@ -271,7 +281,7 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 
 				ModuleGeometry* geometry = gameRoot.hGeometry.get<ModuleGeometry>(gameobject.second.get());
 
-				commandbuffer.bindDescriptorSets(m_pipelines.mainDepth.getPipelineLayout(), descriptors[0].getDescriptorSet(), &offset);
+				commandbuffer.bindDescriptorSets(m_pipelines.mainDepth.getPipelineLayout(), m_descriptors[0].getDescriptorSet(), &offset);
 				commandbuffer.bindVertexBuffers(geometry->getVertexBuffer().buffer);
 				commandbuffer.bindIndexBuffers(geometry->getIndexBuffer().buffer);
 				commandbuffer.drawIndexed(static_cast<uint32_t>(geometry->getIndexData().size()));
@@ -296,7 +306,7 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 
 				ModuleGeometry* geometry = gameRoot.hGeometry.get<ModuleGeometry>(gameobject.second.get());
 
-				commandbuffer.bindDescriptorSets(m_pipelines.mainDepth.getPipelineLayout(), descriptors[0].getDescriptorSet(), &offset);
+				commandbuffer.bindDescriptorSets(m_pipelines.mainDepth.getPipelineLayout(), m_descriptors[0].getDescriptorSet(), &offset);
 				commandbuffer.bindVertexBuffers(geometry->getVertexBuffer().buffer);
 				commandbuffer.bindIndexBuffers(geometry->getIndexBuffer().buffer);
 				commandbuffer.drawIndexed(static_cast<uint32_t>(geometry->getIndexData().size()));
@@ -333,7 +343,7 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 
 					ModuleGeometry* geometry = gameRoot.hGeometry.get<ModuleGeometry>(gameobject.second.get());
 
-					commandbuffer.bindDescriptorSets(m_pipelines.portalDepth.getPipelineLayout(), descriptors[0].getDescriptorSet(), &offset);
+					commandbuffer.bindDescriptorSets(m_pipelines.portalDepth.getPipelineLayout(), m_descriptors[0].getDescriptorSet(), &offset);
 					commandbuffer.bindVertexBuffers(geometry->getVertexBuffer().buffer);
 					commandbuffer.bindIndexBuffers(geometry->getIndexBuffer().buffer);
 					commandbuffer.drawIndexed(static_cast<uint32_t>(geometry->getIndexData().size()));
@@ -342,26 +352,46 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 		}
 
 		commandbuffer.nextSubpass();
-
-
 		{
+			uint32_t stencilColor = 0x00;
 			//======================
-			// Draw Skybox
-			//======================
+				// Draw Skybox
+				//======================
 			commandbuffer.bindPipeline(m_pipelines.skybox);
+			commandbuffer.setStencilCompareMask(0x00);
 
-			Skybox* skybox = gameRoot.hSkybox.get(0);
+			Scene* scene = gameRoot.hScene.get(gameRoot.m_mainScene);
+			Skybox* skybox = gameRoot.hSkybox.get(scene->m_skyboxID);
 			ModuleGeometry* geometry = gameRoot.hGeometry.get<ModuleGeometry>(skybox->getGeoID());
 
-			const uint32_t offset = (0);
-			const uint32_t dynUboOffset = static_cast<uint32_t>(m_dynamicAlignment * 0);
+			const uint32_t offset = static_cast<uint32_t>(m_dynamicAlignment)* static_cast<uint32_t>(gameRoot.m_mainScene);
 
-
-			commandbuffer.bindDescriptorSets(m_pipelines.skybox.getPipelineLayout(), descriptors[1].getDescriptorSet(), &offset);
+			commandbuffer.bindDescriptorSets(m_pipelines.skybox.getPipelineLayout(), m_descriptors[1].getDescriptorSet(), &offset);
 			commandbuffer.bindVertexBuffers(geometry->getVertexBuffer().buffer);
 			commandbuffer.bindIndexBuffers(geometry->getIndexBuffer().buffer);
 			commandbuffer.drawIndexed(static_cast<uint32_t>(geometry->getIndexData().size()));
+
+			//Draw portals of the main scene
+			for (const int32_t sceneID : gameRoot.m_activeScenes) {
+				if (sceneID == gameRoot.m_mainScene) continue;
+				//======================
+				// Draw Skybox
+				//======================
+				commandbuffer.setStencilCompareMask(++stencilColor);
+
+				Scene* scene = gameRoot.hScene.get(sceneID);
+				Skybox* skybox = gameRoot.hSkybox.get(scene->m_skyboxID);
+				ModuleGeometry* geometry = gameRoot.hGeometry.get<ModuleGeometry>(skybox->getGeoID());
+
+				const uint32_t offset = static_cast<uint32_t>(m_dynamicAlignment)* static_cast<uint32_t>(sceneID);
+
+				commandbuffer.bindDescriptorSets(m_pipelines.skybox.getPipelineLayout(), m_descriptors[1].getDescriptorSet(), &offset);
+				commandbuffer.bindVertexBuffers(geometry->getVertexBuffer().buffer);
+				commandbuffer.bindIndexBuffers(geometry->getIndexBuffer().buffer);
+				commandbuffer.drawIndexed(static_cast<uint32_t>(geometry->getIndexData().size()));
+			}
 		}
+
 		{
 			//======================
 			// Draw Main Scene
@@ -384,7 +414,7 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 
 				ModuleGeometry* geometry = gameRoot.hGeometry.get<ModuleGeometry>(gameobject.second.get());
 
-				commandbuffer.bindDescriptorSets(m_pipelines.main.getPipelineLayout(), descriptors[0].getDescriptorSet(), &offset);
+				commandbuffer.bindDescriptorSets(m_pipelines.main.getPipelineLayout(), m_descriptors[0].getDescriptorSet(), &offset);
 				commandbuffer.bindVertexBuffers(geometry->getVertexBuffer().buffer);
 				commandbuffer.bindIndexBuffers(geometry->getIndexBuffer().buffer);
 				commandbuffer.drawIndexed(static_cast<uint32_t>(geometry->getIndexData().size()));
@@ -411,7 +441,7 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 
 					ModuleGeometry* geometry = gameRoot.hGeometry.get<ModuleGeometry>(gameobject.second.get());
 
-					commandbuffer.bindDescriptorSets(m_pipelines.main.getPipelineLayout(), descriptors[0].getDescriptorSet(), &offset);
+					commandbuffer.bindDescriptorSets(m_pipelines.main.getPipelineLayout(), m_descriptors[0].getDescriptorSet(), &offset);
 					commandbuffer.bindVertexBuffers(geometry->getVertexBuffer().buffer);
 					commandbuffer.bindIndexBuffers(geometry->getIndexBuffer().buffer);
 					commandbuffer.drawIndexed(static_cast<uint32_t>(geometry->getIndexData().size()));
@@ -424,7 +454,6 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 		commandbuffer.endCommandBuffer();
 
 		m_commandBuffers.push_back(commandbuffer);
-
 	}
 }
 
@@ -516,14 +545,20 @@ void Renderer::updateUniformBuffer(GameRoot& gameRoot, const bool initial)
 		//m_buffers.mainUBODyn.unmap();
 	}
 
+	int j = 0;
+	Scene* mainScene = gameRoot.hScene.get(gameRoot.m_mainScene);
+	Camera* cam = gameRoot.hCamera.get(mainScene->m_activeCamera);
 
+	for (auto& scenePair: gameRoot.hScene.getAll()) {
+		SkyboxUBODyn skyboxDynUBO;
+		skyboxDynUBO.viewProj = cam->getProjection() * Mat4(Mat3(cam->getView())); 
+		skyboxDynUBO.skyboxID = scenePair.second->m_skyboxID;
+
+		void* ptr = static_cast<char*>(m_buffers.skyboxUBODyn.mapped) + (j++ * m_dynamicAlignment);
+		memcpy(ptr, &skyboxDynUBO, sizeof(SkyboxUBODyn));
+	}
 	
-
-	SkyboxUBODyn skyboxDynUBO;
-	skyboxDynUBO.viewProj = camera->getProjection() * Mat4(1.0f);
-	skyboxDynUBO.skyboxID = 0;
-	void* ptr = static_cast<char*>(m_buffers.skyboxUBODyn.mapped) + (0 * m_dynamicAlignment);
-	memcpy(ptr, &skyboxDynUBO, sizeof(SkyboxUBODyn));
+	
 	//m_buffers.skyboxUBODyn.unmap();
 }
 

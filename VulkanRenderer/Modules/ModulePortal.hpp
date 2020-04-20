@@ -8,6 +8,9 @@
 #include "../defintions.hpp"
 
 #include "ModuleBase.hpp"
+#include "../Handler/HandlerEvent.hpp"
+class Camera;
+class ModuleGeometry;
 
 class ModulePortal : public ModuleBase {
 private:
@@ -21,4 +24,6 @@ public:
 	int32_t getStartGameObject() const;
 	int32_t getDestinationGameObject() const;
 	Mat4 getObliquePlane(const Vec3& pos, const Vec3& normal, Mat4 proj, Mat4 view);
+	bool checkTeleport(Camera* cam, const Mat4& modelMat, ModuleGeometry* geo);
+
 };

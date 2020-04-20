@@ -72,12 +72,16 @@ void Camera::setPosition(const float x, const float y, const float z)
 void Camera::setPosition(const Vec3 position)
 {
 	m_position = position;
+	m_positionPrev = m_position;
+
 	updateVectors();
 }
 
 void Camera::setPosition(const Vec3 position, const float yaw, const float pitch)
 {
 	m_position = position;
+	m_positionPrev = m_position;
+
 	m_yaw = yaw;
 	m_pitch = pitch;
 	updateVectors();
@@ -163,6 +167,7 @@ Mat4 Camera::getProjection() const
 
 void Camera::moveByMouse(EventMouseMove& event)
 {
+	if (m_static) return;
 	//y = pitch
 	//x = yaw
 	if (event.speed_x > 0) {
@@ -179,7 +184,7 @@ void Camera::moveByMouse(EventMouseMove& event)
 		m_pitch += (float)pitchSpeed;
 	}
 
-	std::clamp(m_pitch, -89.0f, 89.0f);
+	m_pitch = std::clamp(m_pitch, -89.0f, 89.0f);
 	//if (m_pitch > 89.0f) m_pitch = 89.0f;
 	//if (m_pitch < -89.0f) m_pitch = -89.0f;
 	updateVectors();
@@ -188,6 +193,8 @@ void Camera::moveByMouse(EventMouseMove& event)
 
 void Camera::onActionEvent(EventAction& event)
 {
+	if (m_static) return;
+
 	char forward = 0;
 	char right = 0;
 	char up = 0;
@@ -211,9 +218,16 @@ void Camera::onActionEvent(EventAction& event)
 		up =+ 1;
 	}
 
+	m_positionPrev = m_position;
+
 	m_position += m_front * static_cast<float>(forward * moveVelocity);
 	m_position += m_right * static_cast<float>(right * moveVelocity);
 	m_position += m_worldUP * static_cast<float>(up * moveVelocity);
 
 	updateVectors();
+}
+
+void Camera::setStatic(const bool staticVal)
+{
+	m_static = staticVal;
 }

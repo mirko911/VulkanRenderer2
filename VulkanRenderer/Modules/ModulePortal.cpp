@@ -54,12 +54,34 @@ void ModulePortal::update(const float ftimeDelta, GameRoot& gameRoot)
 	Mat4 proj = getObliquePlane(startTrans->getTranslation() - (normal * extra_clip), -normal, startCam->getProjection(), startCam->getView());
 	endCam->setProjection(proj);
 
-	const Mat4 inverted = glm::inverse(portal_cam);
-	const Vec3 position = inverted[3];
-	const Vec3 direction = -inverted[2];
-	const float yaw = glm::degrees(glm::atan(direction.z, direction.x)) - 90;
-	const float pitch = glm::degrees(glm::asin(direction.y));
-	endCam->setPosition(position, yaw, pitch);
+	if (checkTeleport(startCam, startTrans->getLocalMat(), geo)) {
+		gameRoot.m_mainScene = destinationGO->getSceneID();
+
+		endCam->setStatic(false);
+		startCam->setStatic(true);
+
+		const Mat4 inverted = glm::inverse(portal_cam);
+		Vec3 position = inverted[3];
+		position += startCam->getFront() * Vec3(-3, -3, -3);
+		const Vec3 direction = -inverted[2];
+		const float yaw = glm::degrees(glm::atan(direction.z, direction.x)) - 90;
+		const float pitch = glm::degrees(glm::asin(direction.y));
+		endCam->setPosition(position, yaw, pitch);
+
+		endCam->setProjection(startCam->getProjection());
+
+		LOG_F(WARNING, "Touched portal %i", startGO->getModuleID());
+
+		EventDrawCall drawCallEvent = EventDrawCall(gameRoot);
+		HandlerEvent::instance().notify("redraw", drawCallEvent);
+	}
+
+	//const Mat4 inverted = glm::inverse(portal_cam);
+	//const Vec3 position = inverted[3];
+	//const Vec3 direction = -inverted[2];
+	//const float yaw = glm::degrees(glm::atan(direction.z, direction.x)) - 90;
+	//const float pitch = glm::degrees(glm::asin(direction.y));
+	//endCam->setPosition(position, yaw, pitch);
 
 }
 
@@ -108,4 +130,43 @@ Mat4 ModulePortal::getObliquePlane(const Vec3& pos, const Vec3& normal, Mat4 pro
 	newProj2[3][2] = c2.w;
 
 	return newProj2;
+}
+
+bool ModulePortal::checkTeleport(Camera* cam, const Mat4& modelMat, ModuleGeometry* geo)
+{
+	if (cam->getPositionPrev() == cam->getPosition()) {
+		return false;
+	}
+
+	for (int i = 0; i < 2; i++) {
+		uint32_t index0 = geo->getIndexData()[i * 3 + 0];
+		uint32_t index1 = geo->getIndexData()[i * 3 + 1];
+		uint32_t index2 = geo->getIndexData()[i * 3 + 2];
+		Vec3 point0 = modelMat * Vec4(geo->getVertexData()[index0].position, 1);
+		Vec3 point1 = modelMat * Vec4(geo->getVertexData()[index1].position, 1);
+		Vec3 point2 = modelMat * Vec4(geo->getVertexData()[index2].position, 1);
+
+		float dist = glm::distance(cam->getPosition(), point0);
+		if (dist < 3) {
+			return true;
+		}
+
+		glm::vec3 tuv =
+			glm::inverse(
+				glm::mat3(
+					Vec3(cam->getPositionPrev() - cam->getPosition()),
+					Vec3(point1 - point0),
+					Vec3(point2 - point0)))
+			* Vec3(cam->getPositionPrev() - point0);
+
+		float t = tuv.x; float u = tuv.y; float v = tuv.z;
+
+		float eps = 1e-7;
+		if (t >= 0 - eps && t <= 1 + eps) {
+			if (u >= 0 - eps && u <= 1 + eps && v >= 0 - eps && v <= 1 + eps && (u + v) <= 1 + eps) {
+				return true;
+			}
+		};
+	}
+	return false;
 }
