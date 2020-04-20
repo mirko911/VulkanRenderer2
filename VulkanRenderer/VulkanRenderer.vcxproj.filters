@@ -183,6 +183,9 @@
     <ClCompile Include="demos\DemoBlue.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="demos\DemoMaterial.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="defintions.hpp">
@@ -351,6 +354,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="demos\DemoBlue.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="demos\DemoMaterial.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

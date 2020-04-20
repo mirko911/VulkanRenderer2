@@ -149,7 +149,7 @@ struct SkyboxUBODyn {
 };
 
 struct MaterialUBO {
-	MaterialBlock materials[10];
+	MaterialBlock materials[100];
 };
 
 template <typename T>

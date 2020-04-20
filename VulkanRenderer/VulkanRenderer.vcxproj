@@ -158,6 +158,7 @@
     <ClCompile Include="CommandPool.cpp" />
     <ClCompile Include="demos\DemoBlue.cpp" />
     <ClCompile Include="demos\DemoBlueUniverse.cpp" />
+    <ClCompile Include="demos\DemoMaterial.cpp" />
     <ClCompile Include="Descriptor.cpp" />
     <ClCompile Include="DescriptorPool.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -216,6 +217,7 @@
     <ClInclude Include="CommandPool.hpp" />
     <ClInclude Include="demos\DemoBlue.hpp" />
     <ClInclude Include="demos\DemoBlueUniverse.hpp" />
+    <ClInclude Include="demos\DemoMaterial.hpp" />
     <ClInclude Include="Descriptor.hpp" />
     <ClInclude Include="DescriptorPool.hpp" />
     <ClInclude Include="Game.hpp" />

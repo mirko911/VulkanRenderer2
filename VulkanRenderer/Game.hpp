@@ -17,6 +17,7 @@
 
 #include "demos/DemoBlueUniverse.hpp"
 #include "demos/DemoBlue.hpp"
+#include "demos/DemoMaterial.hpp"
 
 class Game
 {
@@ -25,7 +26,7 @@ private:
 	Window m_window;
 	Renderer m_renderer;
 	GameRoot m_gameRoot;
-	DemoBlue m_activeDemo;
+	DemoMaterial m_activeDemo;
 public:
 	void Init(VulkanDevice& device, Window& window);
 	void Tick();

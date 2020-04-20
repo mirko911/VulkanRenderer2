@@ -18,7 +18,7 @@ struct Material{
 };
 
 layout(set = 0, binding = 1) uniform MaterialUBO{
-    Material material[10];
+    Material material[100];
 } materials;
 
 
