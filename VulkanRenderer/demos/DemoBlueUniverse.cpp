@@ -162,22 +162,51 @@ void DemoBlueUniverse::initUniverse(GameRoot& gameRoot)
 	sceneUniverse = scene.ID;
 	//mainScene = scene.ID;
 
-	{ 
+
+	ModuleInfo<ModuleTransformation> sunTransformation = gameRoot.hTransformation.create();
+	ModuleInfo<ModuleTransformation> earthTransformation = gameRoot.hTransformation.create();
+	ModuleInfo<ModuleTransformation> moonTransformation = gameRoot.hTransformation.create();
+
+
+	ModuleInfo<SceneNode> earthNode1 = gameRoot.hSceneNode.create();
+	ModuleInfo<SceneNode> earthNode2 = gameRoot.hSceneNode.create();
+	ModuleInfo<SceneNode> moonNode1 = gameRoot.hSceneNode.create();
+	ModuleInfo<SceneNode> moonNode2 = gameRoot.hSceneNode.create();
+
+	ModuleInfo<ModuleTransformation> earthNodeTransform1 = gameRoot.hTransformation.create(); //orbital rotation
+	ModuleInfo<ModuleTransformation> earthNodeTransform2 = gameRoot.hTransformation.create(); //orbital rotation
+	ModuleInfo<ModuleTransformation> moonNodeTransform1 = gameRoot.hTransformation.create(); //orbital rotation
+	ModuleInfo<ModuleTransformation> moonNodeTransform2 = gameRoot.hTransformation.create(); //orbital rotation
+
+	{
 		ModuleInfo<GameObjekt> go = gameRoot.hGameObject.create();
-		ModuleInfo<ModuleTransformation> transformation = gameRoot.hTransformation.create();
 
 		go->addModule<ModuleGeometry>(gameRoot.hGeometry.getID("sphere"));
-		go->addModule<ModuleTransformation>(transformation.ID);
+		go->addModule<ModuleTransformation>(sunTransformation.ID);
 		go->addModule<ModuleMaterial>(sunMaterial.ID);
 		go->setSceneID(scene.ID);
-
-		transformation->scale(Vec3(20, 20, 20));
-		sunRotation = transformation.ID;
-
 		rootNode->addGameObject(go.ID);
 	}
 	{
-		//-rootNode
+		ModuleInfo<GameObjekt> go = gameRoot.hGameObject.create();
+
+		go->addModule<ModuleGeometry>(gameRoot.hGeometry.getID("sphere"));
+		go->addModule<ModuleTransformation>(earthTransformation.ID);
+		go->addModule<ModuleMaterial>(earthMaterial.ID);
+		go->setSceneID(scene.ID);
+		earthNode2->addGameObject(go.ID);
+	}
+	{
+		ModuleInfo<GameObjekt> go = gameRoot.hGameObject.create();
+
+		go->addModule<ModuleGeometry>(gameRoot.hGeometry.getID("sphere"));
+		go->addModule<ModuleTransformation>(moonTransformation.ID);
+		go->addModule<ModuleMaterial>(moonMaterial.ID);
+		go->setSceneID(scene.ID);
+		moonNode2->addGameObject(go.ID);
+	}
+
+	//-rootNode
 			// # goSUN
 				// # scale 20,20,20
 				// # rotate y
@@ -196,56 +225,31 @@ void DemoBlueUniverse::initUniverse(GameRoot& gameRoot)
 								//scale
 								//rotate
 
-		ModuleInfo<GameObjekt> go = gameRoot.hGameObject.create();
-		ModuleInfo<ModuleTransformation> transformation = gameRoot.hTransformation.create(); //earth own rotation
-		ModuleInfo<SceneNode> node = gameRoot.hSceneNode.create();
-		ModuleInfo<ModuleTransformation> sceneNodeTransform = gameRoot.hTransformation.create(); //orbital rotation
-		ModuleInfo<SceneNode> node1 = gameRoot.hSceneNode.create();
-		ModuleInfo<ModuleTransformation> sceneNodeTransform1 = gameRoot.hTransformation.create(); //orbital rotation
-		
-		go->addModule<ModuleGeometry>(gameRoot.hGeometry.getID("sphere"));
-		go->addModule<ModuleTransformation>(transformation.ID);
-		go->addModule<ModuleMaterial>(earthMaterial.ID);
-		go->setSceneID(scene.ID);
 
-		transformation->scaleAbsolute(Vec3(7));
+	sunTransformation->scaleAbsolute(Vec3(20.0f));
+	earthTransformation->scaleAbsolute(Vec3(10.0f));
+	moonTransformation->scaleAbsolute(Vec3(1.0f));
 
-		earthRotation = sceneNodeTransform.ID;
+	rootNode->addChild(earthNode1.ID);
+	earthNode1->addChild(earthNode2.ID);
 
-		sceneNodeTransform1->translateY(15);
+	earthNode2->addChild(moonNode1.ID);
+	moonNode1->addChild(moonNode2.ID);
 
-		earthOwnRotation = transformation.ID;
+	earthNode1->setTransformationID(earthNodeTransform1.ID);
+	earthNode2->setTransformationID(earthNodeTransform2.ID);
+	moonNode1->setTransformationID(moonNodeTransform1.ID);
+	moonNode2->setTransformationID(moonNodeTransform2.ID);
 
-		node->setTransformationID(sceneNodeTransform.ID);
-		node->addChild(node1.ID);
-		node1->setTransformationID(sceneNodeTransform1.ID);
-		node1->addGameObject(go.ID);
+	m_sunTransformation = sunTransformation.ID;
+	m_earthTransformation = earthTransformation.ID;
+	m_moonTransformation = moonTransformation.ID;
 
+	m_earthNode1Transformation = earthNodeTransform1.ID;
+	m_moonNode1Transformation = moonNodeTransform1.ID;
 
-		ModuleInfo<GameObjekt> goMoon = gameRoot.hGameObject.create();
-		ModuleInfo<ModuleTransformation> transformationMoon = gameRoot.hTransformation.create();
-		ModuleInfo<ModuleTransformation> transformationMoonRot = gameRoot.hTransformation.create();
-		ModuleInfo<ModuleTransformation> transformationMoonTrans = gameRoot.hTransformation.create();
-
-		goMoon->addModule<ModuleGeometry>(gameRoot.hGeometry.getID("sphere"));
-		goMoon->addModule<ModuleTransformation>(transformationMoon.ID);
-		goMoon->addModule<ModuleMaterial>(moonMaterial.ID);
-		goMoon->setSceneID(scene.ID);
-
-		ModuleInfo<SceneNode> moonTransNode = gameRoot.hSceneNode.create();
-		ModuleInfo<SceneNode> moonRotNode = gameRoot.hSceneNode.create();
-
-		transformationMoonTrans->translateY(10);
-
-		node1->addChild(moonRotNode.ID);
-		moonRotNode->addChild(moonTransNode.ID);
-
-		moonTransNode->addGameObject(goMoon.ID);
-
-		moonRotation = transformationMoonRot.ID;
-		moonOwnRotation = transformationMoon.ID;
-		//rootNode->addChild(node.ID);
-	}
+	earthNodeTransform2->translateAbsoluteX(85.0f);
+	moonNodeTransform2->translateAbsoluteX(20.0f);
 
 	{
 		//Setup Portal
@@ -347,18 +351,18 @@ void DemoBlueUniverse::run(GameRoot& gameRoot)
 
 void DemoBlueUniverse::update(const float fTimeDelta, GameRoot& gameRoot)
 {
-	//ModuleTransformation* transformation = gameRoot.hTransformation.get(sunRotation);
-	//transformation->rotateY(0.000005);
+	ModuleTransformation* transformation = gameRoot.hTransformation.get(m_sunTransformation);
+	transformation->rotateY(0.00005);
 
-	//transformation = gameRoot.hTransformation.get(earthRotation);
-	//transformation->rotateY(0.000005);
-	//
-	//transformation = gameRoot.hTransformation.get(earthOwnRotation);
-	//transformation->rotateY(0.000005);
+	transformation = gameRoot.hTransformation.get(m_earthTransformation);
+	transformation->rotateY(0.0005);
+	
+	transformation = gameRoot.hTransformation.get(m_moonTransformation);
+	transformation->rotateY(0.005);
 
-	//transformation = gameRoot.hTransformation.get(moonRotation);
-	//transformation->rotateY(0.000005);
+	transformation = gameRoot.hTransformation.get(m_earthNode1Transformation);
+	transformation->rotateY(0.0005);
 
-	//transformation = gameRoot.hTransformation.get(moonOwnRotation);
-	//transformation->rotateY(0.000005);
+	transformation = gameRoot.hTransformation.get(m_moonNode1Transformation);
+	transformation->rotateY(0.0005);
 }

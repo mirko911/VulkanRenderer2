@@ -15,12 +15,12 @@ private:
 	int32_t sceneUniverse;
 	int32_t sceneBlueSky;
 
-	int32_t sunRotation = ENTITY_NOT_FOUND;
-	int32_t earthRotation = ENTITY_NOT_FOUND;;
-	int32_t earthOwnRotation = ENTITY_NOT_FOUND;;
+	int32_t m_sunTransformation = ENTITY_NOT_FOUND;
+	int32_t m_earthTransformation = ENTITY_NOT_FOUND;;
+	int32_t m_moonTransformation = ENTITY_NOT_FOUND;;
 
-	int32_t moonRotation = ENTITY_NOT_FOUND;
-	int32_t moonOwnRotation = ENTITY_NOT_FOUND;
+	int32_t m_earthNode1Transformation = ENTITY_NOT_FOUND;
+	int32_t m_moonNode1Transformation = ENTITY_NOT_FOUND;
 
 	int32_t portalStart;
 	int32_t portalEnd;
