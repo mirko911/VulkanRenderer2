@@ -25,7 +25,7 @@ void main()
 {
 	outUVW = inPosition;
 	//outUVW.z *= -1.0;
-	outUVW.y *= -1.0;
+	//outUVW.y *= -1.0;
 	//outUVW.z *= -1.0;
 	gl_Position = uboDyn.viewProj * vec4(inPosition.xyz, 1.0);
 	outSkyboxID = uboDyn.skyboxID;
