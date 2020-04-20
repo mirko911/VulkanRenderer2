@@ -156,6 +156,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CommandBuffer.cpp" />
     <ClCompile Include="CommandPool.cpp" />
+    <ClCompile Include="demos\DemoBase.cpp" />
     <ClCompile Include="demos\DemoBlue.cpp" />
     <ClCompile Include="demos\DemoBlueUniverse.cpp" />
     <ClCompile Include="demos\DemoMaterial.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="CommandBuffer.hpp" />
     <ClInclude Include="CommandPool.hpp" />
+    <ClInclude Include="demos\DemoBase.hpp" />
     <ClInclude Include="demos\DemoBlue.hpp" />
     <ClInclude Include="demos\DemoBlueUniverse.hpp" />
     <ClInclude Include="demos\DemoMaterial.hpp" />

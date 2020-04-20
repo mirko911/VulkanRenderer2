@@ -64,8 +64,13 @@ void Game::Init(VulkanDevice& device, Window& window)
 	ModuleInfo<Skybox> skybox = m_gameRoot.hSkybox.create(skyboxTexture.ID, geoCube.ID);
 	m_gameRoot.hSkybox.addAlias(skybox.ID, "bluesky");
 
-	m_activeDemo.init(m_gameRoot);
-	m_activeDemo.run(m_gameRoot);
+	m_activeDemo = std::make_unique<DemoBlueUniverse>();
+	m_activeDemo->init(m_gameRoot);
+	m_activeDemo->run(m_gameRoot);
+
+	HandlerEvent::instance().registerEvent("keyPress", [this](Event& event) {
+		this->onKeyPress(reinterpret_cast<EventKeyPress&>(event));
+	});
 
 	////ModuleInfo<ModuleGeometry> test = m_gameRoot.hGeometry.create<ModuleGeometry>();
 
@@ -313,7 +318,7 @@ void Game::Tick()
 
 	earthRot->rotateY(0.003f);*/
 
-	m_activeDemo.update(0, m_gameRoot);
+	m_activeDemo->update(0, m_gameRoot);
 
 	//Traverse SceneGraph and update local/global matrix
 	for (const int32_t sceneID : m_gameRoot.m_activeScenes) {
@@ -343,4 +348,26 @@ void Game::Fini()
 	m_renderer.Destroy();
 	LOG_F(INFO, "GAME FINI");
 
+}
+
+void Game::onKeyPress(EventKeyPress& event)
+{
+	if (event.action != GLFW_PRESS) {
+		return;
+	}
+	if (event.key == GLFW_KEY_1) {
+		m_activeDemo = std::make_unique<DemoBlueUniverse>();
+		m_activeDemo->init(m_gameRoot);
+		m_activeDemo->run(m_gameRoot);
+	}
+	else if (event.key == GLFW_KEY_2) {
+		m_activeDemo = std::make_unique<DemoBlue>();
+		m_activeDemo->init(m_gameRoot);
+		m_activeDemo->run(m_gameRoot);
+	}
+	else if (event.key == GLFW_KEY_3) {
+		m_activeDemo = std::make_unique<DemoMaterial>();
+		m_activeDemo->init(m_gameRoot);
+		m_activeDemo->run(m_gameRoot);
+	}
 }

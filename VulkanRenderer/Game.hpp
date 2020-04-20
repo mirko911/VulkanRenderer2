@@ -15,6 +15,7 @@
 
 #include "Handler/HandlerEvent.hpp"
 
+#include "demos/DemoBase.hpp"
 #include "demos/DemoBlueUniverse.hpp"
 #include "demos/DemoBlue.hpp"
 #include "demos/DemoMaterial.hpp"
@@ -26,12 +27,13 @@ private:
 	Window m_window;
 	Renderer m_renderer;
 	GameRoot m_gameRoot;
-	DemoMaterial m_activeDemo;
+	std::unique_ptr<DemoBase> m_activeDemo;
 public:
 	void Init(VulkanDevice& device, Window& window);
 	void Tick();
 	void Draw();
 	void Fini();
+	void onKeyPress(EventKeyPress& event);
 	void Test(EventKeyPress& event) { LOG_F(WARNING, "GAME TEST CALLBACK"); };
 };
 
