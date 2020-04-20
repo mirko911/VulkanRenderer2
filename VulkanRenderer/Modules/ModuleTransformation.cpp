@@ -40,6 +40,12 @@ Transformation& ModuleTransformation::getTransformation()
 	return m_transformation;
 }
 
+void ModuleTransformation::setTransformation(Transformation transformation)
+{
+	m_transformation = transformation;
+	m_isDirty = true;
+}
+
 Mat4 ModuleTransformation::updateGlobalMat(const Mat4& mat)
 {
 	if (!m_recalculateGlobalMat && mat == m_parentMat) {

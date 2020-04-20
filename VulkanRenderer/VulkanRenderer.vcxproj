@@ -156,6 +156,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CommandBuffer.cpp" />
     <ClCompile Include="CommandPool.cpp" />
+    <ClCompile Include="demos\DemoBlue.cpp" />
     <ClCompile Include="demos\DemoBlueUniverse.cpp" />
     <ClCompile Include="Descriptor.cpp" />
     <ClCompile Include="DescriptorPool.cpp" />
@@ -213,6 +214,7 @@
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="CommandBuffer.hpp" />
     <ClInclude Include="CommandPool.hpp" />
+    <ClInclude Include="demos\DemoBlue.hpp" />
     <ClInclude Include="demos\DemoBlueUniverse.hpp" />
     <ClInclude Include="Descriptor.hpp" />
     <ClInclude Include="DescriptorPool.hpp" />

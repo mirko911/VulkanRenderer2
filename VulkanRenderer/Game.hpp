@@ -16,6 +16,7 @@
 #include "Handler/HandlerEvent.hpp"
 
 #include "demos/DemoBlueUniverse.hpp"
+#include "demos/DemoBlue.hpp"
 
 class Game
 {
@@ -24,7 +25,7 @@ private:
 	Window m_window;
 	Renderer m_renderer;
 	GameRoot m_gameRoot;
-	DemoBlueUniverse m_activeDemo;
+	DemoBlue m_activeDemo;
 public:
 	void Init(VulkanDevice& device, Window& window);
 	void Tick();

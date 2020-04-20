@@ -28,6 +28,7 @@ public:
 	Vec3 getRotation() const;
 	Vec3 getScale() const;
 	Transformation& getTransformation();
+	void setTransformation(Transformation transformation);
 	Mat4 updateGlobalMat(const Mat4& mat);
 	void updateLocalMat();
 

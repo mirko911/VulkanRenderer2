@@ -49,31 +49,42 @@ void ModulePortal::update(const float ftimeDelta, GameRoot& gameRoot)
 		* glm::inverse(endMat);
 
 	endCam->setView(portal_cam);
-	float extra_clip = 0.1f;
+	float extra_clip = 0.0f;
 
 	Mat4 proj = getObliquePlane(startTrans->getTranslation() - (normal * extra_clip), -normal, startCam->getProjection(), startCam->getView());
 	endCam->setProjection(proj);
 
 	if (checkTeleport(startCam, startTrans->getLocalMat(), geo)) {
-		gameRoot.m_mainScene = destinationGO->getSceneID();
+		if (!m_sameScenePortal) {
+			gameRoot.m_mainScene = destinationGO->getSceneID();
 
-		endCam->setStatic(false);
-		startCam->setStatic(true);
+			endCam->setStatic(false);
+			startCam->setStatic(true);
 
-		const Mat4 inverted = glm::inverse(portal_cam);
-		Vec3 position = inverted[3];
-		position += startCam->getFront() * Vec3(-3, -3, -3);
-		const Vec3 direction = -inverted[2];
-		const float yaw = glm::degrees(glm::atan(direction.z, direction.x)) - 90;
-		const float pitch = glm::degrees(glm::asin(direction.y));
-		endCam->setPosition(position, yaw, pitch);
+			const Mat4 inverted = glm::inverse(portal_cam);
+			Vec3 position = inverted[3];
+			position += startCam->getFront() * Vec3(-3, -3, -3);
+			const Vec3 direction = -inverted[2];
+			const float yaw = glm::degrees(glm::atan(direction.z, direction.x)) - 90;
+			const float pitch = glm::degrees(glm::asin(direction.y));
+			endCam->setPosition(position, yaw, pitch);
 
-		endCam->setProjection(startCam->getProjection());
+			endCam->setProjection(startCam->getProjection());
 
-		LOG_F(WARNING, "Touched portal %i", startGO->getModuleID());
+			LOG_F(WARNING, "Touched portal %i", startGO->getModuleID());
 
-		EventDrawCall drawCallEvent = EventDrawCall(gameRoot);
-		HandlerEvent::instance().notify("redraw", drawCallEvent);
+			EventDrawCall drawCallEvent = EventDrawCall(gameRoot);
+			HandlerEvent::instance().notify("redraw", drawCallEvent);
+		}
+		else {
+			const Mat4 inverted = glm::inverse(portal_cam);
+			Vec3 position = inverted[3];
+			position += startCam->getFront() * Vec3(-3, -3, -3);
+			const Vec3 direction = -inverted[2];
+			const float yaw = glm::degrees(glm::atan(direction.z, direction.x)) - 90;
+			const float pitch = glm::degrees(glm::asin(direction.y));
+			startCam->setPosition(position, yaw, pitch);
+		}
 	}
 
 	//const Mat4 inverted = glm::inverse(portal_cam);
@@ -161,7 +172,7 @@ bool ModulePortal::checkTeleport(Camera* cam, const Mat4& modelMat, ModuleGeomet
 
 		float t = tuv.x; float u = tuv.y; float v = tuv.z;
 
-		float eps = 1e-7;
+		float eps = 1e-1;
 		if (t >= 0 - eps && t <= 1 + eps) {
 			if (u >= 0 - eps && u <= 1 + eps && v >= 0 - eps && v <= 1 + eps && (u + v) <= 1 + eps) {
 				return true;
@@ -169,4 +180,9 @@ bool ModulePortal::checkTeleport(Camera* cam, const Mat4& modelMat, ModuleGeomet
 		};
 	}
 	return false;
+}
+
+void ModulePortal::setSameScenePortal(const bool sameScenePortal)
+{
+	m_sameScenePortal = sameScenePortal;
 }

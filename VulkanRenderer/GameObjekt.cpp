@@ -1,4 +1,5 @@
 #include "GameObjekt.hpp"
+#include "GameRoot.hpp"
 
 void GameObjekt::setModuleID(const int32_t ID)
 {
@@ -63,4 +64,28 @@ void GameObjekt::removeChild(const int32_t ID)
 void GameObjekt::removeAllChildren(const int32_t ID)
 {
 	m_children.clear();
+}
+
+int32_t GameObjekt::clone(GameRoot& gameRoot)
+{
+	ModuleInfo<GameObjekt> gameobjectClone = gameRoot.hGameObject.create();
+
+	//Copy all modules
+	gameobjectClone->setModules(m_modules);
+
+	if (hasModule<ModulePortal>()) {
+		ModuleInfo<ModulePortal> portalClone = gameRoot.hPortal.create();
+		portalClone->setStartGameObject(gameobjectClone.ID);
+		//Overwrite old portal with new one
+		gameobjectClone->addModule<ModulePortal>(portalClone.ID, true);
+	}
+
+	if (hasModule<ModuleTransformation>()) {
+		ModuleTransformation* transformation = gameRoot.hTransformation.get(this);
+		ModuleInfo<ModuleTransformation> transformationClone = gameRoot.hTransformation.create();
+		transformationClone->setTransformation(transformation->getTransformation());
+		gameobjectClone->addModule<ModuleTransformation>(transformationClone.ID, true);
+	}
+
+	return gameobjectClone.ID;
 }

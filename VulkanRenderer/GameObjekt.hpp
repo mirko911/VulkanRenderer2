@@ -8,6 +8,8 @@
 
 #include "defintions.hpp"
 
+class GameRoot;
+
 class GameObjekt
 {
 private:
@@ -65,7 +67,7 @@ public:
 	}
 
 
-
+	int32_t clone(GameRoot& gameRoot);
 
 };
 
