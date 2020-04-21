@@ -50,7 +50,7 @@ typedef std::function<void(Event&)> callbackFunction;
 
 class HandlerEvent {
 private:
-	std::unordered_map<std::string, std::vector<callbackFunction>> m_events;
+	std::unordered_map<std::string, std::unordered_map<int32_t , callbackFunction>> m_events;
 	int32_t eventID = 0;
 public:
 	static HandlerEvent& instance();

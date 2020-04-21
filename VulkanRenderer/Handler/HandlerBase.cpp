@@ -41,6 +41,11 @@ void HandlerBase::removeAliases(const int32_t ID)
 	}
 }
 
+void HandlerBase::removeAliases()
+{
+	m_aliases.clear();
+}
+
 int32_t HandlerBase::getID(const std::string& alias)
 {
 	if (m_aliases.find(alias) != m_aliases.end()) {
@@ -58,4 +63,10 @@ void HandlerBase::setDebugName(const std::string& name)
 std::string HandlerBase::getDebugName() const
 {
 	return m_debugName;
+}
+
+void HandlerBase::clear()
+{
+	removeAliases();
+	m_nextID = 0;
 }

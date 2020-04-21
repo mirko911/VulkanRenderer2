@@ -30,9 +30,12 @@ private:
 	float m_zNear;
 	float m_zFar;
 	bool m_static = true;
+	int32_t m_actionEventID = ENTITY_NOT_FOUND;
+	int32_t m_mouseMoveEventID = ENTITY_NOT_FOUND;
 	void updateVectors();
 public:
 	Camera();
+	~Camera();
 	void setDebugName(const std::string& name);
 	std::string getDebugName() const;
 

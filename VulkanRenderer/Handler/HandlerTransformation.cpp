@@ -18,3 +18,9 @@ void HandlerTransformation::update(const float fTimeDelta, GameRoot& gameRoot)
 		ent.second->update(fTimeDelta, gameRoot);
 	}
 }
+
+void HandlerTransformation::clear()
+{
+	m_entities.clear();
+	HandlerBase::clear();
+}

@@ -18,3 +18,9 @@ void HandlerPortal::update(const float fTimeDelta, GameRoot& gameRoot)
 		ent.second->update(fTimeDelta, gameRoot);
 	}
 }
+
+void HandlerPortal::clear()
+{
+	m_entities.clear();
+	HandlerBase::clear();
+}

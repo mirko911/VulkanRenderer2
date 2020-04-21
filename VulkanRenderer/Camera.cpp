@@ -34,13 +34,19 @@ Camera::Camera()
 	m_position = glm::vec3(0.0f);
 	updateVectors();
 
-	HandlerEvent::instance().registerEvent("acttion", [this](Event& event) {
+	m_actionEventID = HandlerEvent::instance().registerEvent("action", [this](Event& event) {
 		this->onActionEvent(reinterpret_cast<EventAction&>(event));
 		});
 
-	HandlerEvent::instance().registerEvent("mouseMove", [this](Event& event) {
+	m_mouseMoveEventID = HandlerEvent::instance().registerEvent("mouseMove", [this](Event& event) {
 		this->moveByMouse(reinterpret_cast<EventMouseMove&>(event));
 		});
+}
+
+Camera::~Camera()
+{
+	HandlerEvent::instance().unregisterEvent("action", m_actionEventID);
+	HandlerEvent::instance().unregisterEvent("mouseMove", m_mouseMoveEventID);
 }
 
 void Camera::setDebugName(const std::string& name)

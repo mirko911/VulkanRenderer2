@@ -44,4 +44,6 @@ public:
 
 	//virtual void init(VulkanDevice& device);
 	//virtual void update(const float fTimeDelta);
+
+	void clear();
 };

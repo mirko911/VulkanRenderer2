@@ -42,6 +42,8 @@ public:
 	//Removes all aliases which belong to a given ID
 	void removeAliases(const int32_t ID);
 
+	void removeAliases();
+
 	//Returns ID which belongs to a given alias
 	int32_t getID(const std::string& alias);
 
@@ -50,4 +52,6 @@ public:
 
 	//Returns the name of the handler
 	std::string getDebugName() const;
+
+	void clear();
 };

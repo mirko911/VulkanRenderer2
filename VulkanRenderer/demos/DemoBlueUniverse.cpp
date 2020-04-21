@@ -119,32 +119,9 @@ void DemoBlueUniverse::initBlueWorld(GameRoot& gameRoot)
 
 void DemoBlueUniverse::initUniverse(GameRoot& gameRoot)
 {
-	ModuleInfo<TextureCubemap> skyboxTexture = gameRoot.hTexture.createCubemap("textures//universe_skybox//skybox", "jpg");
-	ModuleInfo<Skybox> skybox = gameRoot.hSkybox.create(skyboxTexture.ID, gameRoot.hGeometry.getID("cube"));
 
 
-	//Setup materials
-	ModuleInfo<Texture2D> sunTexture = gameRoot.hTexture.create2D("textures//2k_sun.jpg");
-	ModuleInfo<Texture2D> earthTexture = gameRoot.hTexture.create2D("textures//2k_earth_daymap.jpg");
-	ModuleInfo<Texture2D> earthNMTexture = gameRoot.hTexture.create2D("textures//2k_earth_normal_map.jpg");
-	ModuleInfo<Texture2D> moonTexture = gameRoot.hTexture.create2D("textures//2k_moon.jpg");
-	ModuleInfo<ModuleMaterial> sunMaterial = gameRoot.hMaterial.create();
-	ModuleInfo<ModuleMaterial> earthMaterial = gameRoot.hMaterial.create();
-	ModuleInfo<ModuleMaterial> moonMaterial = gameRoot.hMaterial.create();
 
-	sunMaterial->setDiffuseColor(Vec4(1, 1, 0, 0));
-	sunMaterial->setAmbientColor(Vec4(1.0f));
-	sunMaterial->setAmbientStrength(1);
-	sunMaterial->setTextureID(sunTexture.ID);
-
-	earthMaterial->setDiffuseColor(Vec4(1, 1, 1, 1));
-	earthMaterial->setAmbientColor(Vec4(1.0f));
-	earthMaterial->setAmbientStrength(0.5);
-	earthMaterial->setTextureID(earthTexture.ID);
-	earthMaterial->setNormalMapID(earthNMTexture.ID);
-	
-	moonMaterial->setDiffuseColor(Vec4(0.9, 0.9, 0.9, 1.0f));
-	moonMaterial->setTextureID(moonTexture.ID);
 
 	//Setup camera
 	ModuleInfo<Camera> camera = gameRoot.hCamera.create();
@@ -158,7 +135,7 @@ void DemoBlueUniverse::initUniverse(GameRoot& gameRoot)
 	scenes.push_back(scene.ID);
 	scene->addRootNode(rootNode.ID);
 	scene->m_activeCamera = camera.ID;
-	scene->m_skyboxID = skybox.ID;
+	scene->m_skyboxID = gameRoot.hSkybox.getID("universe");
 	sceneUniverse = scene.ID;
 	//mainScene = scene.ID;
 
@@ -183,7 +160,7 @@ void DemoBlueUniverse::initUniverse(GameRoot& gameRoot)
 
 		go->addModule<ModuleGeometry>(gameRoot.hGeometry.getID("sphere"));
 		go->addModule<ModuleTransformation>(sunTransformation.ID);
-		go->addModule<ModuleMaterial>(sunMaterial.ID);
+		go->addModule<ModuleMaterial>(gameRoot.hMaterial.getID("sun"));
 		go->setSceneID(scene.ID);
 		rootNode->addGameObject(go.ID);
 	}
@@ -192,7 +169,7 @@ void DemoBlueUniverse::initUniverse(GameRoot& gameRoot)
 
 		go->addModule<ModuleGeometry>(gameRoot.hGeometry.getID("sphere"));
 		go->addModule<ModuleTransformation>(earthTransformation.ID);
-		go->addModule<ModuleMaterial>(earthMaterial.ID);
+		go->addModule<ModuleMaterial>(gameRoot.hMaterial.getID("earth"));
 		go->setSceneID(scene.ID);
 		earthNode2->addGameObject(go.ID);
 	}
@@ -201,7 +178,7 @@ void DemoBlueUniverse::initUniverse(GameRoot& gameRoot)
 
 		go->addModule<ModuleGeometry>(gameRoot.hGeometry.getID("sphere"));
 		go->addModule<ModuleTransformation>(moonTransformation.ID);
-		go->addModule<ModuleMaterial>(moonMaterial.ID);
+		go->addModule<ModuleMaterial>(gameRoot.hMaterial.getID("moon"));
 		go->setSceneID(scene.ID);
 		moonNode2->addGameObject(go.ID);
 	}
@@ -347,6 +324,9 @@ void DemoBlueUniverse::run(GameRoot& gameRoot)
 {
 	gameRoot.m_mainScene = mainScene;
 	gameRoot.m_activeScenes = scenes;
+	
+	EventDrawCall drawCallEvent = EventDrawCall(gameRoot);
+	HandlerEvent::instance().notify("redraw", drawCallEvent);
 }
 
 void DemoBlueUniverse::update(const float fTimeDelta, GameRoot& gameRoot)

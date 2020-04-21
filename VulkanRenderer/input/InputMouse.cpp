@@ -9,9 +9,9 @@ void InputMouse::Init(VulkanDevice& device)
 	//});
 
 
-	HandlerEvent::instance().registerEvent("mouseMove", [this](Event& event) {
-		this->onMouseCallback(reinterpret_cast<EventMouseMove&>(event));
-		});
+//	HandlerEvent::instance().registerEvent("mouseMove", [this](Event& event) {
+//		this->onMouseCallback(reinterpret_cast<EventMouseMove&>(event));
+//		});
 }
 
 void InputMouse::onMouseCallback(EventMouseMove& event)

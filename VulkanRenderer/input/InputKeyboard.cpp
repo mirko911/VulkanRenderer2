@@ -10,9 +10,9 @@ void InputKeyboard::Init(VulkanDevice& device)
 	//	this->onKeyCallback(window, key, scan, action, mods);
 	});
 
-	HandlerEvent::instance().registerEvent("keyPress", [this](Event& event){
-		this->onKeyCallback(reinterpret_cast<EventKeyPress&>(event));
-	});
+//	HandlerEvent::instance().registerEvent("keyPress", [this](Event& event){
+//		this->onKeyCallback(reinterpret_cast<EventKeyPress&>(event));
+//	});
 }
 
 void InputKeyboard::onKeyCallback(EventKeyPress& event)
@@ -50,6 +50,6 @@ void InputKeyboard::update(const float fTimeDelta, GameRoot& gameRoot)
 	m_eventAction = EventAction(action);
 
 	if(action != 0x0)
-		HandlerEvent::instance().notify("acttion", m_eventAction);
+		HandlerEvent::instance().notify("action", m_eventAction);
 }
 

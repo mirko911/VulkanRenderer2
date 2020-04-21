@@ -33,4 +33,5 @@ public:
 
 	void Init(VulkanDevice& device);
 	void update(const float ftimeDelta);
+	void clear();
 };

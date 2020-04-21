@@ -24,3 +24,13 @@ void GameRoot::update(const float ftimeDelta)
 	hSkybox.update(ftimeDelta, *this);
 	hPortal.update(ftimeDelta, *this);
 }
+
+void GameRoot::clear()
+{
+	hTransformation.clear();
+	hGameObject.clear();
+	hCamera.clear();
+	hScene.clear();
+	hSceneNode.clear();
+	hPortal.clear();
+}

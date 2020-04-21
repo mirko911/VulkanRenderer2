@@ -169,7 +169,6 @@ void DemoBlue::initBlueWorld(GameRoot& gameRoot)
 		s0p1->setDestinatioNGameObject(s2p0->getStartGameObject());
 	}
 
-	scenes.push_back(scene.ID);
 	scenes.push_back(sceneCloneID);
 	scenes.push_back(sceneCloneID2);
 }
@@ -184,6 +183,9 @@ void DemoBlue::run(GameRoot& gameRoot)
 {
 	gameRoot.m_mainScene = mainScene;
 	gameRoot.m_activeScenes = scenes;
+
+	EventDrawCall drawCallEvent = EventDrawCall(gameRoot);
+	HandlerEvent::instance().notify("redraw", drawCallEvent);
 }
 
 void DemoBlue::update(const float fTimeDelta, GameRoot& gameRoot)
