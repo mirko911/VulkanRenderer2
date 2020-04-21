@@ -30,25 +30,11 @@ void HandlerEvent::notify(const std::string& eventName, Event& event)
 		return;
 	}
 
-	//LOG_F(INFO, "[EventHandler] Notify %s", eventName.c_str());
-
 	for (auto eventCallback : m_events[eventName]) {
 		eventCallback.second(event);
 	}
 }
 
-//void HandlerEvent::notify(const std::string& eventName, Event* event)
-//{
-//	if (m_events.find(eventName) == m_events.end()) {
-//		return;
-//	}
-//
-//	//LOG_F(INFO, "[EventHandler] Notify %s", eventName.c_str());
-//
-//	for (auto eventCallback : m_events[eventName]) {
-//		eventCallback(event);
-//	}
-//}
 
 EventDrawCall::EventDrawCall(GameRoot& _gameRoot) : gameRoot(_gameRoot)
 {
