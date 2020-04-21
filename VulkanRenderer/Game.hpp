@@ -30,7 +30,7 @@ private:
 	std::unique_ptr<DemoBase> m_activeDemo;
 public:
 	void Init(VulkanDevice& device, Window& window);
-	void Tick();
+	void Tick(const float fTimeDelta);
 	void Draw();
 	void Fini();
 	void onKeyPress(EventKeyPress& event);

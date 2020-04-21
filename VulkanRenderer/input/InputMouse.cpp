@@ -3,7 +3,11 @@
 void InputMouse::Init(VulkanDevice& device)
 {
 	m_window = device.getWindow();
+	glfwSetInputMode(m_window.getGLFWWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
+	if (glfwRawMouseMotionSupported()) {
+		glfwSetInputMode(m_window.getGLFWWindow(), GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+	}
 	//glfwSetCursorPosCallback(m_window.getGLFWWindow(), [](GLFWwindow* window, const double xPos, const double yPos) {
 	//	HandlerEvent::instance().notify("mouseMove", eventMouseMove);
 	//});

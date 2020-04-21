@@ -4,7 +4,7 @@ void DemoBlue::initBlueWorld(GameRoot& gameRoot)
 {
 	//Setup camera
 	ModuleInfo<Camera> camera = gameRoot.hCamera.create();
-	camera->setPosition(Vec3(50, 10, 20), 0, 180);
+	camera->setPosition(Vec3(50, 10, 20), 180, 0);
 	camera->setPerspective(45, SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.01f, 10000.0f);
 	camera->setStatic(false);
 

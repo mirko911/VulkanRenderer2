@@ -1,5 +1,6 @@
 #pragma once
 
+#include <chrono>
 #include <loguru.hpp>
 #include "defintions.hpp"
 
@@ -7,6 +8,11 @@
 #include "VulkanDevice.hpp"
 #include "Game.hpp"
 
+
+typedef std::chrono::time_point<std::chrono::high_resolution_clock> timePoint;
+typedef std::chrono::high_resolution_clock HighResClock;
+typedef std::chrono::nanoseconds ms;
+typedef std::chrono::duration<double> fsec;
 
 class Engine
 {

@@ -4,7 +4,7 @@ void DemoBlueUniverse::initBlueWorld(GameRoot& gameRoot)
 {
 	//Setup camera
 	ModuleInfo<Camera> camera = gameRoot.hCamera.create();
-	camera->setPosition(Vec3(50, 10, 20), 0, 180);
+	camera->setPosition(Vec3(50, 10, 20), 180, 0);
 	camera->setPerspective(45, SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.01f, 10000.0f);
 	camera->setStatic(false);
 
@@ -332,17 +332,17 @@ void DemoBlueUniverse::run(GameRoot& gameRoot)
 void DemoBlueUniverse::update(const float fTimeDelta, GameRoot& gameRoot)
 {
 	ModuleTransformation* transformation = gameRoot.hTransformation.get(m_sunTransformation);
-	transformation->rotateY(0.00005);
+	transformation->rotateY(0.00000000005f * fTimeDelta);
 
 	transformation = gameRoot.hTransformation.get(m_earthTransformation);
-	transformation->rotateY(0.0005);
+	transformation->rotateY(0.0000000005f * fTimeDelta);
 	
 	transformation = gameRoot.hTransformation.get(m_moonTransformation);
-	transformation->rotateY(0.005);
+	transformation->rotateY(0.000000005f * fTimeDelta);
 
 	transformation = gameRoot.hTransformation.get(m_earthNode1Transformation);
-	transformation->rotateY(0.0005);
+	transformation->rotateY(0.0000000005f * fTimeDelta);
 
 	transformation = gameRoot.hTransformation.get(m_moonNode1Transformation);
-	transformation->rotateY(0.0005);
+	transformation->rotateY(0.000000009f * fTimeDelta);
 }

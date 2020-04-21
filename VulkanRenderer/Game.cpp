@@ -273,10 +273,10 @@ void Game::Init(VulkanDevice& device, Window& window)
 	m_renderer.Init(m_device, m_gameRoot);
 }
 
-void Game::Tick()
+void Game::Tick(const float ftimeDelta)
 {
 
-	m_activeDemo->update(0, m_gameRoot);
+	m_activeDemo->update(ftimeDelta, m_gameRoot);
 
 	//Traverse SceneGraph and update local/global matrix
 	for (const int32_t sceneID : m_gameRoot.m_activeScenes) {
@@ -291,7 +291,7 @@ void Game::Tick()
 
 //	LOG_F(INFO, "GAME TICK");
 
-	m_gameRoot.update(0);
+	m_gameRoot.update(ftimeDelta);
 }
 
 void Game::Draw()
