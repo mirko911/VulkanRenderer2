@@ -38,7 +38,7 @@ void ModulePortal::update(const float ftimeDelta, GameRoot& gameRoot)
 
 	Vec3 normal = geo->getVertexData()[0].normal;
 
-	const bool frontDir = glm::dot(startCam->getPosition() - endTrans->getTranslation(), normal) > 0;
+	const bool frontDir = glm::dot(startCam->getPosition() - startTrans->getTranslation(), normal) > 0;
 	if (frontDir) {
 		normal = -normal;
 	}
@@ -49,12 +49,14 @@ void ModulePortal::update(const float ftimeDelta, GameRoot& gameRoot)
 		* glm::inverse(endMat);
 
 	endCam->setView(portal_cam);
-	float extra_clip = 0.0f;
-
+	
+	float distance = glm::distance(startCam->getPosition(), startTrans->getTranslation());
+	float extra_clip = (std::min)(distance * 0.5f, 0.1f);
+	
 	Mat4 proj = getObliquePlane(startTrans->getTranslation() - (normal * extra_clip), -normal, startCam->getProjection(), startCam->getView());
 	endCam->setProjection(proj);
 
-	if (checkTeleport(startCam, startTrans->getLocalMat(), geo)) {
+	if (checkTeleport(startCam, startTrans->getGlobalMat(), geo)) {
 		if (!m_sameScenePortal) {
 			gameRoot.m_mainScene = destinationGO->getSceneID();
 
@@ -172,7 +174,7 @@ bool ModulePortal::checkTeleport(Camera* cam, const Mat4& modelMat, ModuleGeomet
 
 		float t = tuv.x; float u = tuv.y; float v = tuv.z;
 
-		float eps = 1e-1;
+		float eps = 1e-7;
 		if (t >= 0 - eps && t <= 1 + eps) {
 			if (u >= 0 - eps && u <= 1 + eps && v >= 0 - eps && v <= 1 + eps && (u + v) <= 1 + eps) {
 				return true;
