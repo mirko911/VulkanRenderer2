@@ -38,6 +38,11 @@ Camera::Camera()
 		this->onActionEvent(reinterpret_cast<EventAction&>(event));
 		});
 
+	m_keyPressEventID = HandlerEvent::instance().registerEvent("keyPress", [this](Event& event) {
+		this->onKeyPressed(reinterpret_cast<EventKeyPress&>(event));
+		});
+
+
 	m_mouseMoveEventID = HandlerEvent::instance().registerEvent("mouseMove", [this](Event& event) {
 		this->moveByMouse(reinterpret_cast<EventMouseMove&>(event));
 		});
@@ -47,6 +52,7 @@ Camera::~Camera()
 {
 	HandlerEvent::instance().unregisterEvent("action", m_actionEventID);
 	HandlerEvent::instance().unregisterEvent("mouseMove", m_mouseMoveEventID);
+	HandlerEvent::instance().unregisterEvent("keyPress", m_keyPressEventID);
 }
 
 void Camera::setDebugName(const std::string& name)
@@ -229,6 +235,28 @@ void Camera::onActionEvent(EventAction& event)
 	m_position += m_front * static_cast<float>(forward * moveVelocity);
 	m_position += m_right * static_cast<float>(right * moveVelocity);
 	m_position += m_worldUP * static_cast<float>(up * moveVelocity);
+
+	updateVectors();
+}
+
+void Camera::onKeyPressed(EventKeyPress& event)
+{
+	if (m_static) return;
+
+	switch (event.key) {
+	case GLFW_KEY_UP: 
+		m_pitch += (float)pitchSpeed;
+		break;
+	case GLFW_KEY_DOWN:
+		m_pitch -= (float)pitchSpeed;
+		break;
+	case GLFW_KEY_LEFT:
+		m_yaw -= (float)yawSpeed;
+		break;
+	case GLFW_KEY_RIGHT:
+		m_yaw += (float)yawSpeed;
+		break;
+	}
 
 	updateVectors();
 }

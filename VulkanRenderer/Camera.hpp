@@ -32,6 +32,7 @@ private:
 	bool m_static = true;
 	int32_t m_actionEventID = ENTITY_NOT_FOUND;
 	int32_t m_mouseMoveEventID = ENTITY_NOT_FOUND;
+	int32_t m_keyPressEventID = ENTITY_NOT_FOUND;
 	void updateVectors();
 public:
 	Camera();
@@ -64,6 +65,7 @@ public:
 
 	void moveByMouse(EventMouseMove& event);
 	void onActionEvent(EventAction& event);
+	void onKeyPressed(EventKeyPress& event);
 	void setStatic(const bool staticVal);
 };
 
