@@ -7,7 +7,7 @@
 #include "../Modules/ModuleBase.hpp"
 #include "../Modules/ModuleMaterial.hpp"
 
-#include "../GameObjekt.hpp"
+#include "../GameObject.hpp"
 
 
 class HandlerMaterial : public HandlerBase{
@@ -34,7 +34,7 @@ public:
 		return m_entities[ID].get();
 	}
 
-	ModuleMaterial* get(GameObjekt* gameobject) {
+	ModuleMaterial* get(GameObject* gameobject) {
 		if (!gameobject->hasModule<ModuleMaterial>()) {
 			LOG_F(ERROR, "Entity doesn't have module %s", gameobject->getDebugName().c_str());
 		}

@@ -21,7 +21,7 @@ void DemoBlue::initBlueWorld(GameRoot& gameRoot)
 	sceneBlueSky = scene.ID;
 
 	{  //Green Plane
-		ModuleInfo<GameObjekt> go = gameRoot.hGameObject.create();
+		ModuleInfo<GameObject> go = gameRoot.hGameObject.create();
 		ModuleInfo<ModuleTransformation> transformation = gameRoot.hTransformation.create();
 
 		transformation->scaleAbsolute(500.0f, 0.01f, 500.0f);
@@ -35,7 +35,7 @@ void DemoBlue::initBlueWorld(GameRoot& gameRoot)
 	}
 
 	{ //Orange Portal Wall
-		ModuleInfo<GameObjekt> go = gameRoot.hGameObject.create();
+		ModuleInfo<GameObject> go = gameRoot.hGameObject.create();
 		ModuleInfo<ModuleTransformation> transformation = gameRoot.hTransformation.create();
 
 		transformation->scaleAbsolute(20, 20, 1.0f);
@@ -50,7 +50,7 @@ void DemoBlue::initBlueWorld(GameRoot& gameRoot)
 	}
 
 	{ //Blue Portal Wall
-		ModuleInfo<GameObjekt> go = gameRoot.hGameObject.create();
+		ModuleInfo<GameObject> go = gameRoot.hGameObject.create();
 		ModuleInfo<ModuleTransformation> transformation = gameRoot.hTransformation.create();
 
 		transformation->scaleAbsolute(20, 20, 1.0f);
@@ -65,7 +65,7 @@ void DemoBlue::initBlueWorld(GameRoot& gameRoot)
 	}
 
 	{ //Red Ape
-		ModuleInfo<GameObjekt> go = gameRoot.hGameObject.create();
+		ModuleInfo<GameObject> go = gameRoot.hGameObject.create();
 		ModuleInfo<ModuleTransformation> transformation = gameRoot.hTransformation.create();
 
 		transformation->scaleAbsolute(5, 5, 5);
@@ -80,7 +80,7 @@ void DemoBlue::initBlueWorld(GameRoot& gameRoot)
 	}
 
 	{ //Red Ape
-		ModuleInfo<GameObjekt> go = gameRoot.hGameObject.create();
+		ModuleInfo<GameObject> go = gameRoot.hGameObject.create();
 		ModuleInfo<ModuleTransformation> transformation = gameRoot.hTransformation.create();
 
 		transformation->scaleAbsolute(5, 5, 5);
@@ -95,7 +95,7 @@ void DemoBlue::initBlueWorld(GameRoot& gameRoot)
 	}
 
 	//{//Occlusion Wall #1
-	//	ModuleInfo<GameObjekt> go = gameRoot.hGameObject.create();
+	//	ModuleInfo<GameObject> go = gameRoot.hGameObject.create();
 	//	ModuleInfo<ModuleTransformation> transform = gameRoot.hTransformation.create();
 
 
@@ -112,7 +112,7 @@ void DemoBlue::initBlueWorld(GameRoot& gameRoot)
 
 	{
 		//Setup Portal #1
-		ModuleInfo<GameObjekt> go = gameRoot.hGameObject.create();
+		ModuleInfo<GameObject> go = gameRoot.hGameObject.create();
 		ModuleInfo<ModuleTransformation> transformation = gameRoot.hTransformation.create();
 		ModuleInfo<ModulePortal> portal = gameRoot.hPortal.create();
 
@@ -133,7 +133,7 @@ void DemoBlue::initBlueWorld(GameRoot& gameRoot)
 
 	{
 		//Setup Portal #2
-		ModuleInfo<GameObjekt> go = gameRoot.hGameObject.create();
+		ModuleInfo<GameObject> go = gameRoot.hGameObject.create();
 		ModuleInfo<ModuleTransformation> transformation = gameRoot.hTransformation.create();
 		ModuleInfo<ModulePortal> portal = gameRoot.hPortal.create();
 

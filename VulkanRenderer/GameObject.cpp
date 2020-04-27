@@ -1,74 +1,74 @@
-#include "GameObjekt.hpp"
+#include "GameObject.hpp"
 #include "GameRoot.hpp"
 
-void GameObjekt::setModuleID(const int32_t ID)
+void GameObject::setModuleID(const int32_t ID)
 {
 	m_moduleID = ID;
 }
 
-int32_t GameObjekt::getModuleID() const
+int32_t GameObject::getModuleID() const
 {
 	return m_moduleID;
 }
 
-void GameObjekt::setSceneID(const int32_t ID)
+void GameObject::setSceneID(const int32_t ID)
 {
 	m_sceneID = ID;
 }
 
-int32_t GameObjekt::getSceneID() const
+int32_t GameObject::getSceneID() const
 {
 	return m_sceneID;
 }
 
-void GameObjekt::setDebugName(const std::string& name)
+void GameObject::setDebugName(const std::string& name)
 {
 	m_debugName = name;
 }
 
-std::string GameObjekt::getDebugName() const
+std::string GameObject::getDebugName() const
 {
 	return m_debugName;
 }
 
-std::unordered_map<std::type_index, int32_t> GameObjekt::getModules() const
+std::unordered_map<std::type_index, int32_t> GameObject::getModules() const
 {
 	return m_modules;
 }
 
-void GameObjekt::setModules(const std::unordered_map<std::type_index, int32_t> modules)
+void GameObject::setModules(const std::unordered_map<std::type_index, int32_t> modules)
 {
 	m_modules = modules;
 }
 
-void GameObjekt::addChild(const int32_t ID)
+void GameObject::addChild(const int32_t ID)
 {
 	m_children.push_back(ID);
 }
 
-std::vector<int32_t> GameObjekt::getChildren() const
+std::vector<int32_t> GameObject::getChildren() const
 {
 	return m_children;
 }
 
-bool GameObjekt::hasChildren()
+bool GameObject::hasChildren()
 {
 	return !m_children.empty();
 }
 
-void GameObjekt::removeChild(const int32_t ID)
+void GameObject::removeChild(const int32_t ID)
 {
 	LOG_F(WARNING, "removeChild() is not implemented yet");
 }
 
-void GameObjekt::removeAllChildren(const int32_t ID)
+void GameObject::removeAllChildren(const int32_t ID)
 {
 	m_children.clear();
 }
 
-int32_t GameObjekt::clone(GameRoot& gameRoot)
+int32_t GameObject::clone(GameRoot& gameRoot)
 {
-	ModuleInfo<GameObjekt> gameobjectClone = gameRoot.hGameObject.create();
+	ModuleInfo<GameObject> gameobjectClone = gameRoot.hGameObject.create();
 
 	//Copy all modules
 	gameobjectClone->setModules(m_modules);

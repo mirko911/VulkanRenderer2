@@ -10,7 +10,7 @@
 
 class GameRoot;
 
-class GameObjekt
+class GameObject
 {
 private:
 	std::vector<int32_t> m_children;

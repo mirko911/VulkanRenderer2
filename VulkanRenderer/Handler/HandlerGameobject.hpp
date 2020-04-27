@@ -4,25 +4,25 @@
 
 #include "HandlerBase.hpp"
 
-#include "../GameObjekt.hpp"
+#include "../GameObject.hpp"
 
 class HandlerGameobject : public HandlerBase{
 private:
-	std::unordered_map<int32_t, std::unique_ptr<GameObjekt>> m_entities;
+	std::unordered_map<int32_t, std::unique_ptr<GameObject>> m_entities;
 public:
 	//HandlerTransformation();
 
 	template <typename... Args>
-	ModuleInfo<GameObjekt> create(Args&& ... args) {
+	ModuleInfo<GameObject> create(Args&& ... args) {
 		const int32_t ID = getNextModuleID();
 
-		m_entities[ID] = std::make_unique<GameObjekt>(std::forward<Args>(args)...);
+		m_entities[ID] = std::make_unique<GameObject>(std::forward<Args>(args)...);
 		m_entities[ID]->setModuleID(ID);
 
-		return { ID, reinterpret_cast<GameObjekt*>(m_entities[ID].get()) };
+		return { ID, reinterpret_cast<GameObject*>(m_entities[ID].get()) };
 	}
 
-	GameObjekt* get(const int32_t ID ) {
+	GameObject* get(const int32_t ID ) {
 		if (!has(ID)) {
 			LOG_F(ERROR, "Entity (ID %i) doesn't exist in %s", ID, getDebugName().c_str());
 		}
@@ -39,7 +39,7 @@ public:
 		m_entities.erase(ID);
 	}
 
-	std::unordered_map<int32_t, std::unique_ptr<GameObjekt>>& getAll();
+	std::unordered_map<int32_t, std::unique_ptr<GameObject>>& getAll();
 
 
 	//virtual void init(VulkanDevice& device);

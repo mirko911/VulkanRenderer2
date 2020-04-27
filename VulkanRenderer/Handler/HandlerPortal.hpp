@@ -7,7 +7,7 @@
 #include "../Modules/ModuleBase.hpp"
 #include "../Modules/ModulePortal.hpp"
 
-#include "../GameObjekt.hpp"
+#include "../GameObject.hpp"
 
 
 class HandlerPortal : public HandlerBase{
@@ -34,7 +34,7 @@ public:
 		return m_entities[ID].get();
 	}
 
-	ModulePortal* get(GameObjekt* gameobject) {
+	ModulePortal* get(GameObject* gameobject) {
 		if (!gameobject->hasModule<ModulePortal>()) {
 			LOG_F(ERROR, "Entity doesn't have module %s", gameobject->getDebugName().c_str());
 		}

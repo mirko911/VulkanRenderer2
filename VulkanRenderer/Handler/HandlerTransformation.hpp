@@ -7,7 +7,7 @@
 #include "../Modules/ModuleBase.hpp"
 #include "../Modules/ModuleTransformation.hpp"
 
-#include "../GameObjekt.hpp"
+#include "../GameObject.hpp"
 
 
 class HandlerTransformation : public HandlerBase{
@@ -35,7 +35,7 @@ public:
 		return m_entities[ID].get();
 	}
 
-	ModuleTransformation* get(GameObjekt* gameobject) {
+	ModuleTransformation* get(GameObject* gameobject) {
 		if (!gameobject->hasModule<ModuleTransformation>()) {
 			LOG_F(ERROR, "Entity doesn't have module %s", gameobject->getDebugName().c_str());
 		}

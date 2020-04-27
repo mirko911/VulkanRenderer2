@@ -1,5 +1,5 @@
 #include "ModulePortal.hpp"
-#include "../GameObjekt.hpp"
+#include "../GameObject.hpp"
 #include "../GameRoot.hpp"
 //void ModulePortal::update(const float ftimeDelta, GameRoot& gameRoot)
 //{
@@ -12,14 +12,14 @@ void ModulePortal::update(const float ftimeDelta, GameRoot& gameRoot)
 	}
 
 
-	GameObjekt* startGO = gameRoot.hGameObject.get(m_startGameobjectID);
+	GameObject* startGO = gameRoot.hGameObject.get(m_startGameobjectID);
 	if (startGO->getSceneID() != gameRoot.m_mainScene) {
 		//Portal doesn't belong to active scene. Skip it!
 		return;
 	}
 	
 	
-	GameObjekt* destinationGO = gameRoot.hGameObject.get(m_destinationGameobjectID);
+	GameObject* destinationGO = gameRoot.hGameObject.get(m_destinationGameobjectID);
 
 
 	Scene* startScene = gameRoot.hScene.get(startGO->getSceneID());

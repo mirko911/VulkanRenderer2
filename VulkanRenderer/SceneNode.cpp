@@ -64,7 +64,7 @@ void SceneNode::traverse2(GameRoot& gameRoot, SceneNode* parentNode, Mat4& globa
 	std::vector<int32_t>& gameObjects = parentNode->getGameObjects();
 	if (!gameObjects.empty()) {
 		for (const int32_t gameObjectID : gameObjects) {
-			GameObjekt* gameobject = gameRoot.hGameObject.get(gameObjectID);
+			GameObject* gameobject = gameRoot.hGameObject.get(gameObjectID);
 			ModuleTransformation* transform = gameRoot.hTransformation.get(gameobject);
 			transform->updateGlobalMat(globalMat);
 		}

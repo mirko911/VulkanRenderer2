@@ -29,7 +29,7 @@ void DemoMaterial::initBlueWorld(GameRoot& gameRoot)
 
 	for (int y = 0; y < 4; y++) {
 		for (int x = 0; x < 5; x++) {
-			ModuleInfo<GameObjekt> go = gameRoot.hGameObject.create();
+			ModuleInfo<GameObject> go = gameRoot.hGameObject.create();
 			ModuleInfo<ModuleTransformation> transformation = gameRoot.hTransformation.create();
 
 			transformation->scaleAbsolute(5, 5, 5);

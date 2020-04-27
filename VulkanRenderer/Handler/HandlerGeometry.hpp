@@ -7,7 +7,7 @@
 #include "../Modules/ModuleBase.hpp"
 #include "../Modules/ModuleGeometry.hpp"
 
-#include "../GameObjekt.hpp"
+#include "../GameObject.hpp"
 
 class HandlerGeometry : public HandlerBase{
 private:
@@ -35,7 +35,7 @@ public:
 	}
 
 	template <typename T>
-	T* get(GameObjekt* gameobject) {
+	T* get(GameObject* gameobject) {
 		if (!gameobject->hasModule<T>()) {
 			LOG_F(ERROR, "Entity doesn't have module %s", gameobject->getDebugName().c_str());
 		}

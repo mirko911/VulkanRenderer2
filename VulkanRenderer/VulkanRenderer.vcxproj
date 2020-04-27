@@ -163,7 +163,7 @@
     <ClCompile Include="Descriptor.cpp" />
     <ClCompile Include="DescriptorPool.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameObjekt.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameRoot.cpp" />
     <ClCompile Include="GeoCube.cpp" />
     <ClCompile Include="GeoPlane.cpp" />
@@ -223,7 +223,7 @@
     <ClInclude Include="Descriptor.hpp" />
     <ClInclude Include="DescriptorPool.hpp" />
     <ClInclude Include="Game.hpp" />
-    <ClInclude Include="GameObjekt.hpp" />
+    <ClInclude Include="GameObject.hpp" />
     <ClInclude Include="GameRoot.hpp" />
     <ClInclude Include="GeoCube.hpp" />
     <ClInclude Include="GeoPlane.hpp" />

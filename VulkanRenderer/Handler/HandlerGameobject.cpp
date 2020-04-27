@@ -1,6 +1,6 @@
 #include "HandlerGameobject.hpp"
 
-std::unordered_map<int32_t, std::unique_ptr<GameObjekt>>& HandlerGameobject::getAll()
+std::unordered_map<int32_t, std::unique_ptr<GameObject>>& HandlerGameobject::getAll()
 {
 	return m_entities;
 }

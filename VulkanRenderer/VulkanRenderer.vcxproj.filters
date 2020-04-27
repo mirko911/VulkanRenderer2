@@ -72,7 +72,7 @@
     <ClCompile Include="Buffer.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="handler\HandlerBase.cpp">
+    <ClCompile Include="Handler\HandlerBase.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="GameRoot.cpp">
@@ -81,7 +81,7 @@
     <ClCompile Include="Modules\ModuleBase.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="handler\HandlerGeometry.cpp">
+    <ClCompile Include="Handler\HandlerGeometry.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="Modules\ModuleGeometry.cpp">
@@ -90,34 +90,31 @@
     <ClCompile Include="GeoCube.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="handler\HandlerTransformation.cpp">
+    <ClCompile Include="Handler\HandlerTransformation.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="Modules\ModuleTransformation.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="GameObjekt.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="handler\HandlerGameobject.cpp">
+    <ClCompile Include="Handler\HandlerGameobject.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="handler\HandlerCamera.cpp">
+    <ClCompile Include="Handler\HandlerCamera.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="handler\HandlerScene.cpp">
+    <ClCompile Include="Handler\HandlerScene.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="Texture2D.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="handler\HandlerTexture.cpp">
+    <ClCompile Include="Handler\HandlerTexture.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="TextureCubemap.cpp">
@@ -126,10 +123,10 @@
     <ClCompile Include="Sampler.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="handler\HandlerEvent.cpp">
+    <ClCompile Include="Handler\HandlerEvent.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="handler\HandlerInput.cpp">
+    <ClCompile Include="Handler\HandlerInput.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="input\InputBase.cpp">
@@ -141,7 +138,7 @@
     <ClCompile Include="input\InputMouse.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="handler\HandlerSkybox.cpp">
+    <ClCompile Include="Handler\HandlerSkybox.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="Skybox.cpp">
@@ -156,19 +153,19 @@
     <ClCompile Include="Modules\ModulePortal.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="handler\HandlerPortal.cpp">
+    <ClCompile Include="Handler\HandlerPortal.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="GeoPlane.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="handler\HandlerMaterial.cpp">
+    <ClCompile Include="Handler\HandlerMaterial.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="Modules\ModuleMaterial.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="handler\HandlerSceneNode.cpp">
+    <ClCompile Include="Handler\HandlerSceneNode.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="SceneNode.cpp">
@@ -187,6 +184,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="demos\DemoBase.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
@@ -248,7 +248,7 @@
     <ClInclude Include="Buffer.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="handler\HandlerBase.hpp">
+    <ClInclude Include="Handler\HandlerBase.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="GameRoot.hpp">
@@ -260,40 +260,37 @@
     <ClInclude Include="Modules\ModuleGeometry.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="handler\HandlerGeometry.hpp">
+    <ClInclude Include="Handler\HandlerGeometry.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="GeoCube.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="handler\HandlerTransformation.hpp">
+    <ClInclude Include="Handler\HandlerTransformation.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Modules\ModuleTransformation.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="GameObjekt.hpp">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="handler\HandlerGameobject.hpp">
+    <ClInclude Include="Handler\HandlerGameobject.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Camera.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="handler\HandlerCamera.hpp">
+    <ClInclude Include="Handler\HandlerCamera.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Scene.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="handler\HandlerScene.hpp">
+    <ClInclude Include="Handler\HandlerScene.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Texture2D.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="handler\HandlerTexture.hpp">
+    <ClInclude Include="Handler\HandlerTexture.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="TextureCubemap.hpp">
@@ -302,10 +299,10 @@
     <ClInclude Include="Sampler.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="handler\HandlerEvent.hpp">
+    <ClInclude Include="Handler\HandlerEvent.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="handler\HandlerInput.hpp">
+    <ClInclude Include="Handler\HandlerInput.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="input\InputBase.hpp">
@@ -317,7 +314,7 @@
     <ClInclude Include="input\InputMouse.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="handler\HandlerSkybox.hpp">
+    <ClInclude Include="Handler\HandlerSkybox.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Skybox.hpp">
@@ -332,19 +329,19 @@
     <ClInclude Include="Modules\ModulePortal.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="handler\HandlerPortal.hpp">
+    <ClInclude Include="Handler\HandlerPortal.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="GeoPlane.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="handler\HandlerMaterial.hpp">
+    <ClInclude Include="Handler\HandlerMaterial.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Modules\ModuleMaterial.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="handler\HandlerSceneNode.hpp">
+    <ClInclude Include="Handler\HandlerSceneNode.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="SceneNode.hpp">
@@ -363,6 +360,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="demos\DemoBase.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

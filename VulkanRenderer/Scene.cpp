@@ -49,9 +49,9 @@ int32_t Scene::clone(GameRoot& gameRoot)
 void Scene::traverse(GameRoot& gameRoot, const int32_t sceneID, SceneNode* parentNode, SceneNode* parentNodeClone)
 {
 	for (const int32_t gamebobjectID : parentNode->getGameObjects()) {
-		GameObjekt* gameobject = gameRoot.hGameObject.get(gamebobjectID);
+		GameObject* gameobject = gameRoot.hGameObject.get(gamebobjectID);
 		int32_t goClone = gameobject->clone(gameRoot);
-		GameObjekt* gameobjectClone = gameRoot.hGameObject.get(goClone);
+		GameObject* gameobjectClone = gameRoot.hGameObject.get(goClone);
 		gameobjectClone->setSceneID(sceneID);
 
 		if (gameobjectClone->hasModule<ModulePortal>()) {
