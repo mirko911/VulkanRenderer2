@@ -4,8 +4,8 @@
 
 #include "HandlerBase.hpp"
 
-#include "../Modules/ModuleBase.hpp"
-#include "../Modules/ModulePortal.hpp"
+#include "../modules/ModuleBase.hpp"
+#include "../modules/ModulePortal.hpp"
 
 #include "../GameObject.hpp"
 
