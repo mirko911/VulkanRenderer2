@@ -32,8 +32,8 @@ void DemoMaterial::initBlueWorld(GameRoot& gameRoot)
 			ModuleInfo<GameObject> go = gameRoot.hGameObject.create();
 			ModuleInfo<ModuleTransformation> transformation = gameRoot.hTransformation.create();
 
-			transformation->scaleAbsolute(5, 5, 5);
-			transformation->translateAbsolute(x * 20, 0, y * 20);
+			transformation->scaleAbsolute(5.f, 5.f, 5.f);
+			transformation->translateAbsolute(x * 20.0f, 0.0f, y * 20.0f);
 
 			m_transformations.push_back(transformation.ID);
 

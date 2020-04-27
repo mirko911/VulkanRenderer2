@@ -408,6 +408,8 @@ VkFormat VulkanDevice::findSupportedFormat(const std::vector<VkFormat>& candidat
 			return format;
 		}
 	}
+
+	ABORT_F("Failed to find suitable format");
 }
 
 VkFormat VulkanDevice::findDepthFormat()

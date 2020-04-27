@@ -174,7 +174,7 @@ bool ModulePortal::checkTeleport(Camera* cam, const Mat4& modelMat, ModuleGeomet
 
 		float t = tuv.x; float u = tuv.y; float v = tuv.z;
 
-		float eps = 1e-7;
+		float eps = static_cast<float>(1e-7);
 		if (t >= 0 - eps && t <= 1 + eps) {
 			if (u >= 0 - eps && u <= 1 + eps && v >= 0 - eps && v <= 1 + eps && (u + v) <= 1 + eps) {
 				return true;
