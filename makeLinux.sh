@@ -14,9 +14,9 @@ cd ../x64
 
 g++ $BUILD_OPTIONS $INCLUDE_LIBS -c ../*.cpp
 g++ $BUILD_OPTIONS $INCLUDE_LIBS -c ../demos/*.cpp
-g++ $BUILD_OPTIONS $INCLUDE_LIBS -c ../Handler/*.cpp
+g++ $BUILD_OPTIONS $INCLUDE_LIBS -c ../handler/*.cpp
 g++ $BUILD_OPTIONS $INCLUDE_LIBS -c ../input/*.cpp
-g++ $BUILD_OPTIONS $INCLUDE_LIBS -c ../Modules/*.cpp
+g++ $BUILD_OPTIONS $INCLUDE_LIBS -c ../modules/*.cpp
 
 cd ../../
 

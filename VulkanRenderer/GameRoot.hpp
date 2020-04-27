@@ -2,17 +2,17 @@
 
 #include "defintions.hpp"
 
-#include "Handler/HandlerGeometry.hpp"
-#include "Handler/HandlerTransformation.hpp"
-#include "Handler/HandlerGameobject.hpp"
-#include "Handler/HandlerCamera.hpp"
-#include "Handler/HandlerScene.hpp"
-#include "Handler/HandlerTexture.hpp"
-#include "Handler/HandlerInput.hpp"
-#include "Handler/HandlerSkybox.hpp"
-#include "Handler/HandlerPortal.hpp"
-#include "Handler/HandlerMaterial.hpp"
-#include "Handler/HandlerSceneNode.hpp"
+#include "handler/HandlerGeometry.hpp"
+#include "handler/HandlerTransformation.hpp"
+#include "handler/HandlerGameobject.hpp"
+#include "handler/HandlerCamera.hpp"
+#include "handler/HandlerScene.hpp"
+#include "handler/HandlerTexture.hpp"
+#include "handler/HandlerInput.hpp"
+#include "handler/HandlerSkybox.hpp"
+#include "handler/HandlerPortal.hpp"
+#include "handler/HandlerMaterial.hpp"
+#include "handler/HandlerSceneNode.hpp"
 
 class GameRoot {
 public:

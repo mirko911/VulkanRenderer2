@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Modules/ModuleGeometry.hpp"
+#include "modules/ModuleGeometry.hpp"
 
 namespace std {
 	template<> struct hash<Vertex> {

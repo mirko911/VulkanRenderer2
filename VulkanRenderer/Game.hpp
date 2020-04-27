@@ -13,7 +13,7 @@
 #include "input/InputKeyboard.hpp"
 #include "input/InputMouse.hpp"
 
-#include "Handler/HandlerEvent.hpp"
+#include "handler/HandlerEvent.hpp"
 
 #include "demos/DemoBase.hpp"
 #include "demos/DemoBlueUniverse.hpp"

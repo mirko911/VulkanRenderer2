@@ -4,7 +4,7 @@
 #include <string>
 #include "defintions.hpp"
 
-#include "Handler/HandlerEvent.hpp"
+#include "handler/HandlerEvent.hpp"
 
 constexpr double moveVelocity = .008f;
 constexpr double yawSpeed = 0.3;
