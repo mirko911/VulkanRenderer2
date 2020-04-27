@@ -6,7 +6,7 @@
 
 void ModuleGeometry::init(VulkanDevice& device)
 {
-	LOG_F(INFO, "Created geometry %s (V: %i, I: %i)", m_debugName.c_str(), m_vertex.size(), m_index.size());
+	LOG_F(INFO, "Created geometry %s (V: %i, I: %i)", m_debugName.c_str(), static_cast<int>(m_vertex.size()), static_cast<int>(m_index.size()));
 
 
 	const VkDeviceSize vertexBufferSize = sizeof(Vertex) * m_vertex.size();

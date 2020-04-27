@@ -226,7 +226,7 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 		if (vkCreateSemaphore(device.getDevice(), &semaphoreInfo, nullptr, &m_imageAvailableSemaphore[i]) != VK_SUCCESS ||
 			vkCreateSemaphore(device.getDevice(), &semaphoreInfo, nullptr, &m_renderFinishedSemaphore[i]) != VK_SUCCESS ||
 			vkCreateFence(device.getDevice(), &fenceInfo, nullptr, &m_inFlightFences[i]) != VK_SUCCESS) {
-			ABORT_F("Failed to create syncronization objections for frame %i", i);
+			ABORT_F("Failed to create syncronization objections for frame %i", static_cast<int>(i));
 		}
 	}
 
