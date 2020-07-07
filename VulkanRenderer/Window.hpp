@@ -7,8 +7,8 @@
 
 #include "loguru.hpp"
 
-constexpr int SCREEN_WIDTH = 2560;
-constexpr int SCREEN_HEIGHT = 1440;
+constexpr int SCREEN_WIDTH = 1280;
+constexpr int SCREEN_HEIGHT = 720;
 
 class Window
 {

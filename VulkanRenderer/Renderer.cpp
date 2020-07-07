@@ -47,7 +47,6 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	m_renderpass.addAttachment(VK_FORMAT_B8G8R8A8_UNORM, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR, true);
 	m_renderpass.addAttachment(optimalDepthFormat, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, true);
 	m_renderpass.addSubpassDepth(depthAttachRef); //Main Depth
-	m_renderpass.addSubpassDepth(depthAttachRef); //Portal Depth
 	m_renderpass.addSubpass(colorAttachRef, depthAttachRef);
 	m_renderpass.addSubPassDependency(0, 1);
 	m_renderpass.addSubPassDependency(1, 2);
@@ -168,27 +167,11 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	m_pipelines.mainDepth.createLayoutInfo(layoutInfoMain);
 	m_pipelines.mainDepth.createPipeline(0);
 
-	m_pipelines.portalDepth.Init(device.getDevice(), m_renderpass, m_shaders.depth);
-	m_pipelines.portalDepth.addDynamicState(VK_DYNAMIC_STATE_STENCIL_WRITE_MASK);
-	m_pipelines.portalDepth.addDynamicState(VK_DYNAMIC_STATE_STENCIL_COMPARE_MASK);
-	m_pipelines.portalDepth.getDepthStencil().depthTestEnable = VK_TRUE;
-	m_pipelines.portalDepth.getDepthStencil().depthWriteEnable = VK_TRUE;
-	m_pipelines.portalDepth.getDepthStencil().depthCompareOp = VK_COMPARE_OP_LESS;
-	m_pipelines.portalDepth.getDepthStencil().stencilTestEnable = VK_TRUE;
-	m_pipelines.portalDepth.getDepthStencil().back.compareOp = VK_COMPARE_OP_EQUAL;
-	m_pipelines.portalDepth.getDepthStencil().back.failOp = VK_STENCIL_OP_KEEP;
-	m_pipelines.portalDepth.getDepthStencil().back.depthFailOp = VK_STENCIL_OP_KEEP;
-	m_pipelines.portalDepth.getDepthStencil().back.passOp = VK_STENCIL_OP_KEEP;
-	m_pipelines.portalDepth.getDepthStencil().front = m_pipelines.portalDepth.getDepthStencil().back;
-	m_pipelines.portalDepth.createLayoutInfo(layoutInfoMain);
-	m_pipelines.portalDepth.createPipeline(1);
-
-
 	m_pipelines.skybox.Init(device.getDevice(), m_renderpass, m_shaders.skybox);
 	m_pipelines.skybox.addDynamicState(VK_DYNAMIC_STATE_STENCIL_COMPARE_MASK);
 	std::vector<VkDescriptorSetLayout> layoutInfoSky = { m_descriptors[1].getDescriptorSetLayout() };
 	m_pipelines.skybox.createLayoutInfo(layoutInfoSky);
-	m_pipelines.skybox.createPipeline(2);
+	m_pipelines.skybox.createPipeline(1);
 
 	m_pipelines.main.Init(device.getDevice(), m_renderpass, m_shaders.main);
 	m_pipelines.main.addDynamicState(VK_DYNAMIC_STATE_STENCIL_COMPARE_MASK);
@@ -205,7 +188,7 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	m_pipelines.main.getDepthStencil().front = m_pipelines.main.getDepthStencil().back;
 	//m_pipelines.main.getDepthStencil().depthTestEnable = VK_FALSE;
 	m_pipelines.main.createLayoutInfo(layoutInfoMain);
-	m_pipelines.main.createPipeline(2);
+	m_pipelines.main.createPipeline(1);
 
 	//===============================================================================
 	//Init Sync Objects
@@ -286,69 +269,6 @@ void Renderer::Draw(GameRoot& gameRoot)
 				commandbuffer.bindIndexBuffers(geometry->getIndexBuffer().buffer);
 				commandbuffer.drawIndexed(static_cast<uint32_t>(geometry->getIndexData().size()));
 			}
-
-			commandbuffer.setStencilCompareMask(0x00);
-			uint32_t stencilColor = 0x00;
-			//Draw portals of the main scene
-			for (auto& gameobject : gameRoot.hGameObject.getAll()) {
-
-				if (gameobject.second->getSceneID() != gameRoot.m_mainScene) {
-					continue; //Only draw elements of main scene
-				}
-
-				if (!gameobject.second->hasModule<ModulePortal>()) {
-					continue; //Skip all gameobjects without portals
-				}
-
-				commandbuffer.setStencilWriteMask(++stencilColor); //Increase color for each portal
-
-				const uint32_t offset = static_cast<uint32_t>(gameobject.first)* static_cast<uint32_t>(m_dynamicAlignment);
-
-				ModuleGeometry* geometry = gameRoot.hGeometry.get<ModuleGeometry>(gameobject.second.get());
-
-				commandbuffer.bindDescriptorSets(m_pipelines.mainDepth.getPipelineLayout(), m_descriptors[0].getDescriptorSet(), &offset);
-				commandbuffer.bindVertexBuffers(geometry->getVertexBuffer().buffer);
-				commandbuffer.bindIndexBuffers(geometry->getIndexBuffer().buffer);
-				commandbuffer.drawIndexed(static_cast<uint32_t>(geometry->getIndexData().size()));
-			}
-		}
-
-		commandbuffer.nextSubpass();
-
-		{
-			//======================
-			// Draw Portal Scenes Depth
-			//======================
-
-			commandbuffer.bindPipeline(m_pipelines.portalDepth);
-			commandbuffer.setStencilCompareMask(0x00);
-
-			uint32_t stencilColor = 0x00;
-			//Draw portals of the main scene
-			for (const int32_t sceneID : gameRoot.m_activeScenes) {
-				if (sceneID == gameRoot.m_mainScene) continue; //Skip Main Scene
-				commandbuffer.setStencilCompareMask(++stencilColor);
-
-				for (auto& gameobject : gameRoot.hGameObject.getAll()) {
-
-					if (gameobject.second->getSceneID() != sceneID) {
-						continue; //Skip all gameobjects which doesn't belong to the portal scene
-					}
-
-					if (gameobject.second->hasModule<ModulePortal>()) {
-						continue; //Skip all gameobjects with portals
-					}
-
-					const uint32_t offset = static_cast<uint32_t>(gameobject.first)* static_cast<uint32_t>(m_dynamicAlignment);
-
-					ModuleGeometry* geometry = gameRoot.hGeometry.get<ModuleGeometry>(gameobject.second.get());
-
-					commandbuffer.bindDescriptorSets(m_pipelines.portalDepth.getPipelineLayout(), m_descriptors[0].getDescriptorSet(), &offset);
-					commandbuffer.bindVertexBuffers(geometry->getVertexBuffer().buffer);
-					commandbuffer.bindIndexBuffers(geometry->getIndexBuffer().buffer);
-					commandbuffer.drawIndexed(static_cast<uint32_t>(geometry->getIndexData().size()));
-				}
-			}
 		}
 
 		commandbuffer.nextSubpass();
@@ -418,34 +338,6 @@ void Renderer::Draw(GameRoot& gameRoot)
 				commandbuffer.bindVertexBuffers(geometry->getVertexBuffer().buffer);
 				commandbuffer.bindIndexBuffers(geometry->getIndexBuffer().buffer);
 				commandbuffer.drawIndexed(static_cast<uint32_t>(geometry->getIndexData().size()));
-			}
-
-			uint32_t stencilColor = 0x00;
-			//Draw portals of the main scene
-			for (const int32_t sceneID : gameRoot.m_activeScenes) {
-				if (sceneID == gameRoot.m_mainScene) continue; //Skip Main Scene
-
-				commandbuffer.setStencilCompareMask(++stencilColor);
-
-				for (auto& gameobject : gameRoot.hGameObject.getAll()) {
-
-					if (gameobject.second->getSceneID() != sceneID) {
-						continue; //Skip all gameobjects which doesn't belong to the portal scene
-					}
-
-					if (gameobject.second->hasModule<ModulePortal>()) {
-						continue; //Skip all gameobjects without portals
-					}
-
-					const uint32_t offset = static_cast<uint32_t>(gameobject.first)* static_cast<uint32_t>(m_dynamicAlignment);
-
-					ModuleGeometry* geometry = gameRoot.hGeometry.get<ModuleGeometry>(gameobject.second.get());
-
-					commandbuffer.bindDescriptorSets(m_pipelines.main.getPipelineLayout(), m_descriptors[0].getDescriptorSet(), &offset);
-					commandbuffer.bindVertexBuffers(geometry->getVertexBuffer().buffer);
-					commandbuffer.bindIndexBuffers(geometry->getIndexBuffer().buffer);
-					commandbuffer.drawIndexed(static_cast<uint32_t>(geometry->getIndexData().size()));
-				}
 			}
 		}
 
