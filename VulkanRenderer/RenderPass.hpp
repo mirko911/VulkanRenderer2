@@ -33,10 +33,20 @@ public:
 	void createFrameBuffer(const std::vector<VkImageView>& imageViews, uint32_t width, uint32_t height, uint32_t layerCount);
 	//void setClearColor(VkClearColorValue& backgroundColor);
 
+
+	void addAttachmentCustom(const VkAttachmentDescription& attachment);
+	void addSubpassCustom(const VkSubpassDescription& subpass);
+	void addSubpassDependencyCustom(const VkSubpassDependency& subpassDependency);
+
 	VkRenderPass& get();
 	VkExtent2D getExtend();
 	uint32_t getWidth();
 	uint32_t getHeight();
+	std::vector<VkFramebuffer>& getFramebuffers();
+	
+	void setDimensions(const uint32_t width, const uint32_t height);
+	void setFrameBuffers(std::vector<VkFramebuffer>& framebuffers);
+
 	VkRenderPassBeginInfo getBeginInfo(const VkClearColorValue& backgroundColor, const uint32_t index);
 };
 

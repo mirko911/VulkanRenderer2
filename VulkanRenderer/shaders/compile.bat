@@ -4,4 +4,6 @@ glslc.exe skybox.vert -o skybox.vert.spv
 glslc.exe skybox.frag -o skybox.frag.spv
 glslc.exe depth.vert -o depth.vert.spv
 glslc.exe depth.frag -o depth.frag.spv
+glslc.exe font.vert -o font.vert.spv
+glslc.exe font.frag -o font.frag.spv
 pause

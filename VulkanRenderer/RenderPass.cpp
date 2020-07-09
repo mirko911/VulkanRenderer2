@@ -17,7 +17,7 @@ void RenderPass::addAttachment(const VkFormat& format, const VkImageLayout image
 	attachDescription.format = format;
 	attachDescription.samples = VK_SAMPLE_COUNT_1_BIT;
 	attachDescription.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
-	attachDescription.stencilStoreOp = VK_ATTACHMENT_STORE_OP_STORE;
+	attachDescription.stencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE;
 	attachDescription.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 	attachDescription.finalLayout = imageLayout;
 
@@ -107,6 +107,21 @@ void RenderPass::createFrameBuffer(const std::vector<VkImageView>& imageViews, u
 	m_frameBuffers.emplace_back(std::move(frameBuffer));
 }
 
+void RenderPass::addAttachmentCustom(const VkAttachmentDescription& attachment)
+{
+	m_attachments.push_back(attachment);
+}
+
+void RenderPass::addSubpassCustom(const VkSubpassDescription& subpass)
+{
+	m_subpasses.push_back(subpass);
+}
+
+void RenderPass::addSubpassDependencyCustom(const VkSubpassDependency& subpassDependency)
+{
+	m_dependencys.push_back(subpassDependency);
+}
+
 
 VkRenderPass& RenderPass::get()
 {
@@ -126,6 +141,22 @@ uint32_t RenderPass::getWidth()
 uint32_t RenderPass::getHeight()
 {
 	return m_imageHeight;
+}
+
+std::vector<VkFramebuffer>& RenderPass::getFramebuffers()
+{
+	return m_frameBuffers;
+}
+
+void RenderPass::setDimensions(const uint32_t width, const uint32_t height)
+{
+	m_imageWidth = width;
+	m_imageHeight = height;
+}
+
+void RenderPass::setFrameBuffers(std::vector<VkFramebuffer>& framebuffers)
+{
+	m_frameBuffers = framebuffers;
 }
 
 VkRenderPassBeginInfo RenderPass::getBeginInfo(const VkClearColorValue& backgroundColor, const uint32_t index)

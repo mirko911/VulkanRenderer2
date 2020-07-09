@@ -44,12 +44,11 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	VkFormat optimalDepthFormat = device.findDepthFormat();
 
 	m_renderpass.Init(device.getDevice());
-	m_renderpass.addAttachment(VK_FORMAT_B8G8R8A8_UNORM, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR, true);
+	m_renderpass.addAttachment(VK_FORMAT_B8G8R8A8_UNORM, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR, false);
 	m_renderpass.addAttachment(optimalDepthFormat, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, true);
-	m_renderpass.addSubpassDepth(depthAttachRef); //Main Depth
+	//m_renderpass.addSubpassDepth(depthAttachRef); //Main Depth
 	m_renderpass.addSubpass(colorAttachRef, depthAttachRef);
-	m_renderpass.addSubPassDependency(0, 1);
-	m_renderpass.addSubPassDependency(1, 2);
+	//m_renderpass.addSubPassDependency(0, 1);
 	m_renderpass.createRenderpass();
 
 	//===============================================================================
@@ -154,24 +153,13 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	//===============================================================================
 	std::vector<VkDescriptorSetLayout> layoutInfoMain = { m_descriptors[0].getDescriptorSetLayout() };
 
-	m_pipelines.mainDepth.Init(device.getDevice(), m_renderpass, m_shaders.depth);
-	m_pipelines.mainDepth.addDynamicState(VK_DYNAMIC_STATE_STENCIL_WRITE_MASK);
-	m_pipelines.mainDepth.addDynamicState(VK_DYNAMIC_STATE_STENCIL_COMPARE_MASK);
-	m_pipelines.mainDepth.getDepthStencil().back.failOp = VK_STENCIL_OP_ZERO;
-	m_pipelines.mainDepth.getDepthStencil().back.depthFailOp = VK_STENCIL_OP_ZERO;
-	m_pipelines.mainDepth.getDepthStencil().back.passOp = VK_STENCIL_OP_REPLACE;
-	m_pipelines.mainDepth.getDepthStencil().back.compareOp = VK_COMPARE_OP_ALWAYS;
-	m_pipelines.mainDepth.getDepthStencil().depthTestEnable = VK_TRUE;
-	m_pipelines.mainDepth.getDepthStencil().depthWriteEnable = VK_TRUE;
-	m_pipelines.mainDepth.getDepthStencil().depthCompareOp = VK_COMPARE_OP_LESS;
-	m_pipelines.mainDepth.createLayoutInfo(layoutInfoMain);
-	m_pipelines.mainDepth.createPipeline(0);
+
 
 	m_pipelines.skybox.Init(device.getDevice(), m_renderpass, m_shaders.skybox);
 	m_pipelines.skybox.addDynamicState(VK_DYNAMIC_STATE_STENCIL_COMPARE_MASK);
 	std::vector<VkDescriptorSetLayout> layoutInfoSky = { m_descriptors[1].getDescriptorSetLayout() };
 	m_pipelines.skybox.createLayoutInfo(layoutInfoSky);
-	m_pipelines.skybox.createPipeline(1);
+	m_pipelines.skybox.createPipeline(0);
 
 	m_pipelines.main.Init(device.getDevice(), m_renderpass, m_shaders.main);
 	m_pipelines.main.addDynamicState(VK_DYNAMIC_STATE_STENCIL_COMPARE_MASK);
@@ -179,7 +167,7 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	m_pipelines.main.getDepthStencil().depthTestEnable = VK_TRUE;
 	m_pipelines.main.getDepthStencil().back.compareMask = 0x00;
 	m_pipelines.main.getDepthStencil().back.compareOp = VK_COMPARE_OP_LESS_OR_EQUAL;
-	m_pipelines.main.getDepthStencil().depthWriteEnable = VK_FALSE;
+	m_pipelines.main.getDepthStencil().depthWriteEnable = VK_TRUE;
 	m_pipelines.main.getDepthStencil().back.compareOp = VK_COMPARE_OP_EQUAL;
 	m_pipelines.main.getDepthStencil().back.failOp = VK_STENCIL_OP_KEEP;
 	m_pipelines.main.getDepthStencil().back.depthFailOp = VK_STENCIL_OP_KEEP;
@@ -188,7 +176,7 @@ void Renderer::Init(VulkanDevice& device, GameRoot& gameRoot)
 	m_pipelines.main.getDepthStencil().front = m_pipelines.main.getDepthStencil().back;
 	//m_pipelines.main.getDepthStencil().depthTestEnable = VK_FALSE;
 	m_pipelines.main.createLayoutInfo(layoutInfoMain);
-	m_pipelines.main.createPipeline(1);
+	m_pipelines.main.createPipeline(0);
 
 	//===============================================================================
 	//Init Sync Objects
@@ -241,37 +229,7 @@ void Renderer::Draw(GameRoot& gameRoot)
 		auto beginInfo = m_renderpass.getBeginInfo(color, i);
 		commandbuffer.beginRenderPass(beginInfo);
 
-		{
-			//======================
-			// Draw Main Scene Depth
-			//======================
-			commandbuffer.bindPipeline(m_pipelines.mainDepth);
-			commandbuffer.setStencilWriteMask(0x00);
-			commandbuffer.setStencilCompareMask(0xff);
-
-			//Draw all objects of the main scene
-			for (auto& gameobject : gameRoot.hGameObject.getAll()) {
-
-				if (gameobject.second->getSceneID() != gameRoot.m_mainScene) {
-					continue; //Only draw elements of main scene
-				}
-
-				if (gameobject.second->hasModule<ModulePortal>()) {
-					continue; //Skip all gameobjects without portals
-				}
-
-				const uint32_t offset = static_cast<uint32_t>(gameobject.first)* static_cast<uint32_t>(m_dynamicAlignment);
-
-				ModuleGeometry* geometry = gameRoot.hGeometry.get<ModuleGeometry>(gameobject.second.get());
-
-				commandbuffer.bindDescriptorSets(m_pipelines.mainDepth.getPipelineLayout(), m_descriptors[0].getDescriptorSet(), &offset);
-				commandbuffer.bindVertexBuffers(geometry->getVertexBuffer().buffer);
-				commandbuffer.bindIndexBuffers(geometry->getIndexBuffer().buffer);
-				commandbuffer.drawIndexed(static_cast<uint32_t>(geometry->getIndexData().size()));
-			}
-		}
-
-		commandbuffer.nextSubpass();
+		
 		{
 			uint32_t stencilColor = 0x00;
 			//======================
@@ -384,6 +342,48 @@ void Renderer::Render(GameRoot& gameRoot)
 	m_swapchain.submitFrame(*signalSemaphores);
 	m_currentFrame = (m_currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
 
+}
+
+void Renderer::Render(GameRoot& gameRoot, std::vector<CommandBuffer>& additionalCommandBuffers)
+{
+	vkWaitForFences(m_vulkanDevice.getDevice(), 1, &m_inFlightFences[m_currentFrame], VK_TRUE, UINT64_MAX);
+	m_swapchain.beginFrame(m_imageAvailableSemaphore[m_currentFrame]);
+	if (m_imagesInFlight[m_swapchain.getImageIndex()] != VK_NULL_HANDLE) {
+		vkWaitForFences(m_vulkanDevice.getDevice(), 1, &m_imagesInFlight[m_swapchain.getImageIndex()], VK_TRUE, UINT64_MAX);
+	}
+
+	updateUniformBuffer(gameRoot);
+
+	VkSubmitInfo submitInfo = {};
+	submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+
+	VkSemaphore waitSemaphores[] = { m_imageAvailableSemaphore[m_currentFrame] };
+	VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
+	submitInfo.waitSemaphoreCount = 1;
+	submitInfo.pWaitSemaphores = waitSemaphores;
+	submitInfo.pWaitDstStageMask = waitStages;
+
+	std::vector<VkCommandBuffer> commandbuffers;
+	commandbuffers.push_back(m_commandBuffers[m_swapchain.getImageIndex()].get());
+	for (CommandBuffer& cmdbuffer : additionalCommandBuffers) {
+		commandbuffers.push_back(cmdbuffer.get());
+	}
+
+	submitInfo.commandBufferCount = static_cast<uint32_t>(commandbuffers.size());
+	submitInfo.pCommandBuffers = commandbuffers.data();
+
+	VkSemaphore signalSemaphores[] = { m_renderFinishedSemaphore[m_currentFrame] };
+	submitInfo.signalSemaphoreCount = 1;
+	submitInfo.pSignalSemaphores = signalSemaphores;
+
+	vkResetFences(m_vulkanDevice.getDevice(), 1, &m_inFlightFences[m_currentFrame]);
+
+	if (vkQueueSubmit(m_vulkanDevice.getGraphicsQueue().getQueue(), 1, &submitInfo, m_inFlightFences[m_currentFrame]) != VK_SUCCESS) {
+		ABORT_F("Failed to submit draw command buffer");
+	}
+
+	m_swapchain.submitFrame(*signalSemaphores);
+	m_currentFrame = (m_currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
 }
 
 void Renderer::updateUniformBuffer(GameRoot& gameRoot, const bool initial)

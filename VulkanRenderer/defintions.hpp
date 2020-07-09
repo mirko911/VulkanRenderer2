@@ -306,8 +306,8 @@ namespace Helper {
 		VkImageAspectFlags aspectMask,
 		VkImageLayout oldImageLayout,
 		VkImageLayout newImageLayout,
-		VkPipelineStageFlags srcStageMask = VK_NULL_HANDLE,
-		VkPipelineStageFlags dstStageMask = VK_NULL_HANDLE)
+		VkPipelineStageFlags srcStageMask = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT,
+		VkPipelineStageFlags dstStageMask = VK_PIPELINE_STAGE_ALL_COMMANDS_BIT)
 	{
 		VkImageSubresourceRange subresourceRange = {};
 		subresourceRange.aspectMask = aspectMask;

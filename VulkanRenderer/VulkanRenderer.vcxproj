@@ -193,11 +193,13 @@
     <ClCompile Include="Modules\ModuleTransformation.cpp" />
     <ClCompile Include="Pipeline.cpp" />
     <ClCompile Include="PipelineDepth.cpp" />
+    <ClCompile Include="PipelineFont.cpp" />
     <ClCompile Include="PipelineSkybox.cpp" />
     <ClCompile Include="Queue.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="RendererFont.cpp" />
     <ClCompile Include="RenderPass.cpp" />
     <ClCompile Include="Sampler.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -208,6 +210,7 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="TextureCubemap.cpp" />
+    <ClCompile Include="TextureFont.cpp" />
     <ClCompile Include="VulkanDevice.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
@@ -253,11 +256,13 @@
     <ClInclude Include="Modules\ModuleTransformation.hpp" />
     <ClInclude Include="Pipeline.hpp" />
     <ClInclude Include="PipelineDepth.hpp" />
+    <ClInclude Include="PipelineFont.hpp" />
     <ClInclude Include="PipelineSkybox.hpp" />
     <ClInclude Include="Queue.hpp" />
     <ClInclude Include="defintions.hpp" />
     <ClInclude Include="Engine.hpp" />
     <ClInclude Include="Renderer.hpp" />
+    <ClInclude Include="RendererFont.hpp" />
     <ClInclude Include="RenderPass.hpp" />
     <ClInclude Include="Sampler.hpp" />
     <ClInclude Include="Scene.hpp" />
@@ -268,6 +273,7 @@
     <ClInclude Include="Texture.hpp" />
     <ClInclude Include="Texture2D.hpp" />
     <ClInclude Include="TextureCubemap.hpp" />
+    <ClInclude Include="TextureFont.hpp" />
     <ClInclude Include="VulkanDevice.hpp" />
     <ClInclude Include="Window.hpp" />
   </ItemGroup>

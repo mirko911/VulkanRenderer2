@@ -255,12 +255,12 @@ void Game::Init(VulkanDevice& device, Window& window)
 	ModuleInfo<Skybox> skybox = m_gameRoot.hSkybox.create(skyboxTexture.ID, geoCube.ID);
 	m_gameRoot.hSkybox.addAlias(skybox.ID, "bluesky");
 
-	ModuleInfo<TextureCubemap> universeTexture = m_gameRoot.hTexture.createCubemap("textures//universe_skybox//skybox", "jpg");
-	ModuleInfo<Skybox> skyboxUniverse = m_gameRoot.hSkybox.create(universeTexture.ID, m_gameRoot.hGeometry.getID("cube"));
-	m_gameRoot.hSkybox.addAlias(skyboxUniverse.ID, "universe");
+	//ModuleInfo<TextureCubemap> universeTexture = m_gameRoot.hTexture.createCubemap("textures//universe_skybox//skybox", "jpg");
+	//ModuleInfo<Skybox> skyboxUniverse = m_gameRoot.hSkybox.create(universeTexture.ID, m_gameRoot.hGeometry.getID("cube"));
+	//m_gameRoot.hSkybox.addAlias(skyboxUniverse.ID, "universe");
 
 
-	m_activeDemo = std::make_unique<DemoBlueUniverse>();
+	m_activeDemo = std::make_unique<DemoMaterial>();
 	m_activeDemo->init(m_gameRoot);
 	m_activeDemo->run(m_gameRoot);
 
@@ -271,6 +271,8 @@ void Game::Init(VulkanDevice& device, Window& window)
 
 	m_gameRoot.Init(m_device);
 	m_renderer.Init(m_device, m_gameRoot);
+	m_rendererFont.Init(m_device, m_gameRoot);
+	m_rendererFont.linkFrameBuffers(m_renderer.m_renderpass.getFramebuffers());
 }
 
 void Game::Tick(const float ftimeDelta)
@@ -292,11 +294,16 @@ void Game::Tick(const float ftimeDelta)
 //	LOG_F(INFO, "GAME TICK");
 
 	m_gameRoot.update(ftimeDelta);
+	m_rendererFont.mapVertexBuffer();
+	m_rendererFont.addText("H", 5, 5, TextAlign::alignLeft);
+	m_rendererFont.unmapVertexBuffer();
+
 }
 
 void Game::Draw()
 {
-	m_renderer.Render(m_gameRoot);
+		std::vector<CommandBuffer> cmdBuffer = { m_rendererFont.getCommandBuffer() };
+	m_renderer.Render(m_gameRoot, cmdBuffer);
 //	LOG_F(INFO, "GAME DRAW");
 
 }

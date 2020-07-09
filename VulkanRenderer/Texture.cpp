@@ -14,6 +14,7 @@ void Texture::createEmptyDepthImage(const VkFormat format, const uint32_t width,
 	m_imageView.create(m_device, m_image, VK_IMAGE_ASPECT_DEPTH_BIT);
 }
 
+
 Image& Texture::getImage()
 {
 	return m_image;

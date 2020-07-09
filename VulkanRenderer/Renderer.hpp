@@ -24,7 +24,6 @@ constexpr int MAX_FRAMES_IN_FLIGHT = 3;
 class Renderer
 {
 private:
-	RenderPass m_renderpass;
 	VulkanDevice m_device;
 	struct {
 		Pipeline main;
@@ -64,10 +63,13 @@ private:
 	VkDeviceSize m_dynamicAlignment;
 
 public:
-	void Init(VulkanDevice& device, GameRoot& gameRoot);
-	void Draw(GameRoot& gameRoot);
-	void Render(GameRoot& gameRoot);
-	void updateUniformBuffer(GameRoot& gameRoot, const bool initial = false);
-	void Destroy();
+	RenderPass m_renderpass;
+
+	virtual void Init(VulkanDevice& device, GameRoot& gameRoot);
+	virtual void Draw(GameRoot& gameRoot);
+	virtual void Render(GameRoot& gameRoot);
+	virtual void Render(GameRoot& gameRoot, std::vector<CommandBuffer>&additionalCommandBuffers);
+	virtual void updateUniformBuffer(GameRoot& gameRoot, const bool initial = false);
+	virtual void Destroy();
 };
 

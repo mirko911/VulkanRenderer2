@@ -78,7 +78,7 @@ void Pipeline::fillPipelineStructs()
 	m_depthStencil.front = m_depthStencil.back;
 
 	m_colorBlendAttachment = {};
-	m_colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
+	m_colorBlendAttachment.colorWriteMask = 0xf;
 	m_colorBlendAttachment.blendEnable = VK_FALSE;
 	m_colorBlendAttachment.blendEnable = VK_FALSE;
 	m_colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;

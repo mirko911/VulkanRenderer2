@@ -148,6 +148,7 @@ struct Buffer
 		bufferCreateInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
 		bufferCreateInfo.usage = usageFlags;
 		bufferCreateInfo.size = size;
+
 		if (vkCreateBuffer(device, &bufferCreateInfo, nullptr, &buffer.buffer) != VK_SUCCESS) {
 			ABORT_F("Failed to create buffer");
 		};

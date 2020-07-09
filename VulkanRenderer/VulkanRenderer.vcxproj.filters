@@ -189,6 +189,15 @@
     <ClCompile Include="demos\DemoBase.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="RendererFont.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureFont.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="PipelineFont.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="defintions.hpp">
@@ -363,6 +372,15 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="demos\DemoBase.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererFont.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureFont.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="PipelineFont.hpp">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

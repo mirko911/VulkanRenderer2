@@ -5,6 +5,7 @@
 #include "Window.hpp"
 
 #include "Renderer.hpp"
+#include "RendererFont.hpp"
 #include "GameRoot.hpp"
 #include "GeoCube.hpp"
 #include "GeoWavefront.hpp"
@@ -26,6 +27,7 @@ private:
 	VulkanDevice m_device;
 	Window m_window;
 	Renderer m_renderer;
+	RendererFont m_rendererFont;
 	GameRoot m_gameRoot;
 	std::unique_ptr<DemoBase> m_activeDemo;
 public:
