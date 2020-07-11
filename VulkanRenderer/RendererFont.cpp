@@ -26,6 +26,13 @@ void RendererFont::loadFont()
 
 	file.close();
 
+	stbtt_InitFont(&font, ttf_buffer.data(), 0);
+	scale = stbtt_ScaleForPixelHeight(&font, 15);
+	int ascent = 0;
+	stbtt_GetFontVMetrics(&font, &ascent, 0, 0);
+	baseline = (int)(ascent * scale);
+
+
 	stbtt_BakeFontBitmap(ttf_buffer.data(), 0, 32.0f, temp_bitmap.data(), 512, 512, 32, 96, cdata.data());
 }
 
@@ -279,32 +286,46 @@ void RendererFont::addText(const std::string& text, const float x, const float y
 			continue;
 		}
 
+		/*int advance, lsb, x0, y0, x1, y1;
+
+		float x_shift = 0 - (float)floor(0);
+
+		stbtt_GetCodepointHMetrics(&font, letter, &advance, &lsb);
+		stbtt_GetCodepointBitmapBoxSubpixel(&font, letter, scale, scale, x_shift, 0, &x0, &y0, &x1, &y1);
+		stbtt_MakeCodepointBitmapSubpixel(&font, &screen[baseline + y0][(int)0 + x0], x1 - x0, y1 - y0, 79, scale, scale, x_shift, 0, letter);
+		*/
 		float x = 0;
 		float y = 0;
 
 		stbtt_aligned_quad q;
 		stbtt_GetBakedQuad(cdata.data(), 512, 512, letter - 32, &x, &y, &q, 1);
 
-		mapped->x =  0.2;
-		mapped->y =  0.2;
+		q.x0 /= 1280.0 / 2;
+		q.x1 /= 1280.0 / 2;
+		q.y0 /= 720.0 / 2;
+		q.y1 /= 720.0 / 2;
+
+
+		mapped->x =  q.x0;
+		mapped->y =  q.y0;
 		mapped->z = q.s0;
 		mapped->w = q.t0;
 		mapped++;
 
-		mapped->x = 0.4;
-		mapped->y = 0.2;
+		mapped->x = q.x1;
+		mapped->y = q.y0;
 		mapped->z = q.s1;
 		mapped->w = q.t0;
 		mapped++;
 
-		mapped->x = 0.2;
-		mapped->y = 0.4;
+		mapped->x = q.x0;
+		mapped->y = q.y1;
 		mapped->z = q.s0;
 		mapped->w = q.t1;
 		mapped++;
 
-		mapped->x = 0.4;
-		mapped->y = 0.4;
+		mapped->x = q.x1;
+		mapped->y = q.y1;
 		mapped->z = q.s1;
 		mapped->w = q.t1;
 		mapped++;

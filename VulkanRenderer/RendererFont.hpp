@@ -35,6 +35,11 @@ private:
 	Vec4* mapped;
 	uint32_t numLetters = 0;
 	void loadFont();
+
+
+	stbtt_fontinfo font;
+	int baseline;
+	float scale;
 public:
 	virtual void Init(VulkanDevice& device, GameRoot& gameRoot);
 	virtual void Draw(GameRoot& gameRoot);
