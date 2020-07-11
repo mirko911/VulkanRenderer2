@@ -273,6 +273,11 @@ void Game::Init(VulkanDevice& device, Window& window)
 	m_renderer.Init(m_device, m_gameRoot);
 	m_rendererFont.Init(m_device, m_gameRoot);
 	m_rendererFont.linkFrameBuffers(m_renderer.m_renderpass.getFramebuffers());
+
+	m_rendererFont.mapVertexBuffer();
+	m_rendererFont.addText("H", 5, 5, TextAlign::alignLeft);
+	m_rendererFont.unmapVertexBuffer();
+
 }
 
 void Game::Tick(const float ftimeDelta)
@@ -294,9 +299,6 @@ void Game::Tick(const float ftimeDelta)
 //	LOG_F(INFO, "GAME TICK");
 
 	m_gameRoot.update(ftimeDelta);
-	m_rendererFont.mapVertexBuffer();
-	m_rendererFont.addText("H", 5, 5, TextAlign::alignLeft);
-	m_rendererFont.unmapVertexBuffer();
 
 }
 
